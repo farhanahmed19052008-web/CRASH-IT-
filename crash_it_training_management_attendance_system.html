@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRASH IT TRAINING - Coaching & Attendance Management</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0B192C',
+                            900: '#1E3E62',
+                        },
+                        emerald: {
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        urdu: ['Noto Nastaliq Urdu', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        .active-tab {
+            border-bottom: 3px solid #10B981;
+            color: #1E3E62;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Bar -->
+    <header class="bg-navy-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Branding -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-emerald-500 text-navy-800 p-3 rounded-xl font-black text-2xl tracking-wider shadow-md flex items-center justify-center">
+                        <i class="fa-solid fa-laptop-code text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-2xl font-extrabold tracking-tight text-white">CRASH IT <span class="text-emerald-400">TRAINING</span></h1>
+                            <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">9th & 10th Grade</span>
+                        </div>
+                        <p class="text-xs text-slate-300 hidden sm:block">Excellence in Matriculation Coaching & Practical Computer Science</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex space-x-1 text-sm font-semibold">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-4 py-2 rounded-lg text-emerald-400 bg-white/10 hover:bg-white/20 transition duration-150">
+                        <i class="fa-solid fa-gauge-high mr-2"></i> Dashboard
+                    </button>
+                    <button onclick="switchTab('attendance')" id="nav-attendance" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">
+                        <i class="fa-solid fa-clipboard-user mr-2"></i> Attendance Sheet
+                    </button>
+                    <button onclick="switchTab('students')" id="nav-students" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">
+                        <i class="fa-solid fa-users mr-2"></i> Student Directory
+                    </button>
+                    <button onclick="switchTab('notices')" id="nav-notices" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">
+                        <i class="fa-solid fa-bullhorn mr-2"></i> Notice Board
+                    </button>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition flex items-center space-x-2">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span class="hidden sm:inline">Add Student</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Row -->
+        <div class="md:hidden bg-navy-900 border-t border-slate-700 px-4 py-2 flex justify-around text-xs">
+            <button onclick="switchTab('dashboard')" class="text-emerald-400 font-semibold flex flex-col items-center py-1">
+                <i class="fa-solid fa-gauge-high text-base mb-1"></i> Dashboard
+            </button>
+            <button onclick="switchTab('attendance')" class="text-slate-300 flex flex-col items-center py-1">
+                <i class="fa-solid fa-clipboard-user text-base mb-1"></i> Attendance
+            </button>
+            <button onclick="switchTab('students')" class="text-slate-300 flex flex-col items-center py-1">
+                <i class="fa-solid fa-users text-base mb-1"></i> Directory
+            </button>
+            <button onclick="switchTab('notices')" class="text-slate-300 flex flex-col items-center py-1">
+                <i class="fa-solid fa-bullhorn text-base mb-1"></i> Notices
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- DASHBOARD TAB CONTENT -->
+        <div id="tab-dashboard" class="space-y-8">
+            
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-r from-navy-900 via-navy-800 to-slate-900 text-white rounded-3xl p-8 overflow-hidden shadow-xl border border-slate-700/50">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-emerald-400">
+                    <i class="fa-solid fa-graduation-cap text-[280px]"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-emerald-500/30">
+                        Crash Coaching Program 2026-2027
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 leading-tight">
+                        Empowering 9th & 10th Class Students with Python, Web Designing & Coding
+                    </h2>
+                    <p class="text-slate-300 mt-2 text-sm sm:text-base leading-relaxed">
+                        Master Python Programming, Web Designing (HTML/CSS/JS), Practical Coding, and Matric Board Preparation for Computer Science.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-4">
+                        <button onclick="switchTab('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center">
+                            <i class="fa-solid fa-clipboard-check mr-2"></i> Mark Today's Attendance
+                        </button>
+                        <button onclick="switchTab('students')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur transition border border-white/20">
+                            View 50 Enrolled Students
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Overview Row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Enrolled</p>
+                        <h3 class="text-3xl font-extrabold text-navy-800 mt-1" id="dash-total-students">50</h3>
+                        <p class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-check-circle"></i> 25 (9th) | 25 (10th)</p>
+                    </div>
+                    <div class="bg-blue-50 text-blue-600 p-4 rounded-2xl text-2xl">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Present Today</p>
+                        <h3 class="text-3xl font-extrabold text-emerald-600 mt-1" id="dash-present-count">0</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1" id="dash-present-percent">0% Attendance</p>
+                    </div>
+                    <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Absent Today</p>
+                        <h3 class="text-3xl font-extrabold text-rose-500 mt-1" id="dash-absent-count">0</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Requires Parents Alert</p>
+                    </div>
+                    <div class="bg-rose-50 text-rose-500 p-4 rounded-2xl text-2xl">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Subjects</p>
+                        <h3 class="text-3xl font-extrabold text-indigo-600 mt-1">4</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Python, Web Dev, Coding, Computer Science</p>
+                    </div>
+                    <div class="bg-indigo-50 text-indigo-600 p-4 rounded-2xl text-2xl">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Subjects & Features Showcase -->
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-navy-800">Special IT Tracks & Coding Subjects</h3>
+                        <p class="text-sm text-slate-500">Practical hands-on training tailored for Class 9th & 10th students</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Feature Card 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-md transition">
+                        <div class="h-44 bg-slate-800 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Python Programming" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-3 right-3 bg-emerald-500 text-white text-xs px-2.5 py-1 rounded-full font-bold shadow">Python Track</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg text-navy-800">Python Programming & Logic Building</h4>
+                            <p class="text-sm text-slate-600 mt-2">Syntax basics, data types, loops, functions, problem-solving, and mini-projects for beginners.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature Card 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-md transition">
+                        <div class="h-44 bg-slate-800 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80" alt="Web Designing" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-3 right-3 bg-navy-800 text-white text-xs px-2.5 py-1 rounded-full font-bold shadow">Web Design</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg text-navy-800">Web Designing (HTML, CSS & JS)</h4>
+                            <p class="text-sm text-slate-600 mt-2">Building responsive website layouts, styling, interactive scripts, and real web project creation.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature Card 3 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-md transition">
+                        <div class="h-44 bg-slate-800 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Board Exams & Lab" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-3 right-3 bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full font-bold shadow">Matric CS Prep</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg text-navy-800">Matric Computer Science & Practical Lab</h4>
+                            <p class="text-sm text-slate-600 mt-2">Class 9th & 10th syllabus mastery, C-Language/HTML board practicals, and past papers revision.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Notices Preview -->
+            <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg text-navy-800 flex items-center">
+                        <i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> Latest Announcements / نوٹس بورڈ
+                    </h3>
+                    <button onclick="switchTab('notices')" class="text-sm text-emerald-600 font-semibold hover:underline">View All Notices</button>
+                </div>
+                <div id="dash-notice-preview" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic Preview Notices -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ATTENDANCE TAB CONTENT -->
+        <div id="tab-attendance" class="hidden space-y-6">
+            
+            <!-- Attendance Header & Controls -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Daily Student Attendance Sheet</h2>
+                    <p class="text-sm text-slate-500">Manage daily presence for Class 9th and 10th students.</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Select Date</label>
+                        <input type="date" id="attendance-date" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Actions</label>
+                        <div class="flex gap-2">
+                            <button onclick="markAllStatus('Present')" class="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-3 py-2 rounded-xl text-xs font-bold transition">
+                                <i class="fa-solid fa-check-double mr-1"></i> All Present
+                            </button>
+                            <button onclick="exportAttendanceSummary()" class="bg-navy-800 text-white hover:bg-navy-900 px-4 py-2 rounded-xl text-xs font-bold shadow transition flex items-center">
+                                <i class="fa-solid fa-file-export mr-1.5"></i> Export Summary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Live Counters -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="bg-slate-800 text-white p-4 rounded-xl text-center">
+                    <span class="text-xs uppercase font-bold text-slate-400">Total Filtered</span>
+                    <p class="text-2xl font-black mt-0.5" id="att-count-total">50</p>
+                </div>
+                <div class="bg-emerald-600 text-white p-4 rounded-xl text-center">
+                    <span class="text-xs uppercase font-bold text-emerald-200">Present</span>
+                    <p class="text-2xl font-black mt-0.5" id="att-count-present">0</p>
+                </div>
+                <div class="bg-rose-600 text-white p-4 rounded-xl text-center">
+                    <span class="text-xs uppercase font-bold text-rose-200">Absent</span>
+                    <p class="text-2xl font-black mt-0.5" id="att-count-absent">0</p>
+                </div>
+                <div class="bg-amber-500 text-white p-4 rounded-xl text-center">
+                    <span class="text-xs uppercase font-bold text-amber-100">Leave</span>
+                    <p class="text-2xl font-black mt-0.5" id="att-count-leave">0</p>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+                <!-- Search -->
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+                    <input type="text" id="att-search" oninput="renderAttendanceList()" placeholder="Search by name or roll no..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <!-- Class Filter Tabs -->
+                <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl w-full md:w-auto overflow-x-auto">
+                    <button onclick="filterAttendanceClass('All')" id="btn-class-all" class="px-4 py-1.5 text-xs font-bold rounded-lg bg-white text-navy-800 shadow-sm">All Classes</button>
+                    <button onclick="filterAttendanceClass('9th Class')" id="btn-class-9th" class="px-4 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-navy-800">9th Class</button>
+                    <button onclick="filterAttendanceClass('10th Class')" id="btn-class-10th" class="px-4 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-navy-800">10th Class</button>
+                </div>
+
+                <!-- Status Filter -->
+                <div class="flex items-center space-x-2 text-xs font-semibold text-slate-500 w-full md:w-auto">
+                    <span>Status:</span>
+                    <select id="att-status-filter" onchange="renderAttendanceList()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="All">All Statuses</option>
+                        <option value="Present">Present Only</option>
+                        <option value="Absent">Absent Only</option>
+                        <option value="Leave">Leave Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Attendance Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Roll #</th>
+                                <th class="py-3.5 px-4">Student Name</th>
+                                <th class="py-3.5 px-4">Class</th>
+                                <th class="py-3.5 px-4">Subject Track</th>
+                                <th class="py-3.5 px-4 text-center">Attendance Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-tbody" class="divide-y divide-slate-100 text-sm">
+                            <!-- Dynamically generated rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- STUDENT DIRECTORY TAB CONTENT -->
+        <div id="tab-students" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Student Directory</h2>
+                    <p class="text-sm text-slate-500">All registered students for 9th and 10th grade coaching</p>
+                </div>
+                <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition flex items-center">
+                    <i class="fa-solid fa-user-plus mr-2"></i> Enroll New Student
+                </button>
+            </div>
+
+            <!-- Directory Controls -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full sm:w-80">
+                    <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
+                    <input type="text" id="directory-search" oninput="renderStudentDirectory()" placeholder="Search directory..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div class="flex items-center space-x-2 text-xs font-semibold">
+                    <span class="text-slate-500">Filter Class:</span>
+                    <select id="directory-class-filter" onchange="renderStudentDirectory()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none">
+                        <option value="All">All Grades</option>
+                        <option value="9th Class">9th Class</option>
+                        <option value="10th Class">10th Class</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Directory Grid -->
+            <div id="student-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Dynamically filled with student cards -->
+            </div>
+        </div>
+
+        <!-- NOTICE BOARD TAB CONTENT -->
+        <div id="tab-notices" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Coaching Announcements & Notice Board</h2>
+                    <p class="text-sm text-slate-500">Post announcements, test dates, and updates for students and parents</p>
+                </div>
+                <button onclick="openAddNoticeModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition flex items-center">
+                    <i class="fa-solid fa-plus mr-2"></i> Post New Notice
+                </button>
+            </div>
+
+            <!-- Notice Cards List -->
+            <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamic Notices -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ADD STUDENT MODAL -->
+    <div id="modal-add-student" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
+            <button onclick="closeAddStudentModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-navy-800 mb-1">Add New Student</h3>
+            <p class="text-xs text-slate-500 mb-5">Register a new student for CRASH IT TRAINING coaching.</p>
+
+            <form id="form-add-student" onsubmit="handleAddStudent(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Full Student Name</label>
+                    <input type="text" id="new-name" required placeholder="e.g. Farhan Ali" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Class</label>
+                        <select id="new-class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="9th Class">9th Class</option>
+                            <option value="10th Class">10th Class</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Subject Track</label>
+                        <select id="new-group" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="Python & Coding">Python & Coding</option>
+                            <option value="Web Designing">Web Designing</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Logic & IT Skills">Logic & IT Skills</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Father's / Guardian Phone</label>
+                    <input type="text" id="new-phone" placeholder="0300-1234567" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeAddStudentModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow transition">Save & Enroll</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADD NOTICE MODAL -->
+    <div id="modal-add-notice" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
+            <button onclick="closeAddNoticeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-navy-800 mb-1">Post New Announcement</h3>
+            <p class="text-xs text-slate-500 mb-5">Broadcast notices to 9th & 10th grade students.</p>
+
+            <form id="form-add-notice" onsubmit="handleAddNotice(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Announcement Title (English / Urdu)</label>
+                    <input type="text" id="notice-title" required placeholder="e.g., Sunday Physics Special Test Class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Target Class</label>
+                    <select id="notice-target" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
+                        <option value="All Students">All Students (9th & 10th)</option>
+                        <option value="9th Class">9th Class Only</option>
+                        <option value="10th Class">10th Class Only</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Notice Description</label>
+                    <textarea id="notice-desc" rows="3" required placeholder="Details about test syllabus, timings or holiday notices..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"></textarea>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeAddNoticeModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-xl shadow transition">Publish Notice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUMMARY REPORT MODAL -->
+    <div id="modal-summary" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="closeSummaryModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-navy-800 mb-2">Attendance Summary Report</h3>
+            <p class="text-xs text-slate-500 mb-4" id="summary-modal-date">Date: Today</p>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm space-y-2 mb-4 font-mono" id="summary-content">
+                <!-- Summary Text -->
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="closeSummaryModal()" class="px-4 py-2 text-xs font-bold text-slate-600 bg-slate-100 rounded-xl">Close</button>
+                <button onclick="copySummaryText()" class="px-4 py-2 text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="font-bold text-navy-800">CRASH IT TRAINING COACHING CLASSES</p>
+            <p class="mt-1">Dedicated IT & Coding Coaching for 9th & 10th Class Students | Practical Computer Science</p>
+            <p class="mt-2 text-slate-400">&copy; 2026 CRASH IT TRAINING. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Default 50 Student Roster with Python, Web Designing & Coding tracks
+        const INITIAL_STUDENTS = [
+            { id: 'CIT-01', name: 'Muhammad Ali', class: '9th Class', track: 'Python & Coding', phone: '0300-4123901' },
+            { id: 'CIT-02', name: 'Hamza Khan', class: '9th Class', track: 'Web Designing', phone: '0301-5234902' },
+            { id: 'CIT-03', name: 'Ayesha Bibi', class: '9th Class', track: 'Python & Coding', phone: '0302-6345903' },
+            { id: 'CIT-04', name: 'Usman Ghani', class: '9th Class', track: 'Computer Science', phone: '0303-7456904' },
+            { id: 'CIT-05', name: 'Fatima Ahmed', class: '9th Class', track: 'Web Designing', phone: '0304-8567905' },
+            { id: 'CIT-06', name: 'Zainab Noor', class: '9th Class', track: 'Python & Coding', phone: '0305-9678906' },
+            { id: 'CIT-07', name: 'Bilal Hassan', class: '9th Class', track: 'Web Designing', phone: '0306-1789907' },
+            { id: 'CIT-08', name: 'Saad Malik', class: '9th Class', track: 'Computer Science', phone: '0307-2890908' },
+            { id: 'CIT-09', name: 'Maryam Tariq', class: '9th Class', track: 'Python & Coding', phone: '0308-3901909' },
+            { id: 'CIT-10', name: 'Omer Farooq', class: '9th Class', track: 'Web Designing', phone: '0309-4012910' },
+            { id: 'CIT-11', name: 'Hassan Raza', class: '9th Class', track: 'Python & Coding', phone: '0310-5123911' },
+            { id: 'CIT-12', name: 'Anum Zahra', class: '9th Class', track: 'Web Designing', phone: '0311-6234912' },
+            { id: 'CIT-13', name: 'Shahzaib Imran', class: '9th Class', track: 'Computer Science', phone: '0312-7345913' },
+            { id: 'CIT-14', name: 'Laiba Khan', class: '9th Class', track: 'Python & Coding', phone: '0313-8456914' },
+            { id: 'CIT-15', name: 'Abdullah Sheikh', class: '9th Class', track: 'Web Designing', phone: '0314-9567915' },
+            { id: 'CIT-16', name: 'Eshal Fatima', class: '9th Class', track: 'Python & Coding', phone: '0315-1678916' },
+            { id: 'CIT-17', name: 'Zohaib Akhtar', class: '9th Class', track: 'Web Designing', phone: '0316-2789917' },
+            { id: 'CIT-18', name: 'Mahnoor Asif', class: '9th Class', track: 'Python & Coding', phone: '0317-3890918' },
+            { id: 'CIT-19', name: 'Areeba Khalid', class: '9th Class', track: 'Computer Science', phone: '0318-4901919' },
+            { id: 'CIT-20', name: 'Mustafa Siddiqui', class: '9th Class', track: 'Python & Coding', phone: '0319-5012920' },
+            { id: 'CIT-21', name: 'Ahsan Qureshi', class: '9th Class', track: 'Web Designing', phone: '0320-6123921' },
+            { id: 'CIT-22', name: 'Ibrahim Saeed', class: '9th Class', track: 'Python & Coding', phone: '0321-7234922' },
+            { id: 'CIT-23', name: 'Sana Rehman', class: '9th Class', track: 'Web Designing', phone: '0322-8345923' },
+            { id: 'CIT-24', name: 'Talha Bashir', class: '9th Class', track: 'Python & Coding', phone: '0323-9456924' },
+            { id: 'CIT-25', name: 'Khadija Yasmin', class: '9th Class', track: 'Web Designing', phone: '0324-1567925' },
+            
+            // 10th Class Students
+            { id: 'CIT-26', name: 'Farhan Zaheer', class: '10th Class', track: 'Python & Coding', phone: '0331-1122334' },
+            { id: 'CIT-27', name: 'Ayaan Ahmed', class: '10th Class', track: 'Web Designing', phone: '0332-2233445' },
+            { id: 'CIT-28', name: 'Kinza Hashmi', class: '10th Class', track: 'Python & Coding', phone: '0333-3344556' },
+            { id: 'CIT-29', name: 'Daniyal Noman', class: '10th Class', track: 'Web Designing', phone: '0334-4455667' },
+            { id: 'CIT-30', name: 'Hania Amir', class: '10th Class', track: 'Python & Coding', phone: '0335-5566778' },
+            { id: 'CIT-31', name: 'Rayan Naveed', class: '10th Class', track: 'Web Designing', phone: '0336-6677889' },
+            { id: 'CIT-32', name: 'Sarah Jameel', class: '10th Class', track: 'Computer Science', phone: '0337-7788990' },
+            { id: 'CIT-33', name: 'Taimoor Shah', class: '10th Class', track: 'Python & Coding', phone: '0338-8899001' },
+            { id: 'CIT-34', name: 'Nimra Javed', class: '10th Class', track: 'Web Designing', phone: '0339-9900112' },
+            { id: 'CIT-35', name: 'Sufyan Ali', class: '10th Class', track: 'Python & Coding', phone: '0340-1011223' },
+            { id: 'CIT-36', name: 'Syeda Alishba', class: '10th Class', track: 'Web Designing', phone: '0341-2122334' },
+            { id: 'CIT-37', name: 'Haris Mehmood', class: '10th Class', track: 'Python & Coding', phone: '0342-3233445' },
+            { id: 'CIT-38', name: 'Bushra Bibi', class: '10th Class', track: 'Web Designing', phone: '0343-4344556' },
+            { id: 'CIT-39', name: 'Umair Latif', class: '10th Class', track: 'Python & Coding', phone: '0344-5455667' },
+            { id: 'CIT-40', name: 'Wania Sohail', class: '10th Class', track: 'Web Designing', phone: '0345-6566778' },
+            { id: 'CIT-41', name: 'Sameer Abbas', class: '10th Class', track: 'Python & Coding', phone: '0346-7677889' },
+            { id: 'CIT-42', name: 'Momina Gul', class: '10th Class', track: 'Web Designing', phone: '0347-8788990' },
+            { id: 'CIT-43', name: 'Zubair Yousaf', class: '10th Class', track: 'Python & Coding', phone: '0348-9899001' },
+            { id: 'CIT-44', name: 'Tehreem Shaukat', class: '10th Class', track: 'Web Designing', phone: '0349-0900112' },
+            { id: 'CIT-45', name: 'Rohail Arshad', class: '10th Class', track: 'Python & Coding', phone: '0300-9988776' },
+            { id: 'CIT-46', name: 'Aleena Faisal', class: '10th Class', track: 'Web Designing', phone: '0301-8877665' },
+            { id: 'CIT-47', name: 'Shoaib Akhtar', class: '10th Class', track: 'Python & Coding', phone: '0302-7766554' },
+            { id: 'CIT-48', name: 'Faqeer Muhammad', class: '10th Class', track: 'Web Designing', phone: '0303-6655443' },
+            { id: 'CIT-49', name: 'Iqra Parveen', class: '10th Class', track: 'Python & Coding', phone: '0304-5544332' },
+            { id: 'CIT-50', name: 'Shahmeer Khan', class: '10th Class', track: 'Web Designing', phone: '0305-4433221' }
+        ];
+
+        // Sample Announcements
+        let NOTICES = [
+            {
+                id: 1,
+                title: 'Python Programming Basics Workshop',
+                target: 'All Students',
+                date: '2026-10-10',
+                desc: 'Hands-on Python workshop covering Variables, Loops, and Functions for 9th and 10th grade students. Timing: 10:00 AM to 12:30 PM.'
+            },
+            {
+                id: 2,
+                title: 'Web Designing Practical Project Submission',
+                target: '10th Class',
+                date: '2026-10-12',
+                desc: 'All Web Designing students must present their HTML5 & CSS3 responsive website layouts during Sunday lab.'
+            },
+            {
+                id: 3,
+                title: 'Monthly Progress Report & Parent-Teacher Meeting',
+                target: 'All Students',
+                date: '2026-10-15',
+                desc: 'Parents are requested to visit coaching between 4:00 PM - 6:00 PM to review monthly test scores, coding practicals, and attendance records.'
+            }
+        ];
+
+        // Application State
+        let students = [...INITIAL_STUDENTS];
+        let attendanceRecord = {}; // Key: student id -> Status (Present, Absent, Leave)
+        let selectedClassFilter = 'All';
+
+        // Initialize App
+        window.onload = function () {
+            // Set Today's Date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('attendance-date').value = today;
+
+            // Default all students to Present for fresh start
+            students.forEach(s => {
+                attendanceRecord[s.id] = 'Present';
+            });
+
+            // Initial Renders
+            renderAttendanceList();
+            renderStudentDirectory();
+            renderNotices();
+            updateDashboardStats();
+        };
+
+        // Navigation Switcher
+        function switchTab(tabName) {
+            const tabs = ['dashboard', 'attendance', 'students', 'notices'];
+            tabs.forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                const navBtn = document.getElementById(`nav-${t}`);
+                if (navBtn) {
+                    navBtn.classList.remove('text-emerald-400', 'bg-white/10');
+                    navBtn.classList.add('text-slate-300');
+                }
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if (activeNav) {
+                activeNav.classList.add('text-emerald-400', 'bg-white/10');
+                activeNav.classList.remove('text-slate-300');
+            }
+        }
+
+        // --- ATTENDANCE FUNCTIONS ---
+        function filterAttendanceClass(cls) {
+            selectedClassFilter = cls;
+            ['all', '9th', '10th'].forEach(c => {
+                const btn = document.getElementById(`btn-class-${c}`);
+                if (btn) {
+                    btn.classList.remove('bg-white', 'text-navy-800', 'shadow-sm');
+                    btn.classList.add('text-slate-600');
+                }
+            });
+
+            let activeId = 'btn-class-all';
+            if (cls === '9th Class') activeId = 'btn-class-9th';
+            if (cls === '10th Class') activeId = 'btn-class-10th';
+            
+            const el = document.getElementById(activeId);
+            if(el) {
+                el.classList.add('bg-white', 'text-navy-800', 'shadow-sm');
+                el.classList.remove('text-slate-600');
+            }
+
+            renderAttendanceList();
+        }
+
+        function renderAttendanceList() {
+            const tbody = document.getElementById('attendance-tbody');
+            const searchVal = document.getElementById('att-search').value.toLowerCase();
+            const statusVal = document.getElementById('att-status-filter').value;
+
+            tbody.innerHTML = '';
+
+            let filtered = students.filter(s => {
+                const matchesClass = selectedClassFilter === 'All' || s.class === selectedClassFilter;
+                const matchesSearch = s.name.toLowerCase().includes(searchVal) || s.id.toLowerCase().includes(searchVal);
+                const currentStatus = attendanceRecord[s.id] || 'Present';
+                const matchesStatus = statusVal === 'All' || currentStatus === statusVal;
+
+                return matchesClass && matchesSearch && matchesStatus;
+            });
+
+            filtered.forEach(s => {
+                const status = attendanceRecord[s.id] || 'Present';
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80 transition';
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono font-semibold text-slate-500 text-xs">${s.id}</td>
+                    <td class="py-3 px-4 font-bold text-navy-800">${s.name}</td>
+                    <td class="py-3 px-4">
+                        <span class="px-2.5 py-1 text-xs rounded-full font-bold ${s.class === '9th Class' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}">
+                            ${s.class}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 text-xs text-slate-600 font-medium">${s.track}</td>
+                    <td class="py-3 px-4">
+                        <div class="flex justify-center items-center space-x-1 sm:space-x-2">
+                            <button onclick="setAttendanceStatus('${s.id}', 'Present')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center ${status === 'Present' ? 'bg-emerald-500 text-white shadow-md' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">
+                                <i class="fa-solid fa-check mr-1"></i> Present
+                            </button>
+                            <button onclick="setAttendanceStatus('${s.id}', 'Absent')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center ${status === 'Absent' ? 'bg-rose-500 text-white shadow-md' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">
+                                <i class="fa-solid fa-xmark mr-1"></i> Absent
+                            </button>
+                            <button onclick="setAttendanceStatus('${s.id}', 'Leave')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center ${status === 'Leave' ? 'bg-amber-500 text-white shadow-md' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">
+                                <i class="fa-solid fa-clock mr-1"></i> Leave
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateAttendanceCounters();
+        }
+
+        function setAttendanceStatus(id, newStatus) {
+            attendanceRecord[id] = newStatus;
+            renderAttendanceList();
+            updateDashboardStats();
+        }
+
+        function markAllStatus(status) {
+            students.forEach(s => {
+                if (selectedClassFilter === 'All' || s.class === selectedClassFilter) {
+                    attendanceRecord[s.id] = status;
+                }
+            });
+            renderAttendanceList();
+            updateDashboardStats();
+        }
+
+        function updateAttendanceCounters() {
+            let filteredStudents = students.filter(s => selectedClassFilter === 'All' || s.class === selectedClassFilter);
+            let total = filteredStudents.length;
+            let present = 0, absent = 0, leave = 0;
+
+            filteredStudents.forEach(s => {
+                const st = attendanceRecord[s.id];
+                if (st === 'Present') present++;
+                else if (st === 'Absent') absent++;
+                else if (st === 'Leave') leave++;
+            });
+
+            document.getElementById('att-count-total').innerText = total;
+            document.getElementById('att-count-present').innerText = present;
+            document.getElementById('att-count-absent').innerText = absent;
+            document.getElementById('att-count-leave').innerText = leave;
+        }
+
+        function updateDashboardStats() {
+            let total = students.length;
+            let present = 0, absent = 0;
+
+            students.forEach(s => {
+                const st = attendanceRecord[s.id];
+                if (st === 'Present') present++;
+                if (st === 'Absent') absent++;
+            });
+
+            const percent = total > 0 ? Math.round((present / total) * 100) : 0;
+
+            document.getElementById('dash-total-students').innerText = total;
+            document.getElementById('dash-present-count').innerText = present;
+            document.getElementById('dash-absent-count').innerText = absent;
+            document.getElementById('dash-present-percent').innerText = `${percent}% Attendance Today`;
+        }
+
+        // --- DIRECTORY RENDER ---
+        function renderStudentDirectory() {
+            const container = document.getElementById('student-grid');
+            const searchVal = document.getElementById('directory-search').value.toLowerCase();
+            const classVal = document.getElementById('directory-class-filter').value;
+
+            container.innerHTML = '';
+
+            let filtered = students.filter(s => {
+                const matchesClass = classVal === 'All' || s.class === classVal;
+                const matchesSearch = s.name.toLowerCase().includes(searchVal) || s.id.toLowerCase().includes(searchVal);
+                return matchesClass && matchesSearch;
+            });
+
+            filtered.forEach(s => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-slate-100 text-slate-600 font-mono text-xs px-2.5 py-1 rounded-lg font-bold">${s.id}</span>
+                            <span class="text-xs px-2.5 py-1 rounded-full font-bold ${s.class === '9th Class' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}">
+                                ${s.class}
+                            </span>
+                        </div>
+                        <h4 class="font-bold text-navy-800 text-base mb-1">${s.name}</h4>
+                        <p class="text-xs text-emerald-600 font-semibold mb-2"><i class="fa-solid fa-graduation-cap mr-1"></i> ${s.track}</p>
+                    </div>
+                    <div class="border-t border-slate-100 pt-3 mt-3 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-solid fa-phone mr-1"></i> ${s.phone}</span>
+                        <span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Active</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- NOTICES RENDER ---
+        function renderNotices() {
+            const container = document.getElementById('notice-cards-container');
+            const previewContainer = document.getElementById('dash-notice-preview');
+            
+            container.innerHTML = '';
+            previewContainer.innerHTML = '';
+
+            NOTICES.forEach((n, idx) => {
+                // Main Notice Board Card
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-navy-800 text-white text-xs px-3 py-1 rounded-full font-bold">${n.target}</span>
+                        <span class="text-xs text-slate-400 font-medium"><i class="fa-regular fa-calendar mr-1"></i> ${n.date}</span>
+                    </div>
+                    <h4 class="font-bold text-navy-800 text-lg mb-2">${n.title}</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">${n.desc}</p>
+                `;
+                container.appendChild(card);
+
+                // Preview cards for main dashboard (up to 2)
+                if (idx < 2) {
+                    const prevCard = document.createElement('div');
+                    prevCard.className = "bg-slate-50 p-4 rounded-xl border border-slate-200";
+                    prevCard.innerHTML = `
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span class="font-bold text-emerald-600">${n.target}</span>
+                            <span>${n.date}</span>
+                        </div>
+                        <h5 class="font-bold text-navy-800 text-sm mb-1">${n.title}</h5>
+                        <p class="text-xs text-slate-600 line-clamp-2">${n.desc}</p>
+                    `;
+                    previewContainer.appendChild(prevCard);
+                }
+            });
+        }
+
+        // --- MODAL HANDLERS ---
+        function openAddStudentModal() {
+            document.getElementById('modal-add-student').classList.remove('hidden');
+        }
+        function closeAddStudentModal() {
+            document.getElementById('modal-add-student').classList.add('hidden');
+        }
+
+        function handleAddStudent(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-name').value;
+            const cls = document.getElementById('new-class').value;
+            const group = document.getElementById('new-group').value;
+            const phone = document.getElementById('new-phone').value || '0300-0000000';
+
+            const newId = `CIT-${String(students.length + 1).padStart(2, '0')}`;
+            const newStudent = { id: newId, name: name, class: cls, track: group, phone: phone };
+
+            students.unshift(newStudent);
+            attendanceRecord[newId] = 'Present';
+
+            closeAddStudentModal();
+            document.getElementById('form-add-student').reset();
+
+            renderAttendanceList();
+            renderStudentDirectory();
+            updateDashboardStats();
+        }
+
+        function openAddNoticeModal() {
+            document.getElementById('modal-add-notice').classList.remove('hidden');
+        }
+        function closeAddNoticeModal() {
+            document.getElementById('modal-add-notice').classList.add('hidden');
+        }
+
+        function handleAddNotice(e) {
+            e.preventDefault();
+            const title = document.getElementById('notice-title').value;
+            const target = document.getElementById('notice-target').value;
+            const desc = document.getElementById('notice-desc').value;
+            const today = new Date().toISOString().split('T')[0];
+
+            NOTICES.unshift({
+                id: Date.now(),
+                title: title,
+                target: target,
+                date: today,
+                desc: desc
+            });
+
+            closeAddNoticeModal();
+            document.getElementById('form-add-notice').reset();
+            renderNotices();
+        }
+
+        // --- SUMMARY REPORT EXPORT ---
+        function exportAttendanceSummary() {
+            const date = document.getElementById('attendance-date').value;
+            let total = students.length;
+            let present = [], absent = [], leave = [];
+
+            students.forEach(s => {
+                const st = attendanceRecord[s.id] || 'Present';
+                if (st === 'Present') present.push(s.name);
+                if (st === 'Absent') absent.push(s.name);
+                if (st === 'Leave') leave.push(s.name);
+            });
+
+            const summaryText = `*CRASH IT TRAINING - DAILY ATTENDANCE SUMMARY*
+Date: ${date}
+Class: 9th & 10th Coaching
+--------------------------------------
+Total Enrolled: ${total}
+Present: ${present.length}
+Absent: ${absent.length}
+Leave: ${leave.length}
+--------------------------------------
+*ABSENT STUDENTS LIST:*
+${absent.length > 0 ? absent.map((n, i) => `${i + 1}. ${n}`).join('\n') : 'None (100% Attendance)'}`;
+
+            document.getElementById('summary-modal-date').innerText = `Generated for: ${date}`;
+            document.getElementById('summary-content').innerText = summaryText;
+            document.getElementById('modal-summary').classList.remove('hidden');
+        }
+
+        function closeSummaryModal() {
+            document.getElementById('modal-summary').classList.add('hidden');
+        }
+
+        function copySummaryText() {
+            const text = document.getElementById('summary-content').innerText;
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Attendance Summary Copied to Clipboard!');
+        }
+    </script>
+</body>
+</html>
