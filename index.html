@@ -603,7 +603,28 @@
         let selectedClassFilter = 'All';
 
         // Initialize App
-        window.onload = function () {
+        window.onload = function () {// Admin Password Validation Function
+function verifyAdminAccess(actionCallback) {
+    const correctPassword = "LLS"; // پاسورڈ: LLS
+    const enteredPassword = prompt("حاضری مارک یا تبدیل کرنے کے لیے ایڈمن پاسورڈ درج کریں:");
+
+    if (enteredPassword === correctPassword) {
+        actionCallback();
+    } else if (enteredPassword !== null) {
+        alert("غلط پاسورڈ! صرف ایڈمن ہی حاضری مارک کر سکتا ہے۔");
+    }
+}
+
+// Global function to update student status with password protection
+function updateStudentAttendance(studentId, newStatus) {
+    verifyAdminAccess(function() {
+        attendanceRecord[studentId] = newStatus;
+        if (typeof renderAttendanceList === 'function') {
+            renderAttendanceList();
+        }
+        alert("حاضری کامیابی سے اپ ڈیٹ ہو گئی ہے!");
+    });
+}
             // Set Today's Date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('attendance-date').value = today;
