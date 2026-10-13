@@ -54,13 +54,13 @@
             <div class="flex items-center justify-between h-20">
                 <!-- Branding -->
                 <div class="flex items-center space-x-3">
-                    <img src="logo.png" alt="Lasanian Lyceum School Logo" class="h-12 w-auto object-contain rounded-xl shadow-md" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=120&q=80'">
+                    <img src="logo.png" alt="Lasani Lyceum School Logo" class="h-12 w-auto object-contain rounded-xl shadow-md" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=120&q=80'">
                     <div>
                         <div class="flex items-center space-x-2">
                             <h1 class="text-2xl font-extrabold tracking-tight text-white">LLS CRASH IT <span class="text-emerald-400">TRAINING PROGRAM</span></h1>
                             <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">9th & 10th Grade</span>
                         </div>
-                        <p class="text-xs text-slate-300 hidden sm:block">Excellence in Matriculation Coaching & Practical Computer Science</p>
+                        <p class="text-xs text-slate-300 hidden sm:block">Lasani Lyceum School (لاسانی لیسیئم) — Practical IT & Coding Coaching</p>
                     </div>
                 </div>
 
@@ -119,20 +119,20 @@
                 </div>
                 <div class="relative z-10 max-w-2xl">
                     <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-emerald-500/30">
-                        Crash Coaching Program 2026-2027
+                        Lasani Lyceum Crash Coaching Program 2026-2027
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 leading-tight">
                         Empowering 9th & 10th Class Students with Python, Web Designing & Coding
                     </h2>
                     <p class="text-slate-300 mt-2 text-sm sm:text-base leading-relaxed">
-                        Master Python Programming, Web Designing (HTML/CSS/JS), Practical Coding, and Matric Board Preparation for Computer Science.
+                        Master Python Programming, Web Designing (HTML/CSS/JS), Practical Coding, and Matric Board Preparation with Automated Performance Slips & Certificates.
                     </p>
                     <div class="mt-6 flex flex-wrap gap-4">
                         <button onclick="requestAdminAccess('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center">
                             <i class="fa-solid fa-clipboard-check mr-2"></i> Mark Today's Attendance <i class="fa-solid fa-lock text-xs ml-2"></i>
                         </button>
                         <button onclick="switchTab('students')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur transition border border-white/20">
-                            View Enrolled Students
+                            View Enrolled Students & Slips
                         </button>
                     </div>
                 </div>
@@ -195,7 +195,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Feature Card 1 -->
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-md transition">
                         <div class="h-44 bg-slate-800 relative overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Python Programming" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -207,7 +206,6 @@
                         </div>
                     </div>
 
-                    <!-- Feature Card 2 -->
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-md transition">
                         <div class="h-44 bg-slate-800 relative overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80" alt="Web Designing" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -219,7 +217,6 @@
                         </div>
                     </div>
 
-                    <!-- Feature Card 3 -->
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-md transition">
                         <div class="h-44 bg-slate-800 relative overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Board Exams & Lab" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -249,8 +246,6 @@
 
         <!-- ATTENDANCE TAB CONTENT -->
         <div id="tab-attendance" class="hidden space-y-6">
-            
-            <!-- Attendance Header & Controls -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h2 class="text-2xl font-extrabold text-navy-800 flex items-center">
@@ -301,20 +296,17 @@
 
             <!-- Filter Controls -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
-                <!-- Search -->
                 <div class="relative w-full md:w-72">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
                     <input type="text" id="att-search" oninput="renderAttendanceList()" placeholder="Search by name or roll no..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
 
-                <!-- Class Filter Tabs -->
                 <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl w-full md:w-auto overflow-x-auto">
                     <button onclick="filterAttendanceClass('All')" id="btn-class-all" class="px-4 py-1.5 text-xs font-bold rounded-lg bg-white text-navy-800 shadow-sm">All Classes</button>
                     <button onclick="filterAttendanceClass('9th Class')" id="btn-class-9th" class="px-4 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-navy-800">9th Class</button>
                     <button onclick="filterAttendanceClass('10th Class')" id="btn-class-10th" class="px-4 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-navy-800">10th Class</button>
                 </div>
 
-                <!-- Status Filter -->
                 <div class="flex items-center space-x-2 text-xs font-semibold text-slate-500 w-full md:w-auto">
                     <span>Status:</span>
                     <select id="att-status-filter" onchange="renderAttendanceList()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -351,8 +343,8 @@
         <div id="tab-students" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-extrabold text-navy-800">Student Directory</h2>
-                    <p class="text-sm text-slate-500">All registered students for 9th and 10th grade coaching</p>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Student Directory & Performance Slips</h2>
+                    <p class="text-sm text-slate-500">View registered students, monthly performance evaluations, and course certificates</p>
                 </div>
                 <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition flex items-center">
                     <i class="fa-solid fa-user-plus mr-2"></i> Enroll New Student
@@ -394,7 +386,6 @@
                 </button>
             </div>
 
-            <!-- Notice Cards List -->
             <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Dynamic Notices -->
             </div>
@@ -412,12 +403,44 @@
                 <i class="fa-solid fa-lock"></i>
             </div>
             <h3 class="text-xl font-bold text-navy-800 mb-1">Admin Access Required</h3>
-            <p class="text-xs text-slate-500 mb-5">Please enter the administrator password to manage attendance.</p>
+            <p class="text-xs text-slate-500 mb-5">Please enter the administrator password (`LLL123`) to manage attendance.</p>
             
             <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
-                <input type="password" id="admin-password-input" required placeholder="Enter password (e.g. byee byee )" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-center tracking-widest font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <input type="password" id="admin-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-center tracking-widest font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-sm shadow transition">Verify & Open</button>
             </form>
+        </div>
+    </div>
+
+    <!-- MONTHLY PERFORMANCE SLIP MODAL -->
+    <div id="modal-performance" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-100">
+            <button onclick="closePerformanceModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="performance-slip-content" class="space-y-4">
+                <!-- Dynamically populated slip -->
+            </div>
+            <div class="mt-6 flex justify-end gap-2">
+                <button onclick="window.print()" class="px-4 py-2.5 bg-navy-800 text-white font-bold text-xs rounded-xl shadow"><i class="fa-solid fa-print mr-1.5"></i> Print Slip</button>
+                <button onclick="closePerformanceModal()" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div id="modal-certificate" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative border border-slate-100 text-center">
+            <button onclick="closeCertificateModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="certificate-content" class="py-4">
+                <!-- Dynamic Certificate Display -->
+            </div>
+            <div class="mt-4 flex justify-center gap-3">
+                <button onclick="window.print()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold text-xs rounded-xl shadow"><i class="fa-solid fa-download mr-1.5"></i> Download Certificate</button>
+                <button onclick="closeCertificateModal()" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
+            </div>
         </div>
     </div>
 
@@ -428,7 +451,7 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <h3 class="text-xl font-bold text-navy-800 mb-1">Add New Student</h3>
-            <p class="text-xs text-slate-500 mb-5">Register a new student for CRASH IT TRAINING coaching.</p>
+            <p class="text-xs text-slate-500 mb-5">Register a new student for CRASH IT TRAINING coaching at Lasani Lyceum.</p>
 
             <form id="form-add-student" onsubmit="handleAddStudent(event)" class="space-y-4">
                 <div>
@@ -480,7 +503,7 @@
             <form id="form-add-notice" onsubmit="handleAddNotice(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1">Announcement Title (English / Urdu)</label>
-                    <input type="text" id="notice-title" required placeholder="e.g., Sunday Physics Special Test Class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
+                    <input type="text" id="notice-title" required placeholder="e.g., Sunday Python Special Test Class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
                 </div>
 
                 <div>
@@ -528,15 +551,15 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Sample Student Data
+        // Sample Student Data with performance metrics & certificates
         let students = [
-            { roll: 'LLS-901', name: 'Muhammad Ali', class: '9th Class', group: 'Python & Coding', phone: '0300-1122334', status: 'Present' },
-            { roll: 'LLS-902', name: 'Ayesha Khan', class: '9th Class', group: 'Web Designing', phone: '0301-2233445', status: 'Present' },
-            { roll: 'LLS-903', name: 'Hassan Raza', class: '9th Class', group: 'Computer Science', phone: '0302-3344556', status: 'Absent' },
-            { roll: 'LLS-904', name: 'Fatima Noor', class: '9th Class', group: 'Python & Coding', phone: '0303-4455667', status: 'Present' },
-            { roll: 'LLS-101', name: 'Zainab Bibi', class: '10th Class', group: 'Web Designing', phone: '0304-5566778', status: 'Present' },
-            { roll: 'LLS-102', name: 'Usman Ghani', class: '10th Class', group: 'Computer Science', phone: '0305-6677889', status: 'Leave' },
-            { roll: 'LLS-103', name: 'Bilal Ahmed', class: '10th Class', group: 'Python & Coding', phone: '0306-7788990', status: 'Present' }
+            { roll: 'LLS-901', name: 'Muhammad Ali', class: '9th Class', group: 'Python & Coding', phone: '0300-1122334', status: 'Present', attendanceScore: 92, testScore: 'A+', remarks: 'Excellent logical skills in Python programming.', certificateUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80' },
+            { roll: 'LLS-902', name: 'Ayesha Khan', class: '9th Class', group: 'Web Designing', phone: '0301-2233445', status: 'Present', attendanceScore: 88, testScore: 'A', remarks: 'Very creative web layout design using HTML/CSS.', certificateUrl: '' },
+            { roll: 'LLS-903', name: 'Hassan Raza', class: '9th Class', group: 'Computer Science', phone: '0302-3344556', status: 'Absent', attendanceScore: 74, testScore: 'B+', remarks: 'Good grasp of concepts, needs regular attendance.', certificateUrl: '' },
+            { roll: 'LLS-904', name: 'Fatima Noor', class: '9th Class', group: 'Python & Coding', phone: '0303-4455667', status: 'Present', attendanceScore: 96, testScore: 'A+', remarks: 'Outstanding performance across all programming tasks.', certificateUrl: '' },
+            { roll: 'LLS-101', name: 'Zainab Bibi', class: '10th Class', group: 'Web Designing', phone: '0304-5566778', status: 'Present', attendanceScore: 90, testScore: 'A+', remarks: 'Consistent and hardworking in practical lab sessions.', certificateUrl: '' },
+            { roll: 'LLS-102', name: 'Usman Ghani', class: '10th Class', group: 'Computer Science', phone: '0305-6677889', status: 'Leave', attendanceScore: 82, testScore: 'A', remarks: 'Shows strong analytical problem-solving skills.', certificateUrl: '' },
+            { roll: 'LLS-103', name: 'Bilal Ahmed', class: '10th Class', group: 'Python & Coding', phone: '0306-7788990', status: 'Present', attendanceScore: 95, testScore: 'A+', remarks: 'Excellent project delivery and coding proficiency.', certificateUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80' }
         ];
 
         let notices = [
@@ -567,7 +590,6 @@
             const activeEl = document.getElementById(`tab-${tabId}`);
             if (activeEl) activeEl.classList.remove('hidden');
 
-            // Update top nav styling
             ['dashboard', 'attendance', 'students', 'notices'].forEach(id => {
                 const navBtn = document.getElementById(`nav-${id}`);
                 if (navBtn) {
@@ -581,7 +603,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Admin Security Check for Attendance
+        // Admin Security Check
         let pendingTargetTab = '';
         function requestAdminAccess(tabId) {
             if (isAdminAuthenticated) {
@@ -605,7 +627,7 @@
                 closeAdminAuthModal();
                 switchTab(pendingTargetTab);
             } else {
-                alert('Incorrect Admin Password! ');
+                alert('Incorrect Admin Password! Please use LLL123');
             }
         }
 
@@ -621,7 +643,6 @@
             const percent = total > 0 ? Math.round((present / total) * 100) : 0;
             document.getElementById('dash-present-percent').innerText = `${percent}% Attendance Rate`;
 
-            // Preview notices
             const previewContainer = document.getElementById('dash-notice-preview');
             if (previewContainer) {
                 previewContainer.innerHTML = notices.slice(0, 2).map(n => `
@@ -720,12 +741,86 @@
                         <h4 class="font-bold text-navy-800 text-base mt-2">${s.name}</h4>
                         <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-code mr-1"></i> ${s.group}</p>
                         <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-phone mr-1"></i> ${s.phone || 'N/A'}</p>
+                        <div class="mt-3 flex items-center justify-between text-xs">
+                            <span class="font-bold text-slate-600">Grade: <span class="text-emerald-600">${s.testScore}</span></span>
+                            <span class="font-bold text-slate-600">Att: <span class="text-indigo-600">${s.attendanceScore}%</span></span>
+                        </div>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                        <span class="text-xs font-bold ${s.status === 'Present' ? 'text-emerald-600' : (s.status === 'Absent' ? 'text-rose-500' : 'text-amber-500')}">Status: ${s.status}</span>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2">
+                        <button onclick="openPerformanceModal('${s.roll}')" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-file-lines mr-1.5"></i> View Performance Slip
+                        </button>
+                        <button onclick="openCertificateModal('${s.roll}')" class="w-full py-2 bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-award mr-1.5"></i> View Certificate
+                        </button>
                     </div>
                 </div>
             `).join('');
+        }
+
+        // Automated Monthly Performance Slip
+        function openPerformanceModal(roll) {
+            const s = students.find(item => item.roll === roll);
+            if (!s) return;
+
+            const content = `
+                <div class="text-center pb-3 border-b border-slate-100">
+                    <h2 class="text-xl font-black text-navy-800">LASANI LYCEUM SCHOOL (لاسانی لیسیئم)</h2>
+                    <p class="text-xs font-bold text-emerald-600 mt-0.5">LLS Crash IT Training Program — Monthly Performance Report</p>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border border-slate-100 mt-3">
+                    <div><span class="text-slate-400">Student Name:</span> <br/><strong class="text-navy-800 text-sm">${s.name}</strong></div>
+                    <div><span class="text-slate-400">Roll Number:</span> <br/><strong class="text-navy-800 text-sm">${s.roll}</strong></div>
+                    <div><span class="text-slate-400">Class & Track:</span> <br/><strong class="text-slate-700">${s.class} (${s.group})</strong></div>
+                    <div><span class="text-slate-400">Monthly Attendance:</span> <br/><strong class="text-emerald-600">${s.attendanceScore}%</strong></div>
+                </div>
+                <div class="mt-4 space-y-2 text-xs">
+                    <div class="flex justify-between p-2.5 bg-indigo-50 text-indigo-900 rounded-xl font-bold">
+                        <span>Calculated Performance Grade:</span>
+                        <span class="text-sm bg-indigo-600 text-white px-2 py-0.5 rounded">${s.testScore}</span>
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700">Instructor Evaluation & Remarks:</label>
+                        <p class="p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1 text-slate-600 italic">"${s.remarks}"</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('performance-slip-content').innerHTML = content;
+            document.getElementById('modal-performance').classList.remove('hidden');
+        }
+
+        function closePerformanceModal() {
+            document.getElementById('modal-performance').classList.add('hidden');
+        }
+
+        // Certificate Viewer
+        function openCertificateModal(roll) {
+            const s = students.find(item => item.roll === roll);
+            if (!s) return;
+
+            const container = document.getElementById('certificate-content');
+            if (s.certificateUrl) {
+                container.innerHTML = `
+                    <h3 class="text-lg font-bold text-navy-800 mb-1">Course Completion Certificate</h3>
+                    <p class="text-xs text-slate-500 mb-4">Awarded to <strong>${s.name}</strong> (${s.roll}) for successfully completing ${s.group}.</p>
+                    <img src="${s.certificateUrl}" alt="Certificate" class="w-full rounded-2xl shadow-lg border border-slate-200 max-h-80 object-cover">
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="py-8">
+                        <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-navy-800">Certificate In Progress</h3>
+                        <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto"><strong>${s.name}</strong> is currently active in the training program. The certificate will be available upon course completion.</p>
+                    </div>
+                `;
+            }
+            document.getElementById('modal-certificate').classList.remove('hidden');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('modal-certificate').classList.add('hidden');
         }
 
         function renderNotices() {
@@ -758,14 +853,14 @@
             const phone = document.getElementById('new-phone').value;
 
             const newRoll = `LLS-${cls.includes('9') ? '9' : '10'}${Math.floor(10 + Math.random() * 90)}`;
-            students.push({ roll: newRoll, name, class: cls, group, phone, status: 'Present' });
+            students.push({ roll: newRoll, name, class: cls, group, phone, status: 'Present', attendanceScore: 90, testScore: 'A', remarks: 'Newly enrolled student, showing great enthusiasm.', certificateUrl: '' });
 
             closeAddStudentModal();
             renderDashboardStats();
             renderAttendanceList();
             renderStudentDirectory();
             document.getElementById('form-add-student').reset();
-            alert('Student successfully enrolled!');
+            alert('Student successfully enrolled and added to directory!');
         }
 
         function openAddNoticeModal() { document.getElementById('modal-add-notice').classList.remove('hidden'); }
