@@ -362,7 +362,7 @@
                 <i class="fa-solid fa-lock"></i>
             </div>
             <h3 class="text-xl font-bold text-navy-800 mb-1">Super Admin Access</h3>
-            <p class="text-xs text-slate-500 mb-5">Please enter the administrator password (`LLL123`) to manage attendance and view phone numbers.</p>
+            <p class="text-xs text-slate-500 mb-5">Please enter the administrator password to manage attendance and view phone numbers.</p>
             
             <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
                 <input type="password" id="admin-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-center tracking-widest font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -596,7 +596,7 @@
                     alert('Super Admin authenticated! Phone numbers are now visible.');
                 }
             } else {
-                alert('Incorrect Admin Password! Please use LLL123');
+                alert('Incorrect Admin Password!');
             }
         }
 
