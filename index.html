@@ -47,7 +47,7 @@
                             <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">LLS CRASH IT <span class="text-emerald-400">TRAINING</span></h1>
                             <span class="hidden sm:inline bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/30">Official Portal</span>
                         </div>
-                        <p class="text-xs text-slate-300 hidden sm:block font-medium">Lasani Lyceum School (لاسانی لیسیئم) — Advanced Attendance & MCQs</p>
+                        <p class="text-xs text-slate-300 hidden sm:block font-medium">Lasani Lyceum School (لاسانی لیسیئم) — Advanced Attendance & Student Result Logging</p>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                         <i class="fa-solid fa-users mr-1.5"></i> Directory
                     </button>
                     <button onclick="switchTab('quizzes')" id="nav-quizzes" class="px-3.5 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition">
-                        <i class="fa-solid fa-pen-to-square mr-1.5"></i> Online MCQs & Tests
+                        <i class="fa-solid fa-pen-to-square mr-1.5"></i> Online Tests & Results
                     </button>
                     <button onclick="switchTab('notices')" id="nav-notices" class="px-3.5 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition">
                         <i class="fa-solid fa-bullhorn mr-1.5"></i> Notices
@@ -117,11 +117,11 @@
                         Empowering Students with Practical Python & Web Design
                     </h2>
                     <p class="text-slate-300 mt-3 text-sm sm:text-base leading-relaxed font-normal">
-                        Official Portal to track Date-wise Attendance Records, Monthly Reports, Announcements, and Online MCQs Quizzes.
+                        Official Portal to track Date-wise Attendance Records, Student Test Submissions, and Online Quizzes.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-4">
                         <button onclick="switchTab('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition hover:scale-105 flex items-center">
-                            <i class="fa-solid fa-clipboard-user mr-2"></i> Manage Attendance & Save Records
+                            <i class="fa-solid fa-clipboard-user mr-2"></i> Attendance & History
                         </button>
                         <button onclick="switchTab('quizzes')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-xl backdrop-blur transition border border-white/20">
                             Attempt Online Tests
@@ -141,7 +141,7 @@
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover-lift flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Saved Records</p>
+                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Attendance Logs</p>
                         <h3 class="text-3xl font-black text-emerald-600 mt-1" id="dash-saved-records">0</h3>
                     </div>
                     <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-calendar-check"></i></div>
@@ -155,31 +155,31 @@
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover-lift flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Active Tracks</p>
-                        <h3 class="text-3xl font-black text-emerald-600 mt-1">4</h3>
+                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Submitted Tests</p>
+                        <h3 class="text-3xl font-black text-emerald-600 mt-1" id="dash-submitted-tests">0</h3>
                     </div>
-                    <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-code"></i></div>
+                    <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-file-circle-check"></i></div>
                 </div>
             </div>
 
             <!-- Dashboard Notices Preview -->
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-extrabold text-lg text-navy-800"><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> Latest Announcements / نوٹس بورڈ</h3>
-                    <button onclick="switchTab('notices')" class="text-xs font-bold text-emerald-600 hover:underline">View All Notices</button>
+                    <h3 class="font-extrabold text-lg text-navy-800"><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> Announcements</h3>
+                    <button onclick="switchTab('notices')" class="text-xs font-bold text-emerald-600 hover:underline">View All</button>
                 </div>
                 <div id="dash-notices-preview" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </div>
 
-        <!-- ATTENDANCE TAB WITH SAVE & MONTHLY HISTORY -->
+        <!-- ATTENDANCE TAB -->
         <div id="tab-attendance" class="hidden space-y-6 animate-fade-in">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h2 class="text-2xl font-black text-navy-800 flex items-center">
                         Daily Attendance & Saved History <span class="ml-3 text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold"><i class="fa-solid fa-lock-open mr-1"></i> Admin</span>
                     </h2>
-                    <p class="text-xs text-slate-500 font-medium mt-1">Select date, mark status, and click "Save Today's Attendance". View past records below.</p>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Select date, mark status, and click "Save Today's Attendance".</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
                     <div>
@@ -194,7 +194,6 @@
                 </div>
             </div>
 
-            <!-- Attendance Table -->
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -209,27 +208,36 @@
                 </table>
             </div>
 
-            <!-- Saved Monthly / Date-wise History Section -->
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm mt-8">
-                <h3 class="font-extrabold text-lg text-navy-800 mb-3"><i class="fa-solid fa-calendar-days text-emerald-500 mr-2"></i> Saved Attendance Logs & Monthly History</h3>
-                <p class="text-xs text-slate-500 mb-4">All previously saved dates and attendance summaries are securely stored below.</p>
+                <h3 class="font-extrabold text-lg text-navy-800 mb-3"><i class="fa-solid fa-calendar-days text-emerald-500 mr-2"></i> Saved Attendance Logs & History</h3>
                 <div id="attendance-logs-container" class="space-y-3"></div>
             </div>
         </div>
 
-        <!-- ONLINE QUIZZES & MCQS TAB -->
+        <!-- ONLINE QUIZZES & RESULTS TAB -->
         <div id="tab-quizzes" class="hidden space-y-6 animate-fade-in">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-black text-navy-800">Online MCQs Tests & Quizzes</h2>
-                    <p class="text-sm text-slate-500 font-medium">Students can attempt tests containing multiple MCQs and view instant results.</p>
+                    <h2 class="text-2xl font-black text-navy-800">Online MCQs Tests & Student Results</h2>
+                    <p class="text-sm text-slate-500 font-medium">Students can attempt tests; Admin can view exact marks per student.</p>
                 </div>
                 <button onclick="openCreateQuizModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-extrabold px-5 py-2.5 rounded-xl text-sm shadow transition hover:scale-105 flex items-center">
-                    <i class="fa-solid fa-plus mr-2"></i> Create MCQ Quiz (Admin Only)
+                    <i class="fa-solid fa-plus mr-2"></i> Create MCQ Quiz with Total Marks (Admin)
                 </button>
             </div>
 
             <div id="quiz-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+            <!-- ADMIN RESULTS VIEWING SECTION -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm mt-8">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-navy-800"><i class="fa-solid fa-square-poll-vertical text-emerald-500 mr-2"></i> Student Submission Results (Admin View Only)</h3>
+                        <p class="text-xs text-slate-500">Track which student attempted which test along with their total score.</p>
+                    </div>
+                </div>
+                <div id="admin-quiz-results-container" class="space-y-3"></div>
+            </div>
         </div>
 
         <!-- STUDENT DIRECTORY TAB -->
@@ -244,13 +252,8 @@
         <!-- NOTICE BOARD TAB -->
         <div id="tab-notices" class="hidden space-y-6 animate-fade-in">
             <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="text-2xl font-black text-navy-800">Coaching Announcements & Notice Board</h2>
-                    <p class="text-sm text-slate-500 font-medium">Post announcements, test dates, and syllabus updates for students.</p>
-                </div>
-                <button onclick="openAddNoticeModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-extrabold px-5 py-2.5 rounded-xl text-sm shadow transition hover:scale-105 flex items-center">
-                    <i class="fa-solid fa-plus mr-2"></i> Post New Notice
-                </button>
+                <h2 class="text-2xl font-black text-navy-800">Coaching Announcements & Notice Board</h2>
+                <button onclick="openAddNoticeModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-extrabold px-5 py-2.5 rounded-xl text-sm shadow"><i class="fa-solid fa-plus mr-2"></i> Post New Notice</button>
             </div>
             <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </div>
@@ -259,51 +262,35 @@
 
     <!-- POST NEW NOTICE MODAL -->
     <div id="modal-add-notice" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-7 shadow-2xl relative border border-slate-100 animate-card">
-            <button onclick="closeAddNoticeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+        <div class="bg-white rounded-3xl max-w-md w-full p-7 shadow-2xl relative border border-slate-100">
+            <button onclick="closeAddNoticeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="text-xl font-black text-navy-800 mb-1">Post New Announcement</h3>
-            <p class="text-xs text-slate-500 mb-5 font-medium">Broadcast notices to 9th & 10th grade students.</p>
-
-            <form id="form-add-notice" onsubmit="handleAddNotice(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">Announcement Title</label>
-                    <input type="text" id="notice-title" required placeholder="e.g. Sunday Special Python Test" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-navy-800">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">Target Audience</label>
-                    <select id="notice-target" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-navy-800">
-                        <option value="All Students">All Students (9th & 10th)</option>
-                        <option value="9th Class">9th Class Only</option>
-                        <option value="10th Class">10th Class Only</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">Notice Details / Description</label>
-                    <textarea id="notice-desc" rows="4" required placeholder="Write test timing, syllabus details or announcements here..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-navy-800"></textarea>
-                </div>
-
+            <form id="form-add-notice" onsubmit="handleAddNotice(event)" class="space-y-4 mt-4">
+                <input type="text" id="notice-title" required placeholder="Announcement Title" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
+                <select id="notice-target" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
+                    <option value="All Students">All Students (9th & 10th)</option>
+                    <option value="9th Class">9th Class Only</option>
+                    <option value="10th Class">10th Class Only</option>
+                </select>
+                <textarea id="notice-desc" rows="3" required placeholder="Notice details..." class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold"></textarea>
                 <div class="pt-2 flex justify-end gap-3">
-                    <button type="button" onclick="closeAddNoticeModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
-                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-xl shadow transition">Publish Notice</button>
+                    <button type="button" onclick="closeAddNoticeModal()" class="px-4 py-2 text-xs font-bold text-slate-600">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-navy-800 rounded-xl shadow">Publish Notice</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- CREATE MULTI-MCQ QUIZ MODAL -->
+    <!-- CREATE MULTI-MCQ QUIZ MODAL WITH TOTAL MARKS -->
     <div id="modal-create-quiz" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button onclick="closeCreateQuizModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-xl font-black text-navy-800 mb-1">Create Multiple MCQs Test / Quiz</h3>
+            <h3 class="text-xl font-black text-navy-800 mb-1">Create Multiple MCQs Test with Marks</h3>
             <form onsubmit="handleSaveQuiz(event)" class="space-y-4 mt-4">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div class="sm:col-span-2">
+                    <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Quiz Title</label>
-                        <input type="text" id="quiz-title" required placeholder="e.g. Python Grand Quiz" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
+                        <input type="text" id="quiz-title" required placeholder="e.g. Python Quiz 1" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Target Class</label>
@@ -313,6 +300,10 @@
                             <option value="10th Class">10th Class</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Total Marks (Admin Custom)</label>
+                        <input type="number" id="quiz-total-marks" required placeholder="e.g. 10 or 20" value="10" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-bold text-emerald-600">
+                    </div>
                 </div>
                 <div id="questions-builder-container" class="space-y-4 pt-2"></div>
                 <div class="flex items-center justify-between pt-2">
@@ -321,13 +312,13 @@
                 </div>
                 <div class="pt-4 border-t flex justify-end gap-3">
                     <button type="button" onclick="closeCreateQuizModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600">Cancel</button>
-                    <button type="submit" class="px-6 py-2.5 text-xs font-extrabold text-white bg-emerald-500 rounded-xl shadow">Save & Publish</button>
+                    <button type="submit" class="px-6 py-2.5 text-xs font-extrabold text-white bg-emerald-500 rounded-xl shadow">Save & Publish Test</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ATTEMPT QUIZ MODAL -->
+    <!-- ATTEMPT QUIZ MODAL WITH STUDENT LOGIN/DATA IDENTIFICATION -->
     <div id="modal-attempt-quiz" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-xl w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button onclick="closeAttemptQuizModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
@@ -377,11 +368,10 @@
     <!-- JavaScript Application Logic -->
     <script>
         let students = JSON.parse(localStorage.getItem('lls_students')) || [];
-        let notices = JSON.parse(localStorage.getItem('lls_notices')) || [
-            { id: 1, title: 'Welcome to Lasani Lyceum IT Portal', target: 'All Students', desc: 'Check your daily attendance and upcoming MCQs quizzes regularly.', date: 'Oct 14, 2026' }
-        ];
+        let notices = JSON.parse(localStorage.getItem('lls_notices')) || [];
         let quizzes = JSON.parse(localStorage.getItem('lls_quizzes')) || [];
         let attendanceLogs = JSON.parse(localStorage.getItem('lls_attendance_logs')) || {};
+        let quizSubmissions = JSON.parse(localStorage.getItem('lls_quiz_submissions')) || []; // { quizId, quizTitle, studentRoll, studentName, score, totalMarks, timestamp }
 
         let isAdminAuthenticated = false;
 
@@ -396,6 +386,7 @@
             renderQuizzes();
             renderNotices();
             renderAttendanceLogs();
+            renderAdminQuizResults();
         });
 
         function saveToLocalStorage() {
@@ -403,6 +394,7 @@
             localStorage.setItem('lls_notices', JSON.stringify(notices));
             localStorage.setItem('lls_quizzes', JSON.stringify(quizzes));
             localStorage.setItem('lls_attendance_logs', JSON.stringify(attendanceLogs));
+            localStorage.setItem('lls_quiz_submissions', JSON.stringify(quizSubmissions));
         }
 
         function switchTab(tabId) {
@@ -452,6 +444,7 @@
                 document.getElementById('admin-toggle-btn').className = "bg-emerald-600 text-white px-3.5 py-2 rounded-xl text-xs font-extrabold shadow-md";
                 renderStudentDirectory();
                 renderNotices();
+                renderAdminQuizResults();
                 if (pendingTargetTab && pendingTargetTab !== 'direct') switchTab(pendingTargetTab);
                 else alert('Super Admin authenticated!');
             } else { alert('Incorrect Admin Password!'); }
@@ -461,9 +454,10 @@
             document.getElementById('dash-total-students').innerText = students.length;
             document.getElementById('dash-active-quizzes').innerText = quizzes.length;
             document.getElementById('dash-saved-records').innerText = Object.keys(attendanceLogs).length;
+            document.getElementById('dash-submitted-tests').innerText = quizSubmissions.length;
         }
 
-        // Date-wise Attendance Functions
+        // Attendance Log System
         function loadAttendanceForDate() {
             const dateStr = document.getElementById('attendance-date').value;
             const tbody = document.getElementById('attendance-tbody');
@@ -494,26 +488,13 @@
         function changeStatusOnDate(index, status) {
             if(window.tempActiveAttendance && window.tempActiveAttendance[index]) {
                 window.tempActiveAttendance[index].status = status;
-                const tbody = document.getElementById('attendance-tbody');
-                tbody.innerHTML = window.tempActiveAttendance.map((s, i) => `
-                    <tr class="hover:bg-slate-50 border-b">
-                        <td class="py-3 px-5 font-bold">${s.roll}</td>
-                        <td class="py-3 px-5 font-semibold">${s.name}</td>
-                        <td class="py-3 px-5 text-slate-500">${s.class}</td>
-                        <td class="py-3 px-5 text-center">
-                            <button onclick="changeStatusOnDate(${i}, 'Present')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Present' ? 'bg-emerald-500 text-white shadow' : 'bg-slate-200'}">Present</button>
-                            <button onclick="changeStatusOnDate(${i}, 'Absent')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Absent' ? 'bg-rose-500 text-white shadow' : 'bg-slate-200'}">Absent</button>
-                            <button onclick="changeStatusOnDate(${i}, 'Leave')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Leave' ? 'bg-amber-500 text-white shadow' : 'bg-slate-200'}">Leave</button>
-                        </td>
-                    </tr>
-                `).join('');
+                loadAttendanceForDate();
             }
         }
 
         function saveAttendanceRecord() {
             const dateStr = document.getElementById('attendance-date').value;
             if(!dateStr) { alert('Please select a date first!'); return; }
-            if(!window.tempActiveAttendance || window.tempActiveAttendance.length === 0) { alert('No attendance data to save.'); return; }
 
             attendanceLogs[dateStr] = window.tempActiveAttendance;
             saveToLocalStorage();
@@ -547,8 +528,7 @@
                             </p>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="loadAttendanceForSpecificDate('${d}')" class="px-3 py-1.5 bg-navy-800 text-white font-bold text-xs rounded-xl shadow hover:bg-navy-900 transition">View / Edit</button>
-                            <button onclick="deleteAttendanceLog('${d}')" class="px-2.5 py-1.5 bg-rose-50 text-rose-600 font-bold text-xs rounded-xl hover:bg-rose-100 transition"><i class="fa-solid fa-trash"></i></button>
+                            <button onclick="loadAttendanceForSpecificDate('${d}')" class="px-3 py-1.5 bg-navy-800 text-white font-bold text-xs rounded-xl shadow">View / Edit</button>
                         </div>
                     </div>
                 `;
@@ -561,107 +541,7 @@
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
-        function deleteAttendanceLog(dateStr) {
-            if(confirm(`Delete saved attendance for ${dateStr}?`)) {
-                delete attendanceLogs[dateStr];
-                saveToLocalStorage();
-                renderAttendanceLogs();
-                renderDashboardStats();
-                loadAttendanceForDate();
-            }
-        }
-
-        // Notice Board Management System
-        function renderNotices() {
-            const container = document.getElementById('notice-cards-container');
-            const dashPreview = document.getElementById('dash-notices-preview');
-
-            if(notices.length === 0) {
-                if(container) container.innerHTML = `<p class="text-xs text-slate-400">No notices posted yet.</p>`;
-                if(dashPreview) dashPreview.innerHTML = `<p class="text-xs text-slate-400 col-span-2">No active announcements.</p>`;
-                return;
-            }
-
-            if(container) {
-                container.innerHTML = notices.map(n => `
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover-lift flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-xs font-extrabold bg-navy-800 text-white px-3 py-1 rounded-full">${n.target}</span>
-                                <span class="text-xs text-slate-400 font-semibold">${n.date}</span>
-                            </div>
-                            <h3 class="font-extrabold text-lg text-navy-800 mt-2">${n.title}</h3>
-                            <p class="text-sm text-slate-600 mt-2 leading-relaxed font-medium">${n.desc}</p>
-                        </div>
-                        ${isAdminAuthenticated ? `
-                            <div class="mt-4 pt-3 border-t flex justify-end">
-                                <button onclick="deleteNotice(${n.id})" class="text-xs text-rose-600 font-bold hover:underline"><i class="fa-solid fa-trash mr-1"></i> Delete Notice</button>
-                            </div>
-                        ` : ''}
-                    </div>
-                `).join('');
-            }
-
-            if(dashPreview) {
-                dashPreview.innerHTML = notices.slice(0, 2).map(n => `
-                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
-                        <span class="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-md">${n.target}</span>
-                        <h4 class="font-bold text-sm text-navy-800 mt-1.5">${n.title}</h4>
-                        <p class="text-xs text-slate-500 mt-1 line-clamp-2">${n.desc}</p>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function openAddNoticeModal() {
-            document.getElementById('modal-add-notice').classList.remove('hidden');
-        }
-
-        function closeAddNoticeModal() {
-            document.getElementById('modal-add-notice').classList.add('hidden');
-        }
-
-        function handleAddNotice(e) {
-            e.preventDefault();
-            const title = document.getElementById('notice-title').value;
-            const target = document.getElementById('notice-target').value;
-            const desc = document.getElementById('notice-desc').value;
-            const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-            notices.unshift({ id: Date.now(), title, target, desc, date });
-            saveToLocalStorage();
-            closeAddNoticeModal();
-            renderNotices();
-            document.getElementById('form-add-notice').reset();
-            alert('Notice published successfully!');
-        }
-
-        function deleteNotice(id) {
-            if(confirm('Are you sure you want to delete this notice?')) {
-                notices = notices.filter(n => n.id !== id);
-                saveToLocalStorage();
-                renderNotices();
-            }
-        }
-
-        function renderStudentDirectory() {
-            const grid = document.getElementById('student-grid');
-            if(students.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400">No students found.</div>`;
-                return;
-            }
-            grid.innerHTML = students.map(s => `
-                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs font-bold bg-navy-800 text-white px-2.5 py-1 rounded-lg">${s.roll}</span>
-                        <h4 class="font-extrabold text-navy-800 text-base mt-2">${s.name}</h4>
-                        <p class="text-xs text-slate-500 font-semibold mt-1">${s.class} (${s.group})</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Quizzes System
+        // Quizzes System with Custom Total Marks & Student Results Logging
         function renderQuizzes() {
             const container = document.getElementById('quiz-cards-container');
             if(quizzes.length === 0) {
@@ -673,7 +553,7 @@
                     <div>
                         <span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-md">${q.target}</span>
                         <h3 class="font-extrabold text-lg text-navy-800 mt-2">${q.title}</h3>
-                        <p class="text-xs text-slate-500 mt-1">Total MCQs: <strong>${q.questions.length} Questions</strong></p>
+                        <p class="text-xs text-slate-500 mt-1">Total MCQs: <strong>${q.questions.length}</strong> | Total Marks: <strong class="text-emerald-600">${q.totalMarks} Marks</strong></p>
                     </div>
                     <button onclick="openAttemptQuizModal(${q.id})" class="mt-4 w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow transition">
                         <i class="fa-solid fa-pen-nib mr-1"></i> Attempt Test
@@ -685,6 +565,7 @@
         function openCreateQuizModal() {
             if(!isAdminAuthenticated) { alert('Quiz Creation requires Admin Access!'); openAdminAuthModal(); return; }
             document.getElementById('quiz-title').value = '';
+            document.getElementById('quiz-total-marks').value = '10';
             document.getElementById('questions-builder-container').innerHTML = '';
             addQuestionBlock();
             document.getElementById('modal-create-quiz').classList.remove('hidden');
@@ -733,6 +614,7 @@
             e.preventDefault();
             const title = document.getElementById('quiz-title').value;
             const target = document.getElementById('quiz-target').value;
+            const totalMarks = Number(document.getElementById('quiz-total-marks').value) || 10;
             
             const blocks = document.querySelectorAll('.question-block');
             let questionsList = [];
@@ -749,12 +631,12 @@
                 questionsList.push({ qText, options: opts, correct });
             });
 
-            quizzes.unshift({ id: Date.now(), title, target, questions: questionsList });
+            quizzes.unshift({ id: Date.now(), title, target, totalMarks, questions: questionsList });
             saveToLocalStorage();
             closeCreateQuizModal();
             renderQuizzes();
             renderDashboardStats();
-            alert('Quiz with ' + questionsList.length + ' MCQs successfully created and published!');
+            alert(`Quiz created successfully with ${totalMarks} Total Marks!`);
         }
 
         function openAttemptQuizModal(quizId) {
@@ -763,7 +645,17 @@
 
             let html = `
                 <h3 class="text-xl font-black text-navy-800 mb-1">${q.title}</h3>
-                <p class="text-xs text-slate-500 mb-4">Total Questions: ${q.questions.length}. Select your answers below:</p>
+                <p class="text-xs text-slate-500 mb-4">Total Questions: ${q.questions.length} | Marks: ${q.totalMarks}</p>
+
+                <!-- Student Login / ID Verification -->
+                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-2xl mb-5 space-y-3">
+                    <h4 class="font-extrabold text-xs text-indigo-900 uppercase">Step 1: Enter Student Credentials</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <input type="text" id="stu-attempt-name" required placeholder="Your Full Name..." class="px-3 py-2 bg-white border rounded-xl text-xs font-semibold">
+                        <input type="text" id="stu-attempt-roll" required placeholder="Roll # (e.g. LLS-101)..." class="px-3 py-2 bg-white border rounded-xl text-xs font-semibold">
+                    </div>
+                </div>
+
                 <form onsubmit="submitStudentQuiz(event, ${q.id})" class="space-y-4">
             `;
 
@@ -785,7 +677,7 @@
             });
 
             html += `
-                    <button type="submit" class="w-full py-3.5 bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg mt-4">Submit Answers & Calculate Score</button>
+                    <button type="submit" class="w-full py-3.5 bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg mt-4">Submit Assignment & End Test</button>
                 </form>
             `;
 
@@ -800,16 +692,144 @@
             const q = quizzes.find(item => item.id === quizId);
             if(!q) return;
 
-            let score = 0;
+            const name = document.getElementById('stu-attempt-name').value;
+            const roll = document.getElementById('stu-attempt-roll').value;
+
+            if(!name || !roll) { alert('Please enter your Name and Roll Number first!'); return; }
+
+            let correctCount = 0;
             q.questions.forEach((item, index) => {
                 const selected = document.querySelector(`input[name="q_${index}"]:checked`);
                 if(selected && Number(selected.value) === item.correct) {
-                    score++;
+                    correctCount++;
                 }
             });
 
-            alert(`🎉 Test Submitted Successfully!\n\nYour Score: ${score} out of ${q.questions.length} Correct Answers.`);
-            closeAttemptQuizModal();
+            // Calculate scaled score based on Admin's Total Marks
+            const calculatedMarks = Math.round((correctCount / q.questions.length) * q.totalMarks);
+
+            // Record Submission for Admin
+            const timestamp = new Date().toLocaleString();
+            quizSubmissions.unshift({
+                quizId: q.id,
+                quizTitle: q.title,
+                studentRoll: roll,
+                studentName: name,
+                score: calculatedMarks,
+                totalMarks: q.totalMarks,
+                timestamp: timestamp
+            });
+
+            saveToLocalStorage();
+            renderAdminQuizResults();
+            renderDashboardStats();
+
+            // Clear quiz screen for student
+            document.getElementById('quiz-attempt-content').innerHTML = `
+                <div class="text-center py-8 space-y-3">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto"><i class="fa-solid fa-check"></i></div>
+                    <h3 class="text-2xl font-black text-navy-800">Test Submitted Successfully!</h3>
+                    <p class="text-xs text-slate-500 font-medium">Thank you <strong>${name}</strong> (${roll}). Your answers and results have been sent directly to the Admin portal.</p>
+                    <button onclick="closeAttemptQuizModal()" class="px-6 py-2.5 bg-navy-800 text-white font-extrabold text-xs rounded-xl shadow mt-4">Done & Close</button>
+                </div>
+            `;
+        }
+
+        function renderAdminQuizResults() {
+            const container = document.getElementById('admin-quiz-results-container');
+            if(!container) return;
+
+            if(quizSubmissions.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 italic">No student submissions recorded yet.</p>`;
+                return;
+            }
+
+            container.innerHTML = quizSubmissions.map(sub => `
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-black bg-navy-800 text-white px-2.5 py-0.5 rounded-lg">${sub.studentRoll}</span>
+                            <h4 class="font-extrabold text-sm text-navy-800">${sub.studentName}</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Quiz: <strong>${sub.quizTitle}</strong> | Time: ${sub.timestamp}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-extrabold text-slate-400">Obtained Score</span>
+                        <h3 class="text-lg font-black text-emerald-600">${sub.score} / ${sub.totalMarks} Marks</h3>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAddNoticeModal() { document.getElementById('modal-add-notice').classList.remove('hidden'); }
+        function closeAddNoticeModal() { document.getElementById('modal-add-notice').classList.add('hidden'); }
+
+        function handleAddNotice(e) {
+            e.preventDefault();
+            const title = document.getElementById('notice-title').value;
+            const target = document.getElementById('notice-target').value;
+            const desc = document.getElementById('notice-desc').value;
+            const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            notices.unshift({ id: Date.now(), title, target, desc, date });
+            saveToLocalStorage();
+            closeAddNoticeModal();
+            renderNotices();
+            document.getElementById('form-add-notice').reset();
+            alert('Notice published successfully!');
+        }
+
+        function renderNotices() {
+            const container = document.getElementById('notice-cards-container');
+            const dashPreview = document.getElementById('dash-notices-preview');
+
+            if(notices.length === 0) {
+                if(container) container.innerHTML = `<p class="text-xs text-slate-400">No notices posted yet.</p>`;
+                if(dashPreview) dashPreview.innerHTML = `<p class="text-xs text-slate-400 col-span-2">No active announcements.</p>`;
+                return;
+            }
+
+            if(container) {
+                container.innerHTML = notices.map(n => `
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover-lift flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-extrabold bg-navy-800 text-white px-3 py-1 rounded-full">${n.target}</span>
+                                <span class="text-xs text-slate-400 font-semibold">${n.date}</span>
+                            </div>
+                            <h3 class="font-extrabold text-lg text-navy-800 mt-2">${n.title}</h3>
+                            <p class="text-sm text-slate-600 mt-2 font-medium">${n.desc}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if(dashPreview) {
+                dashPreview.innerHTML = notices.slice(0, 2).map(n => `
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <span class="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-md">${n.target}</span>
+                        <h4 class="font-bold text-sm text-navy-800 mt-1.5">${n.title}</h4>
+                        <p class="text-xs text-slate-500 mt-1 line-clamp-2">${n.desc}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderStudentDirectory() {
+            const grid = document.getElementById('student-grid');
+            if(students.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400">No students found.</div>`;
+                return;
+            }
+            grid.innerHTML = students.map(s => `
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold bg-navy-800 text-white px-2.5 py-1 rounded-lg">${s.roll}</span>
+                        <h4 class="font-extrabold text-navy-800 text-base mt-2">${s.name}</h4>
+                        <p class="text-xs text-slate-500 font-semibold mt-1">${s.class} (${s.group})</p>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function openAddStudentModal() { document.getElementById('modal-add-student').classList.remove('hidden'); }
