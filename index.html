@@ -1,21 +1,997 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLS CRASH IT TRAINING PROGRAM - Official Firebase Live Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase App & Realtime Database SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDT9o68cOPIfQUcpypcx4EkEIrui12Ru2I",
-  authDomain: "lls-crash-training.firebaseapp.com",
-  projectId: "lls-crash-training",
-  storageBucket: "lls-crash-training.firebasestorage.app",
-  messagingSenderId: "770440863910",
-  appId: "1:770440863910:web:8baee7b93f934407a69467",
-  measurementId: "G-7W352ZL0NE"
-};
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#0B192C', 900: '#1E3E62' },
+                        emerald: { 500: '#10B981', 600: '#059669', 700: '#047857' }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        urdu: ['Noto Nastaliq Urdu', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+    <!-- Top Bar -->
+    <header class="bg-navy-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-emerald-500 text-white font-black text-xl px-3 py-2 rounded-xl shadow">LLS</div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-2xl font-extrabold tracking-tight text-white">LLS CRASH IT <span class="text-emerald-400">TRAINING PROGRAM</span></h1>
+                            <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">9th & 10th Grade</span>
+                        </div>
+                        <p class="text-xs text-slate-300 hidden sm:block">Lasani Lyceum School (لاسانی لیسیئم) — Firebase Live LMS Portal</p>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex space-x-1 text-sm font-semibold">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-4 py-2 rounded-lg text-emerald-400 bg-white/10 hover:bg-white/20 transition duration-150">Dashboard</button>
+                    <button onclick="requestAdminAccess('attendance')" id="nav-attendance" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">Attendance Sheet <span id="att-lock-icon">🔒</span></button>
+                    <button onclick="switchTab('students')" id="nav-students" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">Student Portal & Directory</button>
+                    <button onclick="switchTab('notices')" id="nav-notices" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">Notice Board</button>
+                </nav>
+
+                <div class="flex items-center space-x-2">
+                    <button id="admin-toggle-btn" onclick="openAdminAuthModal()" class="bg-navy-900 border border-slate-600 hover:bg-navy-800 text-slate-200 px-3 py-2 rounded-xl text-xs font-semibold transition">
+                        <span id="admin-status-text">Admin Login</span>
+                    </button>
+                    <button id="add-student-nav-btn" onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition hidden">
+                        + Add Student
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden bg-navy-900 border-t border-slate-700 px-4 py-2 flex justify-around text-xs font-bold">
+            <button onclick="switchTab('dashboard')" class="text-emerald-400 py-1">Dashboard</button>
+            <button onclick="requestAdminAccess('attendance')" class="text-slate-300 py-1">Attendance</button>
+            <button onclick="switchTab('students')" class="text-slate-300 py-1">Directory</button>
+            <button onclick="switchTab('notices')" class="text-slate-300 py-1">Notices</button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- DASHBOARD TAB -->
+        <div id="tab-dashboard" class="space-y-8">
+            <div class="relative bg-gradient-to-r from-navy-900 via-navy-800 to-slate-900 text-white rounded-3xl p-8 overflow-hidden shadow-xl border border-slate-700/50">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-emerald-500/30">
+                        Lasani Lyceum (لاسانی لیسیئم) Firebase Live Coaching Program
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 leading-tight">
+                        Empowering 9th & 10th Class Students with Python, Coding, Web Designing & Computer Science
+                    </h2>
+                    <p class="text-slate-300 mt-2 text-sm sm:text-base leading-relaxed">
+                        Real-time Firebase synchronized portal. Admins manage live attendance and test grades; students view live records instantly.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-4">
+                        <button onclick="requestAdminAccess('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition">Admin Attendance Panel 🔒</button>
+                        <button onclick="switchTab('students')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur transition border border-white/20">Student Performance Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Enrolled</p>
+                        <h3 class="text-3xl font-extrabold text-navy-800 mt-1" id="dash-total-students">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Present Today</p>
+                        <h3 class="text-3xl font-extrabold text-emerald-600 mt-1" id="dash-present-count">0</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1" id="dash-present-percent">0% Attendance</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Absent Today</p>
+                        <h3 class="text-3xl font-extrabold text-rose-500 mt-1" id="dash-absent-count">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Tracks</p>
+                        <h3 class="text-3xl font-extrabold text-indigo-600 mt-1">4</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Python, Coding, Web, CS</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg text-navy-800">Latest Announcements / نوٹس بورڈ</h3>
+                    <button onclick="switchTab('notices')" class="text-sm text-emerald-600 font-semibold hover:underline">View All Notices</button>
+                </div>
+                <div id="dash-notice-preview" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- ATTENDANCE TAB (ADMIN ONLY) -->
+        <div id="tab-attendance" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-navy-800">
+                        Live Attendance Sheet <span class="ml-2 text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">Firebase Connected</span>
+                    </h2>
+                    <p class="text-sm text-slate-500">Manage daily presence for Class 9th and 10th students.</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Select Date</label>
+                        <input type="date" id="attendance-date" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Actions</label>
+                        <div class="flex gap-2">
+                            <button onclick="markAllStatus('Present')" class="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-3 py-2 rounded-xl text-xs font-bold transition">All Present</button>
+                            <button onclick="exportAttendanceSummary()" class="bg-navy-800 text-white hover:bg-navy-900 px-4 py-2 rounded-xl text-xs font-bold shadow transition">Export Summary</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="bg-slate-800 text-white p-4 rounded-xl text-center"><span class="text-xs uppercase font-bold text-slate-400">Total Filtered</span><p class="text-2xl font-black mt-0.5" id="att-count-total">0</p></div>
+                <div class="bg-emerald-600 text-white p-4 rounded-xl text-center"><span class="text-xs uppercase font-bold text-emerald-200">Present</span><p class="text-2xl font-black mt-0.5" id="att-count-present">0</p></div>
+                <div class="bg-rose-600 text-white p-4 rounded-xl text-center"><span class="text-xs uppercase font-bold text-rose-200">Absent</span><p class="text-2xl font-black mt-0.5" id="att-count-absent">0</p></div>
+                <div class="bg-amber-500 text-white p-4 rounded-xl text-center"><span class="text-xs uppercase font-bold text-amber-100">Leave</span><p class="text-2xl font-black mt-0.5" id="att-count-leave">0</p></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="att-search" oninput="renderAttendanceList()" placeholder="Search by name or roll no..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl w-full md:w-auto overflow-x-auto">
+                    <button onclick="filterAttendanceClass('All')" id="btn-class-all" class="px-4 py-1.5 text-xs font-bold rounded-lg bg-white text-navy-800 shadow-sm">All Classes</button>
+                    <button onclick="filterAttendanceClass('9th Class')" id="btn-class-9th" class="px-4 py-1.5 text-xs font-bold rounded-lg text-slate-600">9th Class</button>
+                    <button onclick="filterAttendanceClass('10th Class')" id="btn-class-10th" class="px-4 py-1.5 text-xs font-bold rounded-lg text-slate-600">10th Class</button>
+                </div>
+                <div class="flex items-center space-x-2 text-xs font-semibold text-slate-500 w-full md:w-auto">
+                    <span>Status:</span>
+                    <select id="att-status-filter" onchange="renderAttendanceList()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-none">
+                        <option value="All">All Statuses</option>
+                        <option value="Present">Present Only</option>
+                        <option value="Absent">Absent Only</option>
+                        <option value="Leave">Leave Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Roll #</th>
+                                <th class="py-3.5 px-4">Student Name</th>
+                                <th class="py-3.5 px-4">Class</th>
+                                <th class="py-3.5 px-4">Subject Track</th>
+                                <th class="py-3.5 px-4 text-center">Attendance Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-tbody" class="divide-y divide-slate-100 text-sm"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- STUDENT DIRECTORY & GRADING -->
+        <div id="tab-students" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Student Directory & Performance Portal</h2>
+                    <p class="text-sm text-slate-500">Search roll number or name to view records live from Firebase.</p>
+                </div>
+                <button id="add-student-btn-el" onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition hidden">
+                    + Enroll New Student
+                </button>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full sm:w-80">
+                    <input type="text" id="directory-search" oninput="renderStudentDirectory()" placeholder="Search by name or roll no..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="flex items-center space-x-2 text-xs font-semibold">
+                    <span class="text-slate-500">Filter Class:</span>
+                    <select id="directory-class-filter" onchange="renderStudentDirectory()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none">
+                        <option value="All">All Grades</option>
+                        <option value="9th Class">9th Class</option>
+                        <option value="10th Class">10th Class</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="student-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+        </div>
+
+        <!-- NOTICE BOARD -->
+        <div id="tab-notices" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Coaching Announcements & Notice Board</h2>
+                    <p class="text-sm text-slate-500">Real-time announcements synced via Firebase.</p>
+                </div>
+                <button id="add-notice-btn-el" onclick="openAddNoticeModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition hidden">
+                    + Post New Notice
+                </button>
+            </div>
+            <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </div>
+
+    </main>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="modal-admin-auth" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl relative text-center">
+            <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 font-bold">✕</button>
+            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">🔒</div>
+            <h3 class="text-xl font-bold text-navy-800 mb-1">Super Admin Login</h3>
+            <p class="text-xs text-slate-500 mb-5">Enter password to unlock administrative controls.</p>
+            <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
+                <input type="password" id="admin-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-center tracking-widest font-bold focus:outline-none">
+                <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-sm shadow transition">Verify & Unlock</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MONTHLY PERFORMANCE SLIP MODAL -->
+    <div id="modal-performance" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closePerformanceModal()" class="absolute top-5 right-5 text-slate-400 font-bold">✕</button>
+            <div id="performance-slip-content" class="space-y-4"></div>
+            <div class="mt-6 flex justify-end gap-2">
+                <button onclick="window.print()" class="px-4 py-2.5 bg-navy-800 text-white font-bold text-xs rounded-xl">Print Slip</button>
+                <button onclick="closePerformanceModal()" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div id="modal-certificate" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative text-center">
+            <button onclick="closeCertificateModal()" class="absolute top-5 right-5 text-slate-400 font-bold">✕</button>
+            <div id="certificate-content" class="py-4"></div>
+            <div class="mt-4 flex justify-center gap-3">
+                <button onclick="window.print()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold text-xs rounded-xl">Download Certificate</button>
+                <button onclick="closeCertificateModal()" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD STUDENT MODAL -->
+    <div id="modal-add-student" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAddStudentModal()" class="absolute top-5 right-5 text-slate-400 font-bold">✕</button>
+            <h3 class="text-xl font-bold text-navy-800 mb-1">Add New Student (Firebase Live)</h3>
+            <p class="text-xs text-slate-500 mb-5">Register student synced in real-time.</p>
+            <form id="form-add-student" onsubmit="handleAddStudent(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Full Student Name</label>
+                    <input type="text" id="new-name" required placeholder="e.g. Farhan Ali" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Custom Roll Number</label>
+                        <input type="text" id="new-rollno" required placeholder="e.g. LLS-901" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Class Grade</label>
+                        <select id="new-class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                            <option value="9th Class">9th Class</option>
+                            <option value="10th Class">10th Class</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Subject Track</label>
+                        <select id="new-group" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                            <option value="Python & Coding">Python & Coding</option>
+                            <option value="Web Designing">Web Designing</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Logic & IT Skills">Logic & IT Skills</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Upload Profile Picture</label>
+                        <input type="file" id="new-photo" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:bg-emerald-50 file:text-emerald-700">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Guardian Phone</label>
+                    <input type="text" id="new-phone" placeholder="0300-1234567" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeAddStudentModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-500 rounded-xl shadow">Save Live</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- GRADING MODAL -->
+    <div id="modal-grading" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeGradingModal()" class="absolute top-5 right-5 text-slate-400 font-bold">✕</button>
+            <h3 class="text-xl font-bold text-navy-800 mb-1" id="grading-modal-title">Enter Test Marks</h3>
+            <p class="text-xs text-slate-500 mb-5" id="grading-modal-subtitle">Update marks instantly synced to Firebase.</p>
+            <form id="form-grading" onsubmit="handleSaveGrading(event)" class="space-y-4">
+                <input type="hidden" id="grade-student-id">
+                <input type="hidden" id="grade-test-type">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Obtained Marks</label>
+                    <input type="number" id="grade-obtained" required min="0" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Total Marks</label>
+                    <input type="number" id="grade-total" required min="1" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeGradingModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-500 rounded-xl shadow">Save Marks</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADD NOTICE MODAL -->
+    <div id="modal-add-notice" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAddNoticeModal()" class="absolute top-5 right-5 text-slate-400 font-bold">✕</button>
+            <h3 class="text-xl font-bold text-navy-800 mb-1">Post Live Announcement</h3>
+            <form id="form-add-notice" onsubmit="handleAddNotice(event)" class="space-y-4 mt-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Title</label>
+                    <input type="text" id="notice-title" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Target</label>
+                    <select id="notice-target" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                        <option value="All Students">All Students</option>
+                        <option value="9th Class">9th Class</option>
+                        <option value="10th Class">10th Class</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Description</label>
+                    <textarea id="notice-desc" rows="3" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeAddNoticeModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-navy-800 rounded-xl shadow">Publish Live</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FIREBASE REALTIME JAVASCRIPT LOGIC -->
+    <script>
+        // ==========================================
+        // FIREBASE CONFIGURATION (اپنی فائر بیس کنفیگریشن یہاں درج کریں)
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let isAdminAuthenticated = localStorage.getItem('lls_admin_auth') === 'true';
+        let pendingActionTab = null;
+
+        let students = [];
+        let notices = [];
+        let attendanceRecords = {};
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('attendance-date');
+            if(dateInput) {
+                dateInput.value = todayStr;
+                dateInput.addEventListener('change', () => renderAttendanceList());
+            }
+
+            updateAdminUIState();
+            switchTab('dashboard');
+
+            // --- REAL-TIME LISTENERS FROM FIREBASE ---
+            db.ref('students').on('value', (snapshot) => {
+                const data = snapshot.val();
+                students = data ? Object.values(data) : [];
+                renderAll();
+            });
+
+            db.ref('notices').on('value', (snapshot) => {
+                const data = snapshot.val();
+                notices = data ? Object.values(data) : [];
+                renderAll();
+            });
+
+            db.ref('attendance').on('value', (snapshot) => {
+                attendanceRecords = snapshot.val() || {};
+                renderAll();
+            });
+        });
+
+        function switchTab(tabId) {
+            ['dashboard', 'attendance', 'students', 'notices'].forEach(id => {
+                const el = document.getElementById(`tab-${id}`);
+                if(el) el.classList.add('hidden');
+            });
+
+            const target = document.getElementById(`tab-${tabId}`);
+            if(target) target.classList.remove('hidden');
+
+            ['dashboard', 'attendance', 'students', 'notices'].forEach(id => {
+                const btn = document.getElementById(`nav-${id}`);
+                if(btn) {
+                    if(id === tabId) {
+                        btn.className = "px-4 py-2 rounded-lg text-emerald-400 bg-white/10 font-bold transition duration-150";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150";
+                    }
+                }
+            });
+
+            if(tabId === 'attendance') {
+                if(!isAdminAuthenticated) {
+                    alert('Admin authentication required to access attendance sheet.');
+                    switchTab('dashboard');
+                    return;
+                }
+                renderAttendanceList();
+            } else if(tabId === 'students') {
+                renderStudentDirectory();
+            } else if(tabId === 'notices') {
+                renderNoticeBoard();
+            } else if(tabId === 'dashboard') {
+                renderDashboardStats();
+            }
+        }
+
+        function requestAdminAccess(targetTab) {
+            if(isAdminAuthenticated) {
+                switchTab(targetTab);
+            } else {
+                pendingActionTab = targetTab;
+                openAdminAuthModal();
+            }
+        }
+
+        function openAdminAuthModal() {
+            document.getElementById('modal-admin-auth').classList.remove('hidden');
+            document.getElementById('admin-password-input').value = '';
+            document.getElementById('admin-password-input').focus();
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('modal-admin-auth').classList.add('hidden');
+            pendingActionTab = null;
+        }
+
+        function verifyAdminPassword(e) {
+            e.preventDefault();
+            const val = document.getElementById('admin-password-input').value.trim();
+            if(val === 'LLL123') {
+                isAdminAuthenticated = true;
+                localStorage.setItem('lls_admin_auth', 'true');
+                updateAdminUIState();
+                closeAdminAuthModal();
+                alert('Admin Mode Unlocked!');
+                if(pendingActionTab) {
+                    switchTab(pendingActionTab);
+                    pendingActionTab = null;
+                } else {
+                    switchTab('attendance');
+                }
+                renderAll();
+            } else {
+                alert('Incorrect Admin Password!');
+            }
+        }
+
+        function updateAdminUIState() {
+            const statusTxt = document.getElementById('admin-status-text');
+            const toggleBtn = document.getElementById('admin-toggle-btn');
+            const addStudBtn = document.getElementById('add-student-nav-btn');
+            const addStudDirBtn = document.getElementById('add-student-btn-el');
+            const addNoticeBtn = document.getElementById('add-notice-btn-el');
+            const lockIcon = document.getElementById('att-lock-icon');
+
+            if(isAdminAuthenticated) {
+                statusTxt.innerText = "Admin Unlocked";
+                toggleBtn.className = "bg-emerald-600 border border-emerald-500 text-white px-3 py-2 rounded-xl text-xs font-semibold transition";
+                if(addStudBtn) addStudBtn.classList.remove('hidden');
+                if(addStudDirBtn) addStudDirBtn.classList.remove('hidden');
+                if(addNoticeBtn) addNoticeBtn.classList.remove('hidden');
+                if(lockIcon) lockIcon.innerText = "🔓";
+            } else {
+                statusTxt.innerText = "Admin Login";
+                toggleBtn.className = "bg-navy-900 border border-slate-600 hover:bg-navy-800 text-slate-200 px-3 py-2 rounded-xl text-xs font-semibold transition";
+                if(addStudBtn) addStudBtn.classList.add('hidden');
+                if(addStudDirBtn) addStudDirBtn.classList.add('hidden');
+                if(addNoticeBtn) addNoticeBtn.classList.add('hidden');
+                if(lockIcon) lockIcon.innerText = "🔒";
+            }
+        }
+
+        function renderAll() {
+            renderDashboardStats();
+            renderDashboardNotices();
+            renderStudentDirectory();
+            renderNoticeBoard();
+        }
+
+        function renderDashboardStats() {
+            document.getElementById('dash-total-students').innerText = students.length;
+            const dateStr = document.getElementById('attendance-date')?.value || new Date().toISOString().split('T')[0];
+            const dayRecs = attendanceRecords[dateStr] || {};
+
+            let presentCount = 0;
+            let absentCount = 0;
+
+            students.forEach(s => {
+                const status = dayRecs[s.id] || 'Present';
+                if(status === 'Present') presentCount++;
+                else if(status === 'Absent') absentCount++;
+            });
+
+            document.getElementById('dash-present-count').innerText = presentCount;
+            document.getElementById('dash-absent-count').innerText = absentCount;
+            const pct = students.length > 0 ? Math.round((presentCount / students.length) * 100) : 0;
+            document.getElementById('dash-present-percent').innerText = `${pct}% Attendance Today`;
+        }
+
+        function renderDashboardNotices() {
+            const container = document.getElementById('dash-notice-preview');
+            if(!container) return;
+            container.innerHTML = '';
+            notices.slice(0, 2).forEach(n => {
+                container.innerHTML += `
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">${n.target}</span>
+                            <span class="text-xs text-slate-400">${n.date}</span>
+                        </div>
+                        <h4 class="font-bold text-navy-800 text-sm">${n.title}</h4>
+                        <p class="text-xs text-slate-600 mt-1 line-clamp-2">${n.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        let currentClassFilter = 'All';
+
+        function filterAttendanceClass(cls) {
+            currentClassFilter = cls;
+            renderAttendanceList();
+        }
+
+        function renderAttendanceList() {
+            if(!isAdminAuthenticated) return;
+            const tbody = document.getElementById('attendance-tbody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            const dateStr = document.getElementById('attendance-date').value;
+            if(!attendanceRecords[dateStr]) attendanceRecords[dateStr] = {};
+            const dayRecs = attendanceRecords[dateStr];
+
+            const search = document.getElementById('att-search').value.toLowerCase();
+            const statusFilter = document.getElementById('att-status-filter').value;
+
+            let filtered = students.filter(s => {
+                const matchClass = (currentClassFilter === 'All' || s.classGrade === currentClassFilter);
+                const matchSearch = s.name.toLowerCase().includes(search) || s.rollNo.toLowerCase().includes(search);
+                const currentStatus = dayRecs[s.id] || 'Present';
+                const matchStatus = (statusFilter === 'All' || currentStatus === statusFilter);
+                return matchClass && matchSearch && matchStatus;
+            });
+
+            let tCount = filtered.length;
+            let pCount = 0, aCount = 0, lCount = 0;
+
+            filtered.forEach(s => {
+                const st = dayRecs[s.id] || 'Present';
+                if(st === 'Present') pCount++;
+                else if(st === 'Absent') aCount++;
+                else if(st === 'Leave') lCount++;
+
+                const avatar = s.photo ? `<img src="${s.photo}" class="w-10 h-10 rounded-full object-cover border">` : `<div class="w-10 h-10 rounded-full bg-navy-800 text-white flex items-center justify-center font-bold text-xs">${s.name.charAt(0)}</div>`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="py-3 px-4 font-bold text-navy-800 text-xs">${s.rollNo}</td>
+                        <td class="py-3 px-4 flex items-center space-x-3">
+                            ${avatar}
+                            <div>
+                                <span class="font-bold text-slate-800 block">${s.name}</span>
+                                <span class="text-xs text-slate-500">${s.phone || 'N/A'}</span>
+                            </div>
+                        </td>
+                        <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full font-semibold">${s.classGrade}</span></td>
+                        <td class="py-3 px-4 text-xs font-medium text-slate-600">${s.group}</td>
+                        <td class="py-3 px-4 text-center">
+                            <div class="inline-flex rounded-xl p-1 bg-slate-100 space-x-1">
+                                <button onclick="setAttendanceStatus(${s.id}, 'Present')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${st === 'Present' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600'}">Present</button>
+                                <button onclick="setAttendanceStatus(${s.id}, 'Absent')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${st === 'Absent' ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-600'}">Absent</button>
+                                <button onclick="setAttendanceStatus(${s.id}, 'Leave')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${st === 'Leave' ? 'bg-amber-500 text-white shadow-sm' : 'text-slate-600'}">Leave</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('att-count-total').innerText = tCount;
+            document.getElementById('att-count-present').innerText = pCount;
+            document.getElementById('att-count-absent').innerText = aCount;
+            document.getElementById('att-count-leave').innerText = lCount;
+            renderDashboardStats();
+        }
+
+        function setAttendanceStatus(studentId, status) {
+            const dateStr = document.getElementById('attendance-date').value;
+            db.ref(`attendance/${dateStr}/${studentId}`).set(status);
+        }
+
+        function markAllStatus(status) {
+            const dateStr = document.getElementById('attendance-date').value;
+            let updates = {};
+            students.forEach(s => {
+                if(currentClassFilter === 'All' || s.classGrade === currentClassFilter) {
+                    updates[s.id] = status;
+                }
+            });
+            db.ref(`attendance/${dateStr}`).update(updates);
+            alert(`Marked all filtered students as ${status} live on Firebase!`);
+        }
+
+        function exportAttendanceSummary() {
+            const dateStr = document.getElementById('attendance-date').value;
+            const dayRecs = attendanceRecords[dateStr] || {};
+            let text = `--- LLS CRASH IT TRAINING ATTENDANCE SUMMARY (${dateStr}) ---\n\n`;
+            students.forEach(s => {
+                text += `${s.rollNo} | ${s.name} (${s.classGrade}) - ${dayRecs[s.id] || 'Present'}\n`;
+            });
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Attendance_${dateStr}.txt`;
+            a.click();
+        }
+
+        function renderStudentDirectory() {
+            const grid = document.getElementById('student-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            const search = document.getElementById('directory-search').value.toLowerCase();
+            const classFilter = document.getElementById('directory-class-filter').value;
+
+            let filtered = students.filter(s => {
+                const matchClass = (classFilter === 'All' || s.classGrade === classFilter);
+                const matchSearch = s.name.toLowerCase().includes(search) || s.rollNo.toLowerCase().includes(search) || s.group.toLowerCase().includes(search);
+                return matchClass && matchSearch;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 font-medium">No students found. Type your Roll Number or Name to search.</div>`;
+                return;
+            }
+
+            filtered.forEach(s => {
+                const avatar = s.photo ? `<img src="${s.photo}" class="w-14 h-14 rounded-2xl object-cover border shadow-sm">` : `<div class="w-14 h-14 rounded-2xl bg-navy-800 text-white flex items-center justify-center font-bold text-lg">${s.name.charAt(0)}</div>`;
+                
+                let totalObt = 0, totalMax = 0;
+                (s.weeklyTests || []).forEach(t => { totalObt += t.obtained; totalMax += t.total; });
+                const weeklyPct = totalMax > 0 ? Math.round((totalObt / totalMax) * 100) : 0;
+                const grandObt = s.grandTest ? s.grandTest.obtained : 0;
+                const grandTotal = s.grandTest ? s.grandTest.total : 100;
+
+                let adminButtonsHTML = isAdminAuthenticated ? `
+                    <div class="flex gap-1">
+                        <button onclick="openGradingModal(${s.id}, 'weekly')" class="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 text-navy-800 font-bold text-[11px] rounded-lg transition">Add Test</button>
+                        <button onclick="openGradingModal(${s.id}, 'grand')" class="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 text-navy-800 font-bold text-[11px] rounded-lg transition">Grand Test</button>
+                    </div>
+                ` : '';
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                        <div>
+                            <div class="flex items-center space-x-3 mb-3">
+                                ${avatar}
+                                <div>
+                                    <span class="text-xs font-extrabold bg-navy-800 text-white px-2 py-0.5 rounded-md">${s.rollNo}</span>
+                                    <h3 class="font-bold text-navy-800 text-base mt-1">${s.name}</h3>
+                                </div>
+                            </div>
+                            <div class="space-y-1 text-xs text-slate-500 mb-4">
+                                <p><span class="font-semibold text-slate-700">Class:</span> ${s.classGrade}</p>
+                                <p><span class="font-semibold text-slate-700">Track:</span> ${s.group}</p>
+                                <p><span class="font-semibold text-slate-700">Weekly Tests Avg:</span> <strong class="text-emerald-600">${weeklyPct}%</strong></p>
+                                <p><span class="font-semibold text-slate-700">Grand Test:</span> <strong class="text-indigo-600">${grandObt}/${grandTotal}</strong></p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 pt-3 border-t border-slate-100">
+                            ${adminButtonsHTML}
+                            <div class="flex gap-1">
+                                <button onclick="openPerformanceSlip(${s.id})" class="flex-1 py-1.5 bg-navy-800 hover:bg-navy-900 text-white font-bold text-[11px] rounded-lg transition">Monthly Slip</button>
+                                <button onclick="openCertificate(${s.id})" class="flex-1 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] rounded-lg transition">Certificate</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openAddStudentModal() {
+            if(!isAdminAuthenticated) return;
+            document.getElementById('modal-add-student').classList.remove('hidden');
+        }
+        function closeAddStudentModal() {
+            document.getElementById('modal-add-student').classList.add('hidden');
+            document.getElementById('form-add-student').reset();
+        }
+
+        function handleAddStudent(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-name').value.trim();
+            const rollNo = document.getElementById('new-rollno').value.trim();
+            const classGrade = document.getElementById('new-class').value;
+            const group = document.getElementById('new-group').value;
+            const phone = document.getElementById('new-phone').value.trim() || '0300-0000000';
+            const fileInput = document.getElementById('new-photo');
+
+            const newId = Date.now();
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveStudentToFirebase(newId, rollNo, name, classGrade, group, phone, e.target.result);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveStudentToFirebase(newId, rollNo, name, classGrade, group, phone, "");
+            }
+        }
+
+        function saveStudentToFirebase(id, rollNo, name, classGrade, group, phone, photo) {
+            const studentObj = {
+                id: id,
+                rollNo: rollNo,
+                name: name,
+                classGrade: classGrade,
+                group: group,
+                phone: phone,
+                photo: photo,
+                weeklyTests: [{obtained: 40, total: 50}],
+                grandTest: {obtained: 85, total: 100}
+            };
+            db.ref(`students/${id}`).set(studentObj);
+            closeAddStudentModal();
+            alert(`Student ${name} successfully enrolled live on Firebase!`);
+        }
+
+        function openGradingModal(studentId, type) {
+            if(!isAdminAuthenticated) return;
+            document.getElementById('modal-grading').classList.remove('hidden');
+            document.getElementById('grade-student-id').value = studentId;
+            document.getElementById('grade-test-type').value = type;
+            document.getElementById('grading-modal-title').innerText = type === 'weekly' ? "Add Weekly Test Marks" : "Enter Grand Test Marks";
+            document.getElementById('grade-obtained').value = '';
+            document.getElementById('grade-total').value = type === 'weekly' ? '50' : '100';
+        }
+        function closeGradingModal() {
+            document.getElementById('modal-grading').classList.add('hidden');
+        }
+        function handleSaveGrading(e) {
+            e.preventDefault();
+            const studentId = parseInt(document.getElementById('grade-student-id').value);
+            const type = document.getElementById('grade-test-type').value;
+            const obt = parseFloat(document.getElementById('grade-obtained').value);
+            const tot = parseFloat(document.getElementById('grade-total').value);
+
+            const s = students.find(item => item.id === studentId);
+            if(s) {
+                if(type === 'weekly') {
+                    if(!s.weeklyTests) s.weeklyTests = [];
+                    s.weeklyTests.push({ obtained: obt, total: tot });
+                } else {
+                    s.grandTest = { obtained: obt, total: tot };
+                }
+                db.ref(`students/${studentId}`).set(s);
+                closeGradingModal();
+                alert('Test marks saved live on Firebase!');
+            }
+        }
+
+        function openPerformanceSlip(studentId) {
+            const s = students.find(item => item.id === studentId);
+            if(!s) return;
+            const modal = document.getElementById('modal-performance');
+            const content = document.getElementById('performance-slip-content');
+
+            let totalDays = 0, presentDays = 0, absentDays = 0;
+            Object.keys(attendanceRecords).forEach(date => {
+                const rec = attendanceRecords[date][s.id];
+                if(rec) {
+                    totalDays++;
+                    if(rec === 'Present') presentDays++;
+                    else if(rec === 'Absent') absentDays++;
+                }
+            });
+            if(totalDays === 0) totalDays = 1;
+            const attPct = Math.round((presentDays / totalDays) * 100);
+
+            let weeklyHTML = '';
+            let totalObtTests = 0, totalMaxTests = 0;
+            (s.weeklyTests || []).forEach((t, idx) => {
+                totalObtTests += t.obtained;
+                totalMaxTests += t.total;
+                weeklyHTML += `<div class="flex justify-between items-center py-1 border-b border-slate-100 text-xs"><span>Test #${idx+1}</span><strong>${t.obtained} / ${t.total}</strong></div>`;
+            });
+            const weeklyAvg = totalMaxTests > 0 ? Math.round((totalObtTests / totalMaxTests) * 100) : 0;
+            const grandObt = s.grandTest ? s.grandTest.obtained : 0;
+            const grandTot = s.grandTest ? s.grandTest.total : 100;
+            const grandPct = Math.round((grandObt / grandTot) * 100);
+            
+            const overallScore = Math.round((weeklyAvg + grandPct) / 2);
+            let grade = overallScore >= 85 ? 'A+' : overallScore >= 75 ? 'A' : overallScore >= 60 ? 'B' : overallScore >= 50 ? 'C' : 'F';
+            let status = overallScore >= 50 ? 'PASS (Outstanding Performance)' : 'FAIL (Requires Improvement)';
+
+            const avatar = s.photo ? `<img src="${s.photo}" class="w-16 h-16 rounded-2xl object-cover border shadow">` : `<div class="w-16 h-16 rounded-2xl bg-navy-800 text-white flex items-center justify-center font-bold text-2xl">${s.name.charAt(0)}</div>`;
+
+            content.innerHTML = `
+                <div class="text-center border-b border-slate-200 pb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-navy-800">LASANI LYCEUM SCHOOL (لاسانی لیسیئم)</h2>
+                        <p class="text-xs text-slate-500">Firebase Live Evaluation Slip</p>
+                    </div>
+                    ${avatar}
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl">
+                    <div><span class="text-slate-400 block">Student Name:</span><strong class="text-navy-800 text-sm">${s.name}</strong></div>
+                    <div><span class="text-slate-400 block">Roll Number:</span><strong class="text-navy-800 text-sm">${s.rollNo}</strong></div>
+                    <div><span class="text-slate-400 block">Class Grade:</span><strong class="text-slate-700">${s.classGrade}</strong></div>
+                    <div><span class="text-slate-400 block">Subject Track:</span><strong class="text-indigo-600">${s.group}</strong></div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-bold text-xs uppercase text-slate-400">Attendance Summary</h4>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="bg-emerald-50 p-2.5 rounded-xl"><span class="text-slate-500 block">Present</span><strong class="text-emerald-700 text-sm">${presentDays} Days</strong></div>
+                        <div class="bg-rose-50 p-2.5 rounded-xl"><span class="text-slate-500 block">Absent</span><strong class="text-rose-700 text-sm">${absentDays} Days</strong></div>
+                        <div class="bg-blue-50 p-2.5 rounded-xl"><span class="text-slate-500 block">Rate</span><strong class="text-blue-700 text-sm">${attPct}%</strong></div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase text-slate-400">Weekly Tests & Assignments</h4>
+                    <div class="bg-slate-50 p-3 rounded-xl max-h-32 overflow-y-auto space-y-1">${weeklyHTML}</div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase text-slate-400">Grand Assessment</h4>
+                    <div class="flex justify-between items-center p-3 bg-indigo-50 rounded-xl text-xs font-bold text-indigo-900">
+                        <span>Grand Score</span><span>${grandObt} / ${grandTot} (${grandPct}%)</span>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-slate-200 flex justify-between items-center text-xs">
+                    <span>Grade: <strong class="text-emerald-600 text-sm">${grade}</strong></span>
+                    <span>Status: <strong class="text-navy-800">${status}</strong></span>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+        function closePerformanceModal() { document.getElementById('modal-performance').classList.add('hidden'); }
+
+        function openCertificate(studentId) {
+            const s = students.find(item => item.id === studentId);
+            if(!s) return;
+            const modal = document.getElementById('modal-certificate');
+            const content = document.getElementById('certificate-content');
+
+            content.innerHTML = `
+                <div class="border-8 border-double border-navy-800 p-8 rounded-3xl bg-amber-50/40">
+                    <h1 class="text-2xl font-black text-navy-900">LASANI LYCEUM SCHOOL (لاسانی لیسیئم)</h1>
+                    <p class="text-xs font-bold tracking-widest text-emerald-600 uppercase mt-1">Live Coaching Certificate</p>
+                    <p class="text-xs text-slate-500 mt-6">Proudly presented to</p>
+                    <h2 class="text-3xl font-extrabold text-navy-800 font-serif my-2">${s.name}</h2>
+                    <p class="text-xs text-slate-600 max-w-md mx-auto">for successfully completing professional training in <strong class="text-indigo-600">${s.group}</strong>.</p>
+                    <div class="flex justify-between items-center mt-12 pt-6 border-t border-slate-300 text-xs">
+                        <div class="text-center"><p class="font-bold text-navy-800">Farhan Ahmed</p><p class="text-[10px] text-slate-500">IT Department</p></div>
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xs">LLS</div>
+                        <div class="text-center"><p class="font-bold text-navy-800">October 2026</p><p class="text-[10px] text-slate-500">Issue Date</p></div>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+        function closeCertificateModal() { document.getElementById('modal-certificate').classList.add('hidden'); }
+
+        function renderNoticeBoard() {
+            const container = document.getElementById('notice-cards-container');
+            if(!container) return;
+            container.innerHTML = '';
+            notices.forEach(n => {
+                let deleteBtn = isAdminAuthenticated ? `<button onclick="deleteNotice('${n.id}')" class="text-xs font-bold text-rose-500">Delete</button>` : '';
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full">${n.target}</span>
+                                <span class="text-xs text-slate-400">${n.date}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-navy-800">${n.title}</h3>
+                            <p class="text-sm text-slate-600 mt-2">${n.desc}</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-xs text-slate-400">Lasani Lyceum Administration</span>
+                            ${deleteBtn}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openAddNoticeModal() {
+            if(!isAdminAuthenticated) return;
+            document.getElementById('modal-add-notice').classList.remove('hidden');
+        }
+        function closeAddNoticeModal() { document.getElementById('modal-add-notice').classList.add('hidden'); }
+
+        function handleAddNotice(e) {
+            e.preventDefault();
+            const title = document.getElementById('notice-title').value.trim();
+            const target = document.getElementById('notice-target').value;
+            const desc = document.getElementById('notice-desc').value.trim();
+            const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            const id = Date.now();
+
+            db.ref(`notices/${id}`).set({ id, title, target, desc, date: dateStr });
+            closeAddNoticeModal();
+            alert('Notice posted live on Firebase!');
+        }
+
+        function deleteNotice(id) {
+            if(!isAdminAuthenticated) return;
+            if(confirm('Delete notice?')) {
+                db.ref(`notices/${id}`).remove();
+            }
+        }
+    </script>
+</body>
+</html>
