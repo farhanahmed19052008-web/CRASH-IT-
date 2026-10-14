@@ -47,7 +47,7 @@
                             <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">LLS CRASH IT <span class="text-emerald-400">TRAINING</span></h1>
                             <span class="hidden sm:inline bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/30">Official Portal</span>
                         </div>
-                        <p class="text-xs text-slate-300 hidden sm:block font-medium">Lasani Lyceum School (لاسانی لیسیئم) — Online MCQs & Attendance</p>
+                        <p class="text-xs text-slate-300 hidden sm:block font-medium">Lasani Lyceum School (لاسانی لیسیئم) — Advanced Attendance & MCQs</p>
                     </div>
                 </div>
 
@@ -117,14 +117,14 @@
                         Empowering Students with Practical Python & Web Design
                     </h2>
                     <p class="text-slate-300 mt-3 text-sm sm:text-base leading-relaxed font-normal">
-                        Official Portal to track Attendance, Online MCQs Quizzes, Weekly Tests, and Performance Slips.
+                        Official Portal to track Date-wise Attendance Records, Monthly Reports, and Online MCQs Quizzes.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-4">
-                        <button onclick="switchTab('quizzes')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition hover:scale-105 flex items-center">
-                            <i class="fa-solid fa-laptop-code mr-2"></i> Attempt Online MCQs Tests
+                        <button onclick="switchTab('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition hover:scale-105 flex items-center">
+                            <i class="fa-solid fa-clipboard-user mr-2"></i> Manage Attendance & Save Records
                         </button>
-                        <button onclick="switchTab('students')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-xl backdrop-blur transition border border-white/20">
-                            Student Directory & Slips
+                        <button onclick="switchTab('quizzes')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-xl backdrop-blur transition border border-white/20">
+                            Attempt Online Tests
                         </button>
                     </div>
                 </div>
@@ -141,10 +141,10 @@
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover-lift flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Present Today</p>
-                        <h3 class="text-3xl font-black text-emerald-600 mt-1" id="dash-present-count">0</h3>
+                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Saved Records</p>
+                        <h3 class="text-3xl font-black text-emerald-600 mt-1" id="dash-saved-records">0</h3>
                     </div>
-                    <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-calendar-check"></i></div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover-lift flex items-center justify-between">
                     <div>
@@ -163,6 +163,53 @@
             </div>
         </div>
 
+        <!-- ATTENDANCE TAB WITH SAVE & MONTHLY HISTORY -->
+        <div id="tab-attendance" class="hidden space-y-6 animate-fade-in">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-black text-navy-800 flex items-center">
+                        Daily Attendance & Saved History <span class="ml-3 text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold"><i class="fa-solid fa-lock-open mr-1"></i> Admin</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Select date, mark status, and click "Save Today's Attendance". View past records below.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 mb-1">Attendance Date</label>
+                        <input type="date" id="attendance-date" onchange="loadAttendanceForDate()" class="bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm font-bold">
+                    </div>
+                    <div class="pt-5">
+                        <button onclick="saveAttendanceRecord()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs shadow-lg transition flex items-center">
+                            <i class="fa-solid fa-floppy-disk mr-1.5"></i> Save Today's Attendance
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Table -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 border-b text-slate-600 text-xs font-extrabold uppercase">
+                            <th class="py-4 px-5">Roll #</th>
+                            <th class="py-4 px-5">Student Name</th>
+                            <th class="py-4 px-5">Class</th>
+                            <th class="py-4 px-5 text-center">Status for Selected Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-tbody" class="divide-y text-sm"></tbody>
+                </table>
+            </div>
+
+            <!-- Saved Monthly / Date-wise History Section -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm mt-8">
+                <h3 class="font-extrabold text-lg text-navy-800 mb-3"><i class="fa-solid fa-calendar-days text-emerald-500 mr-2"></i> Saved Attendance Logs & Monthly History</h3>
+                <p class="text-xs text-slate-500 mb-4">All previously saved dates and attendance summaries are securely stored below.</p>
+                <div id="attendance-logs-container" class="space-y-3">
+                    <!-- Dynamically generated logs -->
+                </div>
+            </div>
+        </div>
+
         <!-- ONLINE QUIZZES & MCQS TAB -->
         <div id="tab-quizzes" class="hidden space-y-6 animate-fade-in">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -175,39 +222,7 @@
                 </button>
             </div>
 
-            <!-- Quiz Cards List -->
-            <div id="quiz-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamically Generated Quizzes -->
-            </div>
-        </div>
-
-        <!-- ATTENDANCE TAB -->
-        <div id="tab-attendance" class="hidden space-y-6 animate-fade-in">
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl font-black text-navy-800 flex items-center">
-                        Daily Attendance Sheet <span class="ml-3 text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold"><i class="fa-solid fa-lock-open mr-1"></i> Admin Authenticated</span>
-                    </h2>
-                </div>
-                <div class="flex items-center gap-3">
-                    <input type="date" id="attendance-date" class="bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm font-bold">
-                    <button onclick="markAllStatus('Present')" class="bg-emerald-100 text-emerald-700 font-extrabold px-4 py-2 rounded-xl text-xs">All Present</button>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-100 border-b text-slate-600 text-xs font-extrabold uppercase">
-                            <th class="py-4 px-5">Roll #</th>
-                            <th class="py-4 px-5">Student Name</th>
-                            <th class="py-4 px-5">Class</th>
-                            <th class="py-4 px-5 text-center">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="attendance-tbody" class="divide-y text-sm"></tbody>
-                </table>
-            </div>
+            <div id="quiz-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
         <!-- STUDENT DIRECTORY TAB -->
@@ -230,14 +245,12 @@
 
     </main>
 
-    <!-- CREATE MULTI-MCQ QUIZ MODAL (ADMIN ONLY) -->
+    <!-- CREATE MULTI-MCQ QUIZ MODAL -->
     <div id="modal-create-quiz" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button onclick="closeCreateQuizModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="text-xl font-black text-navy-800 mb-1">Create Multiple MCQs Test / Quiz</h3>
-            <p class="text-xs text-slate-500 mb-4 font-medium">Add up to 20 MCQs with custom options and correct answers.</p>
-
-            <form onsubmit="handleSaveQuiz(event)" class="space-y-4">
+            <form onsubmit="handleSaveQuiz(event)" class="space-y-4 mt-4">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-600 mb-1">Quiz Title</label>
@@ -252,34 +265,24 @@
                         </select>
                     </div>
                 </div>
-
-                <!-- Dynamic Questions Container -->
-                <div id="questions-builder-container" class="space-y-4 pt-2">
-                    <!-- Question blocks will be added here -->
-                </div>
-
+                <div id="questions-builder-container" class="space-y-4 pt-2"></div>
                 <div class="flex items-center justify-between pt-2">
-                    <button type="button" onclick="addQuestionBlock()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-extrabold text-xs rounded-xl border border-indigo-200 transition">
-                        <i class="fa-solid fa-plus mr-1"></i> Add Another MCQ
-                    </button>
+                    <button type="button" onclick="addQuestionBlock()" class="px-4 py-2 bg-indigo-50 text-indigo-700 font-extrabold text-xs rounded-xl border"><i class="fa-solid fa-plus mr-1"></i> Add MCQ</button>
                     <span id="question-count-badge" class="text-xs font-bold text-slate-500">Total Questions: 1</span>
                 </div>
-
                 <div class="pt-4 border-t flex justify-end gap-3">
                     <button type="button" onclick="closeCreateQuizModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600">Cancel</button>
-                    <button type="submit" class="px-6 py-2.5 text-xs font-extrabold text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow-lg">Save & Publish Test</button>
+                    <button type="submit" class="px-6 py-2.5 text-xs font-extrabold text-white bg-emerald-500 rounded-xl shadow">Save & Publish</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ATTEMPT MULTI-MCQ QUIZ MODAL (FOR STUDENTS) -->
+    <!-- ATTEMPT QUIZ MODAL -->
     <div id="modal-attempt-quiz" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-xl w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button onclick="closeAttemptQuizModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
-            <div id="quiz-attempt-content">
-                <!-- Dynamically loaded test questions -->
-            </div>
+            <div id="quiz-attempt-content"></div>
         </div>
     </div>
 
@@ -289,9 +292,8 @@
             <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4"><i class="fa-solid fa-shield-halved"></i></div>
             <h3 class="text-xl font-black text-navy-800 mb-1">Super Admin Access</h3>
-            <p class="text-xs text-slate-500 mb-6 font-medium">Enter administrator password to access features.</p>
-            <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
-                <input type="password" id="admin-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm text-center font-extrabold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <form onsubmit="verifyAdminPassword(event)" class="space-y-4 mt-4">
+                <input type="password" id="admin-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm text-center font-extrabold focus:outline-none">
                 <button type="submit" class="w-full py-3.5 bg-emerald-500 text-white font-extrabold rounded-xl text-sm shadow">Verify & Unlock</button>
             </form>
         </div>
@@ -327,34 +329,28 @@
     <script>
         let students = JSON.parse(localStorage.getItem('lls_students')) || [];
         let notices = JSON.parse(localStorage.getItem('lls_notices')) || [];
-        let quizzes = JSON.parse(localStorage.getItem('lls_quizzes')) || [
-            {
-                id: 1,
-                title: 'Quiz 1: Python Basics & Syntax',
-                target: '9th & 10th Grade',
-                questions: [
-                    {
-                        qText: 'What is the correct syntax to output "Hello World" in Python?',
-                        options: ['console.log("Hello")', 'print("Hello World")', 'echo "Hello World"', 'System.out.println()'],
-                        correct: 1 // Index of correct option (0 to 3)
-                    }
-                ]
-            }
-        ];
+        let quizzes = JSON.parse(localStorage.getItem('lls_quizzes')) || [];
+        let attendanceLogs = JSON.parse(localStorage.getItem('lls_attendance_logs')) || {}; // Format: { '2026-10-14': [{roll, name, status}] }
 
         let isAdminAuthenticated = false;
 
         document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('attendance-date');
+            if(dateInput) dateInput.value = today;
+
+            loadAttendanceForDate();
             renderDashboardStats();
-            renderAttendanceList();
             renderStudentDirectory();
             renderQuizzes();
+            renderAttendanceLogs();
         });
 
         function saveToLocalStorage() {
             localStorage.setItem('lls_students', JSON.stringify(students));
             localStorage.setItem('lls_notices', JSON.stringify(notices));
             localStorage.setItem('lls_quizzes', JSON.stringify(quizzes));
+            localStorage.setItem('lls_attendance_logs', JSON.stringify(attendanceLogs));
         }
 
         function switchTab(tabId) {
@@ -410,37 +406,120 @@
 
         function renderDashboardStats() {
             document.getElementById('dash-total-students').innerText = students.length;
-            document.getElementById('dash-present-count').innerText = students.filter(s => s.status === 'Present').length;
             document.getElementById('dash-active-quizzes').innerText = quizzes.length;
+            document.getElementById('dash-saved-records').innerText = Object.keys(attendanceLogs).length;
         }
 
-        function renderAttendanceList() {
+        // Date-wise Attendance Functions
+        function loadAttendanceForDate() {
+            const dateStr = document.getElementById('attendance-date').value;
             const tbody = document.getElementById('attendance-tbody');
+
             if(students.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-400">No students enrolled yet.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-400">No students enrolled. Please add students first.</td></tr>`;
                 return;
             }
-            tbody.innerHTML = students.map(s => `
+
+            // If log exists for this date, load it; otherwise default all to Present
+            let currentDayRecords = attendanceLogs[dateStr] || students.map(s => ({ roll: s.roll, name: s.name, class: s.class, status: 'Present' }));
+
+            tbody.innerHTML = currentDayRecords.map((s, index) => `
                 <tr class="hover:bg-slate-50 border-b">
                     <td class="py-3 px-5 font-bold">${s.roll}</td>
                     <td class="py-3 px-5 font-semibold">${s.name}</td>
                     <td class="py-3 px-5 text-slate-500">${s.class}</td>
                     <td class="py-3 px-5 text-center">
-                        <button onclick="updateStatus('${s.roll}', 'Present')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Present' ? 'bg-emerald-500 text-white' : 'bg-slate-200'}">Present</button>
-                        <button onclick="updateStatus('${s.roll}', 'Absent')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Absent' ? 'bg-rose-500 text-white' : 'bg-slate-200'}">Absent</button>
+                        <button onclick="changeStatusOnDate(${index}, 'Present')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Present' ? 'bg-emerald-500 text-white shadow' : 'bg-slate-200'}">Present</button>
+                        <button onclick="changeStatusOnDate(${index}, 'Absent')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Absent' ? 'bg-rose-500 text-white shadow' : 'bg-slate-200'}">Absent</button>
+                        <button onclick="changeStatusOnDate(${index}, 'Leave')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Leave' ? 'bg-amber-500 text-white shadow' : 'bg-slate-200'}">Leave</button>
                     </td>
                 </tr>
             `).join('');
+
+            window.tempActiveAttendance = currentDayRecords;
         }
 
-        function updateStatus(roll, status) {
-            const s = students.find(item => item.roll === roll);
-            if(s) { s.status = status; saveToLocalStorage(); renderAttendanceList(); renderDashboardStats(); }
+        function changeStatusOnDate(index, status) {
+            if(window.tempActiveAttendance && window.tempActiveAttendance[index]) {
+                window.tempActiveAttendance[index].status = status;
+                // Re-render table quickly
+                const tbody = document.getElementById('attendance-tbody');
+                tbody.innerHTML = window.tempActiveAttendance.map((s, i) => `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="py-3 px-5 font-bold">${s.roll}</td>
+                        <td class="py-3 px-5 font-semibold">${s.name}</td>
+                        <td class="py-3 px-5 text-slate-500">${s.class}</td>
+                        <td class="py-3 px-5 text-center">
+                            <button onclick="changeStatusOnDate(${i}, 'Present')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Present' ? 'bg-emerald-500 text-white shadow' : 'bg-slate-200'}">Present</button>
+                            <button onclick="changeStatusOnDate(${i}, 'Absent')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Absent' ? 'bg-rose-500 text-white shadow' : 'bg-slate-200'}">Absent</button>
+                            <button onclick="changeStatusOnDate(${i}, 'Leave')" class="px-3 py-1 text-xs font-bold rounded-lg ${s.status === 'Leave' ? 'bg-amber-500 text-white shadow' : 'bg-slate-200'}">Leave</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
         }
 
-        function markAllStatus(status) {
-            students.forEach(s => s.status = status);
-            saveToLocalStorage(); renderAttendanceList(); renderDashboardStats();
+        function saveAttendanceRecord() {
+            const dateStr = document.getElementById('attendance-date').value;
+            if(!dateStr) { alert('Please select a date first!'); return; }
+            if(!window.tempActiveAttendance || window.tempActiveAttendance.length === 0) { alert('No attendance data to save.'); return; }
+
+            attendanceLogs[dateStr] = window.tempActiveAttendance;
+            saveToLocalStorage();
+            renderAttendanceLogs();
+            renderDashboardStats();
+            alert(`✅ Attendance for date ${dateStr} successfully saved to permanent records!`);
+        }
+
+        function renderAttendanceLogs() {
+            const container = document.getElementById('attendance-logs-container');
+            const dates = Object.keys(attendanceLogs).sort().reverse();
+
+            if(dates.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 italic">No attendance records saved yet. Select a date, mark attendance, and click "Save Today's Attendance".</p>`;
+                return;
+            }
+
+            container.innerHTML = dates.map(d => {
+                const records = attendanceLogs[d];
+                const presentCount = records.filter(r => r.status === 'Present').length;
+                const absentCount = records.filter(r => r.status === 'Absent').length;
+                const leaveCount = records.filter(r => r.status === 'Leave').length;
+
+                return `
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div>
+                            <span class="text-xs font-black text-navy-800 bg-emerald-100 px-2.5 py-1 rounded-lg"><i class="fa-solid fa-calendar mr-1"></i> ${d}</span>
+                            <p class="text-xs text-slate-600 mt-2 font-semibold">
+                                Total: <strong>${records.length}</strong> | 
+                                <span class="text-emerald-600">Present: ${presentCount}</span> | 
+                                <span class="text-rose-600">Absent: ${absentCount}</span> | 
+                                <span class="text-amber-600">Leave: ${leaveCount}</span>
+                            </p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="loadAttendanceForSpecificDate('${d}')" class="px-3 py-1.5 bg-navy-800 text-white font-bold text-xs rounded-xl shadow hover:bg-navy-900 transition">View / Edit</button>
+                            <button onclick="deleteAttendanceLog('${d}')" class="px-2.5 py-1.5 bg-rose-50 text-rose-600 font-bold text-xs rounded-xl hover:bg-rose-100 transition"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadAttendanceForSpecificDate(dateStr) {
+            document.getElementById('attendance-date').value = dateStr;
+            loadAttendanceForDate();
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function deleteAttendanceLog(dateStr) {
+            if(confirm(`Are you sure you want to delete saved attendance record for ${dateStr}?`)) {
+                delete attendanceLogs[dateStr];
+                saveToLocalStorage();
+                renderAttendanceLogs();
+                renderDashboardStats();
+                loadAttendanceForDate();
+            }
         }
 
         function renderStudentDirectory() {
@@ -460,7 +539,7 @@
             `).join('');
         }
 
-        // Quizzes System with Multiple MCQs
+        // Quizzes System
         function renderQuizzes() {
             const container = document.getElementById('quiz-cards-container');
             if(quizzes.length === 0) {
@@ -485,7 +564,7 @@
             if(!isAdminAuthenticated) { alert('Quiz Creation requires Admin Access!'); openAdminAuthModal(); return; }
             document.getElementById('quiz-title').value = '';
             document.getElementById('questions-builder-container').innerHTML = '';
-            addQuestionBlock(); // Add first question by default
+            addQuestionBlock();
             document.getElementById('modal-create-quiz').classList.remove('hidden');
         }
 
@@ -563,7 +642,7 @@
             let html = `
                 <h3 class="text-xl font-black text-navy-800 mb-1">${q.title}</h3>
                 <p class="text-xs text-slate-500 mb-4">Total Questions: ${q.questions.length}. Select your answers below:</p>
-                <form id="quiz-attempt-form" onsubmit="submitStudentQuiz(event, ${q.id})" class="space-y-4">
+                <form onsubmit="submitStudentQuiz(event, ${q.id})" class="space-y-4">
             `;
 
             q.questions.forEach((item, index) => {
@@ -622,10 +701,10 @@
             const phone = document.getElementById('new-phone').value;
 
             const newRoll = `LLS-${cls.includes('9') ? '9' : '10'}${Math.floor(100 + Math.random() * 900)}`;
-            students.push({ roll: newRoll, name, class: cls, group, phone, status: 'Present' });
+            students.push({ roll: newRoll, name, class: cls, group, phone });
 
-            saveToLocalStorage(); closeAddStudentModal(); renderDashboardStats(); renderAttendanceList(); renderStudentDirectory();
-            document.getElementById('form-add-student').reset(); alert('Student enrolled!');
+            saveToLocalStorage(); closeAddStudentModal(); renderDashboardStats(); loadAttendanceForDate(); renderStudentDirectory();
+            document.getElementById('form-add-student').reset(); alert('Student successfully enrolled!');
         }
     </script>
 </body>
