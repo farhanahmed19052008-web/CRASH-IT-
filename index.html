@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLS CRASH IT TRAINING PROGRAM - Coaching & Attendance Management</title>
+    <title>LLS CRASH IT TRAINING PROGRAM - Official Administration Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
     
@@ -39,11 +37,6 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
         }
-        .active-tab {
-            border-bottom: 3px solid #10B981;
-            color: #1E3E62;
-            font-weight: 700;
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
@@ -54,7 +47,7 @@
             <div class="flex items-center justify-between h-20">
                 <!-- Branding -->
                 <div class="flex items-center space-x-3">
-                    <img src="logo.png" alt="Lasani Lyceum School Logo" class="h-12 w-auto object-contain rounded-xl shadow-md" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=120&q=80'">
+                    <div class="bg-emerald-500 text-white font-black text-xl px-3 py-2 rounded-xl shadow">LLS</div>
                     <div>
                         <div class="flex items-center space-x-2">
                             <h1 class="text-2xl font-extrabold tracking-tight text-white">LLS CRASH IT <span class="text-emerald-400">TRAINING PROGRAM</span></h1>
@@ -67,47 +60,37 @@
                 <!-- Navigation Tabs -->
                 <nav class="hidden md:flex space-x-1 text-sm font-semibold">
                     <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-4 py-2 rounded-lg text-emerald-400 bg-white/10 hover:bg-white/20 transition duration-150">
-                        <i class="fa-solid fa-gauge-high mr-2"></i> Dashboard
+                        Dashboard
                     </button>
                     <button onclick="requestAdminAccess('attendance')" id="nav-attendance" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">
-                        <i class="fa-solid fa-clipboard-user mr-2"></i> Attendance Sheet <i class="fa-solid fa-lock text-xs ml-1 text-emerald-400"></i>
+                        Attendance Sheet
                     </button>
                     <button onclick="switchTab('students')" id="nav-students" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">
-                        <i class="fa-solid fa-users mr-2"></i> Student Directory
+                        Student Directory & Grading
                     </button>
                     <button onclick="switchTab('notices')" id="nav-notices" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150">
-                        <i class="fa-solid fa-bullhorn mr-2"></i> Notice Board
+                        Notice Board
                     </button>
                 </nav>
 
                 <!-- Action Button & Admin Login Toggle -->
                 <div class="flex items-center space-x-2">
-                    <button id="admin-toggle-btn" onclick="openAdminAuthModal('direct')" class="bg-navy-900 border border-slate-600 hover:bg-navy-800 text-slate-200 px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1">
-                        <i class="fa-solid fa-user-shield text-emerald-400"></i>
+                    <button id="admin-toggle-btn" onclick="openAdminAuthModal('direct')" class="bg-navy-900 border border-slate-600 hover:bg-navy-800 text-slate-200 px-3 py-2 rounded-xl text-xs font-semibold transition">
                         <span id="admin-status-text">Admin Login</span>
                     </button>
-                    <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition flex items-center space-x-2">
-                        <i class="fa-solid fa-user-plus"></i>
-                        <span class="hidden sm:inline">Add Student</span>
+                    <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition">
+                        + Add Student
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Mobile Navigation Row -->
-        <div class="md:hidden bg-navy-900 border-t border-slate-700 px-4 py-2 flex justify-around text-xs">
-            <button onclick="switchTab('dashboard')" class="text-emerald-400 font-semibold flex flex-col items-center py-1">
-                <i class="fa-solid fa-gauge-high text-base mb-1"></i> Dashboard
-            </button>
-            <button onclick="requestAdminAccess('attendance')" class="text-slate-300 flex flex-col items-center py-1">
-                <i class="fa-solid fa-clipboard-user text-base mb-1"></i> Attendance <i class="fa-solid fa-lock text-[10px] text-emerald-400"></i>
-            </button>
-            <button onclick="switchTab('students')" class="text-slate-300 flex flex-col items-center py-1">
-                <i class="fa-solid fa-users text-base mb-1"></i> Directory
-            </button>
-            <button onclick="switchTab('notices')" class="text-slate-300 flex flex-col items-center py-1">
-                <i class="fa-solid fa-bullhorn text-base mb-1"></i> Notices
-            </button>
+        <div class="md:hidden bg-navy-900 border-t border-slate-700 px-4 py-2 flex justify-around text-xs font-bold">
+            <button onclick="switchTab('dashboard')" class="text-emerald-400 py-1">Dashboard</button>
+            <button onclick="requestAdminAccess('attendance')" class="text-slate-300 py-1">Attendance</button>
+            <button onclick="switchTab('students')" class="text-slate-300 py-1">Directory</button>
+            <button onclick="switchTab('notices')" class="text-slate-300 py-1">Notices</button>
         </div>
     </header>
 
@@ -115,28 +98,24 @@
 
         <!-- DASHBOARD TAB CONTENT -->
         <div id="tab-dashboard" class="space-y-8">
-            
             <!-- Hero Banner -->
             <div class="relative bg-gradient-to-r from-navy-900 via-navy-800 to-slate-900 text-white rounded-3xl p-8 overflow-hidden shadow-xl border border-slate-700/50">
-                <div class="absolute -right-10 -bottom-10 opacity-10 text-emerald-400 pointer-events-none">
-                    <i class="fa-solid fa-graduation-cap text-[280px]"></i>
-                </div>
                 <div class="relative z-10 max-w-2xl">
                     <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-emerald-500/30">
-                        Lasani Lyceum Crash Coaching Program 2026-2027
+                        Lasani Lyceum (لاسانی لیسیئم) Crash Coaching Program 2026-2027
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 leading-tight">
-                        Empowering 9th & 10th Class Students with Python, Web Designing & Coding
+                        Empowering 9th & 10th Class Students with Python, Coding, Web Designing & Computer Science
                     </h2>
                     <p class="text-slate-300 mt-2 text-sm sm:text-base leading-relaxed">
-                        Official Administration Portal for Student Enrollment, Password-Protected Attendance, Performance Slips, and Certificates.
+                        Official Administration Portal for Student Enrollment, Daily Attendance, Weekly Tests, Grand Assessments, and Monthly Performance Slips.
                     </p>
                     <div class="mt-6 flex flex-wrap gap-4">
-                        <button onclick="requestAdminAccess('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center">
-                            <i class="fa-solid fa-clipboard-check mr-2"></i> Mark Today's Attendance <i class="fa-solid fa-lock text-xs ml-2"></i>
+                        <button onclick="requestAdminAccess('attendance')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition">
+                            Mark Daily Attendance
                         </button>
                         <button onclick="switchTab('students')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur transition border border-white/20">
-                            Manage Students & Directory
+                            Manage Students & Grading
                         </button>
                     </div>
                 </div>
@@ -148,10 +127,7 @@
                     <div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Enrolled</p>
                         <h3 class="text-3xl font-extrabold text-navy-800 mt-1" id="dash-total-students">0</h3>
-                        <p class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-check-circle"></i> Official Portal</p>
-                    </div>
-                    <div class="bg-blue-50 text-blue-600 p-4 rounded-2xl text-2xl">
-                        <i class="fa-solid fa-user-graduate"></i>
+                        <p class="text-xs text-emerald-600 font-medium mt-1">Official Portal</p>
                     </div>
                 </div>
 
@@ -161,9 +137,6 @@
                         <h3 class="text-3xl font-extrabold text-emerald-600 mt-1" id="dash-present-count">0</h3>
                         <p class="text-xs text-slate-500 font-medium mt-1" id="dash-present-percent">0% Attendance</p>
                     </div>
-                    <div class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-2xl">
-                        <i class="fa-solid fa-user-check"></i>
-                    </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
@@ -172,19 +145,13 @@
                         <h3 class="text-3xl font-extrabold text-rose-500 mt-1" id="dash-absent-count">0</h3>
                         <p class="text-xs text-slate-500 font-medium mt-1">Requires Parents Alert</p>
                     </div>
-                    <div class="bg-rose-50 text-rose-500 p-4 rounded-2xl text-2xl">
-                        <i class="fa-solid fa-user-xmark"></i>
-                    </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Subjects</p>
                         <h3 class="text-3xl font-extrabold text-indigo-600 mt-1">4</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1">Python, Web Dev, Coding, CS</p>
-                    </div>
-                    <div class="bg-indigo-50 text-indigo-600 p-4 rounded-2xl text-2xl">
-                        <i class="fa-solid fa-code"></i>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Python, Coding, Web, CS</p>
                     </div>
                 </div>
             </div>
@@ -192,14 +159,10 @@
             <!-- Quick Notices Preview -->
             <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-lg text-navy-800 flex items-center">
-                        <i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> Latest Announcements / نوٹس بورڈ
-                    </h3>
+                    <h3 class="font-bold text-lg text-navy-800">Latest Announcements / نوٹس بورڈ</h3>
                     <button onclick="switchTab('notices')" class="text-sm text-emerald-600 font-semibold hover:underline">View All Notices</button>
                 </div>
-                <div id="dash-notice-preview" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Dynamic Preview Notices -->
-                </div>
+                <div id="dash-notice-preview" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </div>
 
@@ -207,10 +170,10 @@
         <div id="tab-attendance" class="hidden space-y-6">
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h2 class="text-2xl font-extrabold text-navy-800 flex items-center">
-                        Daily Student Attendance Sheet <span class="ml-2 text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full"><i class="fa-solid fa-lock-open mr-1"></i> Admin Authenticated</span>
+                    <h2 class="text-2xl font-extrabold text-navy-800">
+                        Daily Student Attendance Sheet <span class="ml-2 text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">Admin Authenticated</span>
                     </h2>
-                    <p class="text-sm text-slate-500">Manage daily presence for Class 9th and 10th students.</p>
+                    <p class="text-sm text-slate-500">Manage daily presence for Class 9th and 10th students with dynamic calendar selection.</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
@@ -223,17 +186,17 @@
                         <label class="block text-xs font-bold text-slate-400 mb-1">Actions</label>
                         <div class="flex gap-2">
                             <button onclick="markAllStatus('Present')" class="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-3 py-2 rounded-xl text-xs font-bold transition">
-                                <i class="fa-solid fa-check-double mr-1"></i> All Present
+                                All Present
                             </button>
-                            <button onclick="exportAttendanceSummary()" class="bg-navy-800 text-white hover:bg-navy-900 px-4 py-2 rounded-xl text-xs font-bold shadow transition flex items-center">
-                                <i class="fa-solid fa-file-export mr-1.5"></i> Export Summary
+                            <button onclick="exportAttendanceSummary()" class="bg-navy-800 text-white hover:bg-navy-900 px-4 py-2 rounded-xl text-xs font-bold shadow transition">
+                                Export Summary
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Attendance Live Counters -->
+            <!-- Attendance Counters -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div class="bg-slate-800 text-white p-4 rounded-xl text-center">
                     <span class="text-xs uppercase font-bold text-slate-400">Total Filtered</span>
@@ -256,8 +219,7 @@
             <!-- Filter Controls -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div class="relative w-full md:w-72">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-                    <input type="text" id="att-search" oninput="renderAttendanceList()" placeholder="Search by name or roll no..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" id="att-search" oninput="renderAttendanceList()" placeholder="Search by name or roll no..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
 
                 <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl w-full md:w-auto overflow-x-auto">
@@ -290,31 +252,28 @@
                                 <th class="py-3.5 px-4 text-center">Attendance Status</th>
                             </tr>
                         </thead>
-                        <tbody id="attendance-tbody" class="divide-y divide-slate-100 text-sm">
-                            <!-- Dynamically generated rows -->
-                        </tbody>
+                        <tbody id="attendance-tbody" class="divide-y divide-slate-100 text-sm"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- STUDENT DIRECTORY TAB CONTENT -->
+        <!-- STUDENT DIRECTORY & GRADING TAB CONTENT -->
         <div id="tab-students" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-extrabold text-navy-800">Official Student Directory & Management</h2>
-                    <p class="text-sm text-slate-500">Enroll students, review performance evaluations, and manage records</p>
+                    <h2 class="text-2xl font-extrabold text-navy-800">Student Directory & Flexible Test Grading</h2>
+                    <p class="text-sm text-slate-500">Manage student profiles, custom roll numbers, online picture upload, weekly tests, and grand assessments.</p>
                 </div>
-                <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition flex items-center">
-                    <i class="fa-solid fa-user-plus mr-2"></i> Enroll New Student
+                <button onclick="openAddStudentModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition">
+                    + Enroll New Student
                 </button>
             </div>
 
             <!-- Directory Controls -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
                 <div class="relative w-full sm:w-80">
-                    <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
-                    <input type="text" id="directory-search" oninput="renderStudentDirectory()" placeholder="Search directory..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" id="directory-search" oninput="renderStudentDirectory()" placeholder="Search directory..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
 
                 <div class="flex items-center space-x-2 text-xs font-semibold">
@@ -328,9 +287,7 @@
             </div>
 
             <!-- Directory Grid -->
-            <div id="student-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- Dynamically filled with student cards -->
-            </div>
+            <div id="student-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
         </div>
 
         <!-- NOTICE BOARD TAB CONTENT -->
@@ -340,14 +297,12 @@
                     <h2 class="text-2xl font-extrabold text-navy-800">Coaching Announcements & Notice Board</h2>
                     <p class="text-sm text-slate-500">Post announcements, test dates, and updates for students and parents</p>
                 </div>
-                <button onclick="openAddNoticeModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition flex items-center">
-                    <i class="fa-solid fa-plus mr-2"></i> Post New Notice
+                <button onclick="openAddNoticeModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow transition">
+                    + Post New Notice
                 </button>
             </div>
 
-            <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Dynamic Notices -->
-            </div>
+            <div id="notice-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </div>
 
     </main>
@@ -355,14 +310,10 @@
     <!-- ADMIN PASSWORD MODAL -->
     <div id="modal-admin-auth" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl relative border border-slate-100 text-center">
-            <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">
-                <i class="fa-solid fa-lock"></i>
-            </div>
+            <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">🔒</div>
             <h3 class="text-xl font-bold text-navy-800 mb-1">Super Admin Access</h3>
-            <p class="text-xs text-slate-500 mb-5">Please enter the administrator password to manage attendance and view phone numbers.</p>
+            <p class="text-xs text-slate-500 mb-5">Please enter administrator credentials to unlock attendance and records management.</p>
             
             <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
                 <input type="password" id="admin-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-center tracking-widest font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -373,15 +324,11 @@
 
     <!-- MONTHLY PERFORMANCE SLIP MODAL -->
     <div id="modal-performance" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-100">
-            <button onclick="closePerformanceModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div id="performance-slip-content" class="space-y-4">
-                <!-- Dynamically populated slip -->
-            </div>
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <button onclick="closePerformanceModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+            <div id="performance-slip-content" class="space-y-4"></div>
             <div class="mt-6 flex justify-end gap-2">
-                <button onclick="window.print()" class="px-4 py-2.5 bg-navy-800 text-white font-bold text-xs rounded-xl shadow"><i class="fa-solid fa-print mr-1.5"></i> Print Slip</button>
+                <button onclick="window.print()" class="px-4 py-2.5 bg-navy-800 text-white font-bold text-xs rounded-xl shadow">Print Slip</button>
                 <button onclick="closePerformanceModal()" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
             </div>
         </div>
@@ -390,14 +337,10 @@
     <!-- CERTIFICATE MODAL -->
     <div id="modal-certificate" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative border border-slate-100 text-center">
-            <button onclick="closeCertificateModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div id="certificate-content" class="py-4">
-                <!-- Dynamic Certificate Display -->
-            </div>
+            <button onclick="closeCertificateModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+            <div id="certificate-content" class="py-4"></div>
             <div class="mt-4 flex justify-center gap-3">
-                <button onclick="window.print()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold text-xs rounded-xl shadow"><i class="fa-solid fa-download mr-1.5"></i> Download Certificate</button>
+                <button onclick="window.print()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold text-xs rounded-xl shadow">Download Certificate</button>
                 <button onclick="closeCertificateModal()" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
             </div>
         </div>
@@ -406,11 +349,9 @@
     <!-- ADD STUDENT MODAL -->
     <div id="modal-add-student" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
-            <button onclick="closeAddStudentModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button onclick="closeAddStudentModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
             <h3 class="text-xl font-bold text-navy-800 mb-1">Add New Student</h3>
-            <p class="text-xs text-slate-500 mb-5">Register a new student for CRASH IT TRAINING coaching at Lasani Lyceum.</p>
+            <p class="text-xs text-slate-500 mb-5">Register a student with custom roll number and online profile picture.</p>
 
             <form id="form-add-student" onsubmit="handleAddStudent(event)" class="space-y-4">
                 <div>
@@ -420,12 +361,19 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Class</label>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Custom Roll Number</label>
+                        <input type="text" id="new-rollno" required placeholder="e.g. LLS-901" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Class Grade</label>
                         <select id="new-class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                             <option value="9th Class">9th Class</option>
                             <option value="10th Class">10th Class</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Subject Track</label>
                         <select id="new-group" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -434,6 +382,10 @@
                             <option value="Computer Science">Computer Science</option>
                             <option value="Logic & IT Skills">Logic & IT Skills</option>
                         </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Upload Profile Picture</label>
+                        <input type="file" id="new-photo" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                     </div>
                 </div>
 
@@ -450,21 +402,44 @@
         </div>
     </div>
 
+    <!-- GRADING MODAL FOR WEEKLY TESTS & GRAND ASSESSMENTS -->
+    <div id="modal-grading" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
+            <button onclick="closeGradingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+            <h3 class="text-xl font-bold text-navy-800 mb-1" id="grading-modal-title">Enter Test Marks</h3>
+            <p class="text-xs text-slate-500 mb-5" id="grading-modal-subtitle">Update flexible marks and total scores for assessments.</p>
+
+            <form id="form-grading" onsubmit="handleSaveGrading(event)" class="space-y-4">
+                <input type="hidden" id="grade-student-id">
+                <input type="hidden" id="grade-test-type">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1" id="label-obtained-marks">Obtained Marks</label>
+                    <input type="number" id="grade-obtained" required min="0" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1" id="label-total-marks">Total Marks</label>
+                    <input type="number" id="grade-total" required min="1" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeGradingModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow transition">Save Marks</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ADD NOTICE MODAL -->
     <div id="modal-add-notice" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
-            <button onclick="closeAddNoticeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button onclick="closeAddNoticeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
             <h3 class="text-xl font-bold text-navy-800 mb-1">Post New Announcement</h3>
             <p class="text-xs text-slate-500 mb-5">Broadcast notices to 9th & 10th grade students.</p>
 
             <form id="form-add-notice" onsubmit="handleAddNotice(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">Announcement Title (English / Urdu)</label>
-                    <input type="text" id="notice-title" required placeholder="e.g., Sunday Python Special Test Class" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Announcement Title</label>
+                    <input type="text" id="notice-title" required placeholder="e.g., Weekly Test Schedule" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
                 </div>
-
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1">Target Class</label>
                     <select id="notice-target" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800">
@@ -473,12 +448,10 @@
                         <option value="10th Class">10th Class Only</option>
                     </select>
                 </div>
-
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1">Notice Description</label>
-                    <textarea id="notice-desc" rows="3" required placeholder="Details about test syllabus, timings or holiday notices..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"></textarea>
+                    <textarea id="notice-desc" rows="3" required placeholder="Details about syllabus or timings..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"></textarea>
                 </div>
-
                 <div class="pt-2 flex justify-end gap-3">
                     <button type="button" onclick="closeAddNoticeModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
                     <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-xl shadow transition">Publish Notice</button>
@@ -487,190 +460,177 @@
         </div>
     </div>
 
-    <!-- SUMMARY REPORT MODAL -->
-    <div id="modal-summary" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
-            <button onclick="closeSummaryModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <h3 class="text-xl font-bold text-navy-800 mb-2">Attendance Summary Report</h3>
-            <div id="summary-content" class="text-sm text-slate-600 space-y-3 my-4">
-                <!-- Summary generated via JS -->
-            </div>
-            <div class="flex justify-end gap-2">
-                <button onclick="closeSummaryModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-navy-900 text-white text-center py-6 border-t border-slate-800 mt-auto text-xs">
-        <p>Lasani Lyceum School (لاسانی لیسیئم) — LLS Crash IT Training Program &copy; 2026-2027. All Rights Reserved.</p>
-    </footer>
-
-    <!-- JavaScript Application Logic with LocalStorage Persistence & Admin Phone Protection -->
+    <!-- JAVASCRIPT APPLICATION CORE -->
     <script>
-        // Initialize students list from localStorage
-        let students = JSON.parse(localStorage.getItem('lls_students')) || [];
+        let isAdminAuthenticated = localStorage.getItem('lls_admin_auth') === 'true';
+        let pendingActionTab = null;
 
-        let notices = JSON.parse(localStorage.getItem('lls_notices')) || [
-            { title: 'Welcome to Official IT Training Portal', target: 'All Students', desc: 'Please register your attendance daily and complete your assignments on time.', date: 'Oct 13, 2026' }
+        let students = JSON.parse(localStorage.getItem('lls_students')) || [
+            { id: 1, rollNo: "LLS-901", name: "Farhan Ahmed", classGrade: "9th Class", group: "Python & Coding", phone: "0300-1234567", photo: "", weeklyTests: [{obtained: 45, total: 50}, {obtained: 42, total: 50}], grandTest: {obtained: 90, total: 100} },
+            { id: 2, rollNo: "LLS-902", name: "Ayesha Malik", classGrade: "9th Class", group: "Web Designing", phone: "0301-9876543", photo: "", weeklyTests: [{obtained: 48, total: 50}, {obtained: 47, total: 50}], grandTest: {obtained: 95, total: 100} },
+            { id: 3, rollNo: "LLS-1001", name: "Zainab Bibi", classGrade: "10th Class", group: "Python & Coding", phone: "0303-1122334", photo: "", weeklyTests: [{obtained: 40, total: 50}, {obtained: 44, total: 50}], grandTest: {obtained: 88, total: 100} }
         ];
 
-        let currentAttendanceClass = 'All';
-        let isAdminAuthenticated = false;
+        let notices = JSON.parse(localStorage.getItem('lls_notices')) || [
+            { id: 1, title: "Python Weekly Coding Test & Assessment", target: "All Students", date: "October 15, 2026", desc: "All 9th and 10th class students enrolled in Crash IT Training must prepare basic Python functions and loops for tomorrow's lab test." }
+        ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date().toISOString().split('T')[0];
+        let attendanceRecords = JSON.parse(localStorage.getItem('lls_attendance')) || {};
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const todayStr = new Date().toISOString().split('T')[0];
             const dateInput = document.getElementById('attendance-date');
-            if(dateInput) dateInput.value = today;
+            if(dateInput) {
+                dateInput.value = todayStr;
+                dateInput.addEventListener('change', () => renderAttendanceList());
+            }
 
-            renderDashboardStats();
-            renderAttendanceList();
-            renderStudentDirectory();
-            renderNotices();
+            updateAdminUIState();
+            switchTab('dashboard');
+            renderAll();
         });
 
-        function saveToLocalStorage() {
+        function saveData() {
             localStorage.setItem('lls_students', JSON.stringify(students));
             localStorage.setItem('lls_notices', JSON.stringify(notices));
+            localStorage.setItem('lls_attendance', JSON.stringify(attendanceRecords));
         }
 
         function switchTab(tabId) {
             ['dashboard', 'attendance', 'students', 'notices'].forEach(id => {
                 const el = document.getElementById(`tab-${id}`);
-                if (el) el.classList.add('hidden');
+                if(el) el.classList.add('hidden');
             });
 
-            const activeEl = document.getElementById(`tab-${tabId}`);
-            if (activeEl) activeEl.classList.remove('hidden');
+            const target = document.getElementById(`tab-${tabId}`);
+            if(target) target.classList.remove('hidden');
 
             ['dashboard', 'attendance', 'students', 'notices'].forEach(id => {
-                const navBtn = document.getElementById(`nav-${id}`);
-                if (navBtn) {
-                    if (id === tabId) {
-                        navBtn.className = "px-4 py-2 rounded-lg text-emerald-400 bg-white/10 transition duration-150 font-semibold";
+                const btn = document.getElementById(`nav-${id}`);
+                if(btn) {
+                    if(id === tabId) {
+                        btn.className = "px-4 py-2 rounded-lg text-emerald-400 bg-white/10 font-bold transition duration-150";
                     } else {
-                        navBtn.className = "px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150 font-semibold";
+                        btn.className = "px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition duration-150";
                     }
                 }
             });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
 
-        // Admin Security Check
-        let pendingTargetTab = '';
-        function openAdminAuthModal(targetTab = '') {
-            pendingTargetTab = targetTab;
-            document.getElementById('admin-password-input').value = '';
-            document.getElementById('modal-admin-auth').classList.remove('hidden');
-        }
-
-        function requestAdminAccess(tabId) {
-            if (isAdminAuthenticated) {
-                switchTab(tabId);
-            } else {
-                openAdminAuthModal(tabId);
+            if(tabId === 'attendance') {
+                renderAttendanceList();
+            } else if(tabId === 'students') {
+                renderStudentDirectory();
+            } else if(tabId === 'notices') {
+                renderNoticeBoard();
+            } else if(tabId === 'dashboard') {
+                renderDashboardStats();
             }
+        }
+
+        function requestAdminAccess(targetTab) {
+            if(isAdminAuthenticated) {
+                switchTab(targetTab);
+            } else {
+                pendingActionTab = targetTab;
+                openAdminAuthModal();
+            }
+        }
+
+        function openAdminAuthModal() {
+            document.getElementById('modal-admin-auth').classList.remove('hidden');
+            document.getElementById('admin-password-input').value = '';
+            document.getElementById('admin-password-input').focus();
         }
 
         function closeAdminAuthModal() {
             document.getElementById('modal-admin-auth').classList.add('hidden');
+            pendingActionTab = null;
         }
 
         function verifyAdminPassword(e) {
             e.preventDefault();
-            const pass = document.getElementById('admin-password-input').value;
-            if (pass === 'LLL123') {
+            const val = document.getElementById('admin-password-input').value.trim();
+            if(val === 'LLL123') {
                 isAdminAuthenticated = true;
+                localStorage.setItem('lls_admin_auth', 'true');
+                updateAdminUIState();
                 closeAdminAuthModal();
-                
-                // Update Admin Button UI
-                document.getElementById('admin-status-text').innerText = "Admin Unlocked";
-                document.getElementById('admin-toggle-btn').className = "bg-emerald-600 text-white px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-1";
-
-                renderStudentDirectory(); // Re-render directory to show unlocked numbers
-                if (pendingTargetTab && pendingTargetTab !== 'direct') {
-                    switchTab(pendingTargetTab);
+                alert('Admin Authentication Successful!');
+                if(pendingActionTab) {
+                    switchTab(pendingActionTab);
+                    pendingActionTab = null;
                 } else {
-                    alert('Super Admin authenticated! Phone numbers are now visible.');
+                    switchTab('attendance');
                 }
             } else {
-                alert('Incorrect Admin Password!');
+                alert('Incorrect Administrator Password!');
             }
+        }
+
+        function updateAdminUIState() {
+            const statusTxt = document.getElementById('admin-status-text');
+            const toggleBtn = document.getElementById('admin-toggle-btn');
+            if(isAdminAuthenticated) {
+                statusTxt.innerText = "Admin Unlocked";
+                toggleBtn.className = "bg-emerald-600 border border-emerald-500 text-white px-3 py-2 rounded-xl text-xs font-semibold transition";
+            } else {
+                statusTxt.innerText = "Admin Login";
+                toggleBtn.className = "bg-navy-900 border border-slate-600 hover:bg-navy-800 text-slate-200 px-3 py-2 rounded-xl text-xs font-semibold transition";
+            }
+        }
+
+        function renderAll() {
+            renderDashboardStats();
+            renderDashboardNotices();
+            renderStudentDirectory();
+            renderNoticeBoard();
         }
 
         function renderDashboardStats() {
-            const total = students.length;
-            const present = students.filter(s => s.status === 'Present').length;
-            const absent = students.filter(s => s.status === 'Absent').length;
+            document.getElementById('dash-total-students').innerText = students.length;
 
-            document.getElementById('dash-total-students').innerText = total;
-            document.getElementById('dash-present-count').innerText = present;
-            document.getElementById('dash-absent-count').innerText = absent;
-            
-            const percent = total > 0 ? Math.round((present / total) * 100) : 0;
-            document.getElementById('dash-present-percent').innerText = `${percent}% Attendance Rate`;
+            const dateStr = document.getElementById('attendance-date')?.value || new Date().toISOString().split('T')[0];
+            const dayRecs = attendanceRecords[dateStr] || {};
 
-            const previewContainer = document.getElementById('dash-notice-preview');
-            if (previewContainer) {
-                if(notices.length === 0) {
-                    previewContainer.innerHTML = '<p class="text-xs text-slate-400 col-span-2">No active announcements.</p>';
-                } else {
-                    previewContainer.innerHTML = notices.slice(0, 2).map(n => `
-                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                            <span class="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">${n.target}</span>
-                            <h4 class="font-bold text-sm text-navy-800 mt-1">${n.title}</h4>
-                            <p class="text-xs text-slate-500 mt-1 line-clamp-1">${n.desc}</p>
-                        </div>
-                    `).join('');
-                }
-            }
-        }
+            let presentCount = 0;
+            let absentCount = 0;
 
-        function renderAttendanceList() {
-            const tbody = document.getElementById('attendance-tbody');
-            const search = (document.getElementById('att-search')?.value || '').toLowerCase();
-            const statusFilter = document.getElementById('att-status-filter')?.value || 'All';
-
-            let filtered = students.filter(s => {
-                const matchClass = (currentAttendanceClass === 'All' || s.class === currentAttendanceClass);
-                const matchSearch = s.name.toLowerCase().includes(search) || s.roll.toLowerCase().includes(search);
-                const matchStatus = (statusFilter === 'All' || s.status === statusFilter);
-                return matchClass && matchSearch && matchStatus;
+            students.forEach(s => {
+                const status = dayRecs[s.id] || 'Present';
+                if(status === 'Present') presentCount++;
+                else if(status === 'Absent') absentCount++;
             });
 
-            document.getElementById('att-count-total').innerText = filtered.length;
-            document.getElementById('att-count-present').innerText = students.filter(s => s.status === 'Present').length;
-            document.getElementById('att-count-absent').innerText = students.filter(s => s.status === 'Absent').length;
-            document.getElementById('att-count-leave').innerText = students.filter(s => s.status === 'Leave').length;
-
-            if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400 text-sm">No students found. Please click "Add Student" to enroll.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = filtered.map(s => `
-                <tr class="hover:bg-slate-50/80 transition">
-                    <td class="py-3 px-4 font-bold text-navy-800">${s.roll}</td>
-                    <td class="py-3 px-4 font-semibold text-slate-700">${s.name}</td>
-                    <td class="py-3 px-4 text-slate-500">${s.class}</td>
-                    <td class="py-3 px-4 text-slate-500 text-xs"><span class="bg-slate-100 px-2 py-1 rounded">${s.group}</span></td>
-                    <td class="py-3 px-4 text-center">
-                        <div class="inline-flex rounded-lg p-1 bg-slate-100 space-x-1">
-                            <button onclick="updateStatus('${s.roll}', 'Present')" class="px-3 py-1 text-xs font-bold rounded-md transition ${s.status === 'Present' ? 'bg-emerald-500 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">Present</button>
-                            <button onclick="updateStatus('${s.roll}', 'Absent')" class="px-3 py-1 text-xs font-bold rounded-md transition ${s.status === 'Absent' ? 'bg-rose-500 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">Absent</button>
-                            <button onclick="updateStatus('${s.roll}', 'Leave')" class="px-3 py-1 text-xs font-bold rounded-md transition ${s.status === 'Leave' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">Leave</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+            document.getElementById('dash-present-count').innerText = presentCount;
+            document.getElementById('dash-absent-count').innerText = absentCount;
+            const pct = students.length > 0 ? Math.round((presentCount / students.length) * 100) : 0;
+            document.getElementById('dash-present-percent').innerText = `${pct}% Attendance Today`;
         }
 
+        function renderDashboardNotices() {
+            const container = document.getElementById('dash-notice-preview');
+            if(!container) return;
+            container.innerHTML = '';
+            notices.slice(0, 2).forEach(n => {
+                container.innerHTML += `
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">${n.target}</span>
+                            <span class="text-xs text-slate-400">${n.date}</span>
+                        </div>
+                        <h4 class="font-bold text-navy-800 text-sm">${n.title}</h4>
+                        <p class="text-xs text-slate-600 mt-1 line-clamp-2">${n.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        let currentClassFilter = 'All';
+
         function filterAttendanceClass(cls) {
-            currentAttendanceClass = cls;
+            currentClassFilter = cls;
             ['All', '9th Class', '10th Class'].forEach(c => {
-                const btnId = c === 'All' ? 'btn-class-all' : (c === '9th Class' ? 'btn-class-9th' : 'btn-class-10th');
+                const btnId = c === 'All' ? 'btn-class-all' : `btn-class-${c.split(' ')[0].toLowerCase()}`;
                 const btn = document.getElementById(btnId);
                 if(btn) {
                     if(c === cls) {
@@ -683,253 +643,432 @@
             renderAttendanceList();
         }
 
-        function updateStatus(roll, status) {
-            const student = students.find(s => s.roll === roll);
-            if (student) {
-                student.status = status;
-                saveToLocalStorage();
-                renderAttendanceList();
-                renderDashboardStats();
+        function renderAttendanceList() {
+            const tbody = document.getElementById('attendance-tbody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            const dateStr = document.getElementById('attendance-date').value;
+            if(!attendanceRecords[dateStr]) {
+                attendanceRecords[dateStr] = {};
+                students.forEach(s => attendanceRecords[dateStr][s.id] = 'Present');
             }
+            const dayRecs = attendanceRecords[dateStr];
+
+            const search = document.getElementById('att-search').value.toLowerCase();
+            const statusFilter = document.getElementById('att-status-filter').value;
+
+            let filtered = students.filter(s => {
+                const matchClass = (currentClassFilter === 'All' || s.classGrade === currentClassFilter);
+                const matchSearch = s.name.toLowerCase().includes(search) || s.rollNo.toLowerCase().includes(search);
+                const currentStatus = dayRecs[s.id] || 'Present';
+                const matchStatus = (statusFilter === 'All' || currentStatus === statusFilter);
+                return matchClass && matchSearch && matchStatus;
+            });
+
+            let tCount = filtered.length;
+            let pCount = 0, aCount = 0, lCount = 0;
+
+            filtered.forEach(s => {
+                const st = dayRecs[s.id] || 'Present';
+                if(st === 'Present') pCount++;
+                else if(st === 'Absent') aCount++;
+                else if(st === 'Leave') lCount++;
+
+                const avatar = s.photo ? `<img src="${s.photo}" class="w-10 h-10 rounded-full object-cover border">` : `<div class="w-10 h-10 rounded-full bg-navy-800 text-white flex items-center justify-center font-bold text-xs">${s.name.charAt(0)}</div>`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="py-3 px-4 font-bold text-navy-800 text-xs">${s.rollNo}</td>
+                        <td class="py-3 px-4 flex items-center space-x-3">
+                            ${avatar}
+                            <div>
+                                <span class="font-bold text-slate-800 block">${s.name}</span>
+                                <span class="text-xs text-slate-500">${s.phone || 'N/A'}</span>
+                            </div>
+                        </td>
+                        <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full font-semibold">${s.classGrade}</span></td>
+                        <td class="py-3 px-4 text-xs font-medium text-slate-600">${s.group}</td>
+                        <td class="py-3 px-4 text-center">
+                            <div class="inline-flex rounded-xl p-1 bg-slate-100 space-x-1">
+                                <button onclick="setAttendanceStatus(${s.id}, 'Present')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${st === 'Present' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'}">Present</button>
+                                <button onclick="setAttendanceStatus(${s.id}, 'Absent')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${st === 'Absent' ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'}">Absent</button>
+                                <button onclick="setAttendanceStatus(${s.id}, 'Leave')" class="px-3 py-1 rounded-lg text-xs font-bold transition ${st === 'Leave' ? 'bg-amber-500 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'}">Leave</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('att-count-total').innerText = tCount;
+            document.getElementById('att-count-present').innerText = pCount;
+            document.getElementById('att-count-absent').innerText = aCount;
+            document.getElementById('att-count-leave').innerText = lCount;
+            renderDashboardStats();
+        }
+
+        function setAttendanceStatus(studentId, status) {
+            const dateStr = document.getElementById('attendance-date').value;
+            if(!attendanceRecords[dateStr]) attendanceRecords[dateStr] = {};
+            attendanceRecords[dateStr][studentId] = status;
+            saveData();
+            renderAttendanceList();
         }
 
         function markAllStatus(status) {
-            students.forEach(s => s.status = status);
-            saveToLocalStorage();
+            const dateStr = document.getElementById('attendance-date').value;
+            if(!attendanceRecords[dateStr]) attendanceRecords[dateStr] = {};
+            students.forEach(s => {
+                if(currentClassFilter === 'All' || s.classGrade === currentClassFilter) {
+                    attendanceRecords[dateStr][s.id] = status;
+                }
+            });
+            saveData();
             renderAttendanceList();
-            renderDashboardStats();
+            alert(`Marked all filtered students as ${status}!`);
+        }
+
+        function exportAttendanceSummary() {
+            const dateStr = document.getElementById('attendance-date').value;
+            const dayRecs = attendanceRecords[dateStr] || {};
+            let text = `--- LLS CRASH IT TRAINING ATTENDANCE SUMMARY (${dateStr}) ---\n\n`;
+            students.forEach(s => {
+                text += `${s.rollNo} | ${s.name} (${s.classGrade}) - ${dayRecs[s.id] || 'Present'}\n`;
+            });
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Attendance_${dateStr}.txt`;
+            a.click();
         }
 
         function renderStudentDirectory() {
             const grid = document.getElementById('student-grid');
-            const search = (document.getElementById('directory-search')?.value || '').toLowerCase();
-            const classFilter = document.getElementById('directory-class-filter')?.value || 'All';
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            const search = document.getElementById('directory-search').value.toLowerCase();
+            const classFilter = document.getElementById('directory-class-filter').value;
 
             let filtered = students.filter(s => {
-                const matchClass = (classFilter === 'All' || s.class === classFilter);
-                const matchSearch = s.name.toLowerCase().includes(search) || s.roll.toLowerCase().includes(search);
+                const matchClass = (classFilter === 'All' || s.classGrade === classFilter);
+                const matchSearch = s.name.toLowerCase().includes(search) || s.rollNo.toLowerCase().includes(search) || s.group.toLowerCase().includes(search);
                 return matchClass && matchSearch;
             });
 
             if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-2xl border border-slate-200"><p>No students enrolled yet.</p><button onclick="openAddStudentModal()" class="mt-3 text-emerald-600 font-bold text-xs underline">Click here to add your first student</button></div>`;
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 font-medium">No students found matching your criteria.</div>`;
                 return;
             }
 
-            grid.innerHTML = filtered.map(s => {
-                // Phone privacy protection for admin only
-                const phoneDisplay = isAdminAuthenticated 
-                    ? `<span class="text-emerald-700 font-bold">${s.phone || 'N/A'}</span>` 
-                    : `<span class="text-slate-400 italic"><i class="fa-solid fa-lock text-[10px] mr-1"></i>Locked (Admin Only)</span>`;
+            filtered.forEach(s => {
+                const avatar = s.photo ? `<img src="${s.photo}" class="w-14 h-14 rounded-2xl object-cover border shadow-sm">` : `<div class="w-14 h-14 rounded-2xl bg-navy-800 text-white flex items-center justify-center font-bold text-lg">${s.name.charAt(0)}</div>`;
+                
+                let totalObt = 0, totalMax = 0;
+                (s.weeklyTests || []).forEach(t => { totalObt += t.obtained; totalMax += t.total; });
+                const weeklyPct = totalMax > 0 ? Math.round((totalObt / totalMax) * 100) : 0;
+                const grandObt = s.grandTest ? s.grandTest.obtained : 0;
+                const grandTotal = s.grandTest ? s.grandTest.total : 100;
 
-                return `
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs font-bold bg-navy-800 text-white px-2.5 py-1 rounded-lg">${s.roll}</span>
-                            <span class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">${s.class}</span>
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                        <div>
+                            <div class="flex items-center space-x-3 mb-3">
+                                ${avatar}
+                                <div>
+                                    <span class="text-xs font-extrabold bg-navy-800 text-white px-2 py-0.5 rounded-md">${s.rollNo}</span>
+                                    <h3 class="font-bold text-navy-800 text-base mt-1">${s.name}</h3>
+                                </div>
+                            </div>
+                            <div class="space-y-1 text-xs text-slate-500 mb-4">
+                                <p><span class="font-semibold text-slate-700">Class:</span> ${s.classGrade}</p>
+                                <p><span class="font-semibold text-slate-700">Track:</span> ${s.group}</p>
+                                <p><span class="font-semibold text-slate-700">Weekly Tests Avg:</span> <strong class="text-emerald-600">${weeklyPct}%</strong></p>
+                                <p><span class="font-semibold text-slate-700">Grand Test:</span> <strong class="text-indigo-600">${grandObt}/${grandTotal}</strong></p>
+                            </div>
                         </div>
-                        <h4 class="font-bold text-navy-800 text-base mt-2">${s.name}</h4>
-                        <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-code mr-1"></i> ${s.group}</p>
-                        <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-phone mr-1"></i> ${phoneDisplay}</p>
-                        <div class="mt-3 flex items-center justify-between text-xs">
-                            <span class="font-bold text-slate-600">Grade: <span class="text-emerald-600">${s.testScore}</span></span>
-                            <span class="font-bold text-slate-600">Att: <span class="text-indigo-600">${s.attendanceScore}%</span></span>
+
+                        <div class="space-y-2 pt-3 border-t border-slate-100">
+                            <div class="flex gap-1">
+                                <button onclick="openGradingModal(${s.id}, 'weekly')" class="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 text-navy-800 font-bold text-[11px] rounded-lg transition">Add Test</button>
+                                <button onclick="openGradingModal(${s.id}, 'grand')" class="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 text-navy-800 font-bold text-[11px] rounded-lg transition">Grand Test</button>
+                            </div>
+                            <div class="flex gap-1">
+                                <button onclick="openPerformanceSlip(${s.id})" class="flex-1 py-1.5 bg-navy-800 hover:bg-navy-900 text-white font-bold text-[11px] rounded-lg transition">Monthly Slip</button>
+                                <button onclick="openCertificate(${s.id})" class="flex-1 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] rounded-lg transition">Certificate</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2">
-                        <button onclick="openPerformanceModal('${s.roll}')" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs rounded-xl transition flex items-center justify-center">
-                            <i class="fa-solid fa-file-lines mr-1.5"></i> View Performance Slip
-                        </button>
-                        <div class="flex gap-2">
-                            <button onclick="openCertificateModal('${s.roll}')" class="flex-1 py-2 bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs rounded-xl transition flex items-center justify-center">
-                                <i class="fa-solid fa-award mr-1"></i> Certificate
-                            </button>
-                            <button onclick="deleteStudent('${s.roll}')" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs rounded-xl transition" title="Delete Student">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `}).join('');
+                `;
+            });
         }
 
-        function deleteStudent(roll) {
-            if(!isAdminAuthenticated) {
-                alert('Deletion requires Super Admin access!');
-                openAdminAuthModal();
-                return;
+        function openAddStudentModal() {
+            document.getElementById('modal-add-student').classList.remove('hidden');
+        }
+        function closeAddStudentModal() {
+            document.getElementById('modal-add-student').classList.add('hidden');
+            document.getElementById('form-add-student').reset();
+        }
+
+        function handleAddStudent(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-name').value.trim();
+            const rollNo = document.getElementById('new-rollno').value.trim();
+            const classGrade = document.getElementById('new-class').value;
+            const group = document.getElementById('new-group').value;
+            const phone = document.getElementById('new-phone').value.trim() || '0300-0000000';
+            const fileInput = document.getElementById('new-photo');
+
+            const newId = students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveNewStudentRecord(newId, rollNo, name, classGrade, group, phone, e.target.result);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveNewStudentRecord(newId, rollNo, name, classGrade, group, phone, "");
             }
-            if(confirm('Are you sure you want to delete this student from the official record?')) {
-                students = students.filter(s => s.roll !== roll);
-                saveToLocalStorage();
-                renderDashboardStats();
-                renderAttendanceList();
+        }
+
+        function saveNewStudentRecord(id, rollNo, name, classGrade, group, phone, photo) {
+            students.push({
+                id: id,
+                rollNo: rollNo,
+                name: name,
+                classGrade: classGrade,
+                group: group,
+                phone: phone,
+                photo: photo,
+                weeklyTests: [{obtained: 40, total: 50}],
+                grandTest: {obtained: 85, total: 100}
+            });
+            saveData();
+            closeAddStudentModal();
+            renderAll();
+            alert(`Student ${name} successfully enrolled with Roll No ${rollNo}!`);
+        }
+
+        function openGradingModal(studentId, type) {
+            document.getElementById('modal-grading').classList.remove('hidden');
+            document.getElementById('grade-student-id').value = studentId;
+            document.getElementById('grade-test-type').value = type;
+            if(type === 'weekly') {
+                document.getElementById('grading-modal-title').innerText = "Add Weekly Test Marks";
+                document.getElementById('grading-modal-subtitle').innerText = "Enter marks obtained out of custom total (e.g., 45 out of 50).";
+            } else {
+                document.getElementById('grading-modal-title').innerText = "Enter Grand Test Marks";
+                document.getElementById('grading-modal-subtitle').innerText = "Enter comprehensive grand assessment marks.";
+            }
+            document.getElementById('grade-obtained').value = '';
+            document.getElementById('grade-total').value = type === 'weekly' ? '50' : '100';
+        }
+        function closeGradingModal() {
+            document.getElementById('modal-grading').classList.add('hidden');
+        }
+        function handleSaveGrading(e) {
+            e.preventDefault();
+            const studentId = parseInt(document.getElementById('grade-student-id').value);
+            const type = document.getElementById('grade-test-type').value;
+            const obt = parseFloat(document.getElementById('grade-obtained').value);
+            const tot = parseFloat(document.getElementById('grade-total').value);
+
+            const s = students.find(item => item.id === studentId);
+            if(s) {
+                if(type === 'weekly') {
+                    if(!s.weeklyTests) s.weeklyTests = [];
+                    s.weeklyTests.push({ obtained: obt, total: tot });
+                } else {
+                    s.grandTest = { obtained: obt, total: tot };
+                }
+                saveData();
+                closeGradingModal();
                 renderStudentDirectory();
+                alert('Test marks saved successfully!');
             }
         }
 
-        // Automated Monthly Performance Slip
-        function openPerformanceModal(roll) {
-            const s = students.find(item => item.roll === roll);
-            if (!s) return;
+        function openPerformanceSlip(studentId) {
+            const s = students.find(item => item.id === studentId);
+            if(!s) return;
+            const modal = document.getElementById('modal-performance');
+            const content = document.getElementById('performance-slip-content');
 
-            const content = `
-                <div class="text-center pb-3 border-b border-slate-100">
-                    <h2 class="text-xl font-black text-navy-800">LASANI LYCEUM SCHOOL (لاسانی لیسیئم)</h2>
-                    <p class="text-xs font-bold text-emerald-600 mt-0.5">LLS Crash IT Training Program — Monthly Performance Report</p>
-                </div>
-                <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border border-slate-100 mt-3">
-                    <div><span class="text-slate-400">Student Name:</span> <br/><strong class="text-navy-800 text-sm">${s.name}</strong></div>
-                    <div><span class="text-slate-400">Roll Number:</span> <br/><strong class="text-navy-800 text-sm">${s.roll}</strong></div>
-                    <div><span class="text-slate-400">Class & Track:</span> <br/><strong class="text-slate-700">${s.class} (${s.group})</strong></div>
-                    <div><span class="text-slate-400">Monthly Attendance:</span> <br/><strong class="text-emerald-600">${s.attendanceScore}%</strong></div>
-                </div>
-                <div class="mt-4 space-y-2 text-xs">
-                    <div class="flex justify-between p-2.5 bg-indigo-50 text-indigo-900 rounded-xl font-bold">
-                        <span>Calculated Performance Grade:</span>
-                        <span class="text-sm bg-indigo-600 text-white px-2 py-0.5 rounded">${s.testScore}</span>
-                    </div>
+            let totalDays = 0, presentDays = 0, absentDays = 0;
+            Object.keys(attendanceRecords).forEach(date => {
+                const rec = attendanceRecords[date][s.id];
+                if(rec) {
+                    totalDays++;
+                    if(rec === 'Present') presentDays++;
+                    else if(rec === 'Absent') absentDays++;
+                }
+            });
+            if(totalDays === 0) totalDays = 1;
+            const attPct = Math.round((presentDays / totalDays) * 100);
+
+            let weeklyHTML = '';
+            let totalObtTests = 0, totalMaxTests = 0;
+            (s.weeklyTests || []).forEach((t, idx) => {
+                totalObtTests += t.obtained;
+                totalMaxTests += t.total;
+                weeklyHTML += `<div class="flex justify-between items-center py-1 border-b border-slate-100 text-xs"><span>Test #${idx+1}</span><strong>${t.obtained} / ${t.total}</strong></div>`;
+            });
+            const weeklyAvg = totalMaxTests > 0 ? Math.round((totalObtTests / totalMaxTests) * 100) : 0;
+            const grandObt = s.grandTest ? s.grandTest.obtained : 0;
+            const grandTot = s.grandTest ? s.grandTest.total : 100;
+            const grandPct = Math.round((grandObt / grandTot) * 100);
+            
+            const overallScore = Math.round((weeklyAvg + grandPct) / 2);
+            let grade = 'A+';
+            let status = 'PASS (Outstanding Performance)';
+            if(overallScore < 50) {
+                grade = 'F';
+                status = 'FAIL (Requires Improvement)';
+            } else if(overallScore < 60) { grade = 'C'; }
+            else if(overallScore < 75) { grade = 'B'; }
+            else if(overallScore < 85) { grade = 'A'; }
+
+            const avatar = s.photo ? `<img src="${s.photo}" class="w-16 h-16 rounded-2xl object-cover border shadow">` : `<div class="w-16 h-16 rounded-2xl bg-navy-800 text-white flex items-center justify-center font-bold text-2xl">${s.name.charAt(0)}</div>`;
+
+            content.innerHTML = `
+                <div class="text-center border-b border-slate-200 pb-4 flex items-center justify-between">
                     <div>
-                        <label class="font-bold text-slate-700">Instructor Evaluation & Remarks:</label>
-                        <p class="p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1 text-slate-600 italic">"${s.remarks}"</p>
+                        <h2 class="text-xl font-extrabold text-navy-800">LASANI LYCEUM SCHOOL (لاسانی لیسیئم)</h2>
+                        <p class="text-xs text-slate-500">Crash IT Training Program — Monthly Professional Evaluation Slip</p>
                     </div>
+                    ${avatar}
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl">
+                    <div><span class="text-slate-400 block">Student Name:</span><strong class="text-navy-800 text-sm">${s.name}</strong></div>
+                    <div><span class="text-slate-400 block">Roll Number:</span><strong class="text-navy-800 text-sm">${s.rollNo}</strong></div>
+                    <div><span class="text-slate-400 block">Class Grade:</span><strong class="text-slate-700">${s.classGrade}</strong></div>
+                    <div><span class="text-slate-400 block">Subject Track:</span><strong class="text-indigo-600">${s.group}</strong></div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-bold text-xs uppercase text-slate-400 tracking-wider">Attendance Summary</h4>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="bg-emerald-50 p-2.5 rounded-xl"><span class="text-slate-500 block">Present</span><strong class="text-emerald-700 text-sm">${presentDays} Days</strong></div>
+                        <div class="bg-rose-50 p-2.5 rounded-xl"><span class="text-slate-500 block">Absent</span><strong class="text-rose-700 text-sm">${absentDays} Days</strong></div>
+                        <div class="bg-blue-50 p-2.5 rounded-xl"><span class="text-slate-500 block">Attendance Rate</span><strong class="text-blue-700 text-sm">${attPct}%</strong></div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase text-slate-400 tracking-wider">Weekly Tests & Assignments</h4>
+                    <div class="bg-slate-50 p-3 rounded-xl max-h-32 overflow-y-auto space-y-1">
+                        ${weeklyHTML || '<p class="text-xs text-slate-400 italic">No weekly tests recorded yet.</p>'}
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase text-slate-400 tracking-wider">Grand Assessment & Final Status</h4>
+                    <div class="flex justify-between items-center p-3 bg-indigo-50 rounded-xl text-xs font-bold text-indigo-900">
+                        <span>Grand Test Score</span>
+                        <span>${grandObt} / ${grandTot} (${grandPct}%)</span>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-slate-200 flex justify-between items-center text-xs">
+                    <span>Overall Grade: <strong class="text-emerald-600 text-sm">${grade}</strong></span>
+                    <span>Status: <strong class="text-navy-800">${status}</strong></span>
                 </div>
             `;
-            document.getElementById('performance-slip-content').innerHTML = content;
-            document.getElementById('modal-performance').classList.remove('hidden');
+            modal.classList.remove('hidden');
         }
-
         function closePerformanceModal() {
             document.getElementById('modal-performance').classList.add('hidden');
         }
 
-        // Certificate Viewer
-        function openCertificateModal(roll) {
-            const s = students.find(item => item.roll === roll);
-            if (!s) return;
+        function openCertificate(studentId) {
+            const s = students.find(item => item.id === studentId);
+            if(!s) return;
+            const modal = document.getElementById('modal-certificate');
+            const content = document.getElementById('certificate-content');
 
-            const container = document.getElementById('certificate-content');
-            if (s.certificateUrl) {
-                container.innerHTML = `
-                    <h3 class="text-lg font-bold text-navy-800 mb-1">Course Completion Certificate</h3>
-                    <p class="text-xs text-slate-500 mb-4">Awarded to <strong>${s.name}</strong> (${s.roll}) for successfully completing ${s.group}.</p>
-                    <img src="${s.certificateUrl}" alt="Certificate" class="w-full rounded-2xl shadow-lg border border-slate-200 max-h-80 object-cover">
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="py-8">
-                        <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3">
-                            <i class="fa-solid fa-hourglass-half"></i>
+            content.innerHTML = `
+                <div class="border-8 border-double border-navy-800 p-8 rounded-3xl bg-amber-50/40 relative">
+                    <h1 class="text-2xl font-black text-navy-900 tracking-tight">LASANI LYCEUM SCHOOL (لاسانی لیسیئم)</h1>
+                    <p class="text-xs font-bold tracking-widest text-emerald-600 uppercase mt-1">Crash IT Training Coaching Certificate</p>
+                    
+                    <p class="text-xs text-slate-500 mt-6">This is proudly presented to</p>
+                    <h2 class="text-3xl font-extrabold text-navy-800 font-serif my-2">${s.name}</h2>
+                    <p class="text-xs text-slate-600 max-w-md mx-auto">for successfully completing professional training in <strong class="text-indigo-600">${s.group}</strong> under the 9th & 10th grade IT curriculum.</p>
+                    
+                    <div class="flex justify-between items-center mt-12 pt-6 border-t border-slate-300 text-xs">
+                        <div class="text-center">
+                            <p class="font-bold text-navy-800">Farhan Ahmed</p>
+                            <p class="text-[10px] text-slate-500">IT Department / Head</p>
                         </div>
-                        <h3 class="text-lg font-bold text-navy-800">Certificate In Progress</h3>
-                        <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto"><strong>${s.name}</strong> is currently active in the training program. The certificate will be available upon course completion.</p>
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-md">
+                            LLS
+                        </div>
+                        <div class="text-center">
+                            <p class="font-bold text-navy-800">October 2026</p>
+                            <p class="text-[10px] text-slate-500">Date of Issue</p>
+                        </div>
                     </div>
-                `;
-            }
-            document.getElementById('modal-certificate').classList.remove('hidden');
+                </div>
+            `;
+            modal.classList.remove('hidden');
         }
-
         function closeCertificateModal() {
             document.getElementById('modal-certificate').classList.add('hidden');
         }
 
-        function renderNotices() {
+        function renderNoticeBoard() {
             const container = document.getElementById('notice-cards-container');
-            if(container) {
-                if(notices.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-slate-400">No notices posted yet.</p>`;
-                    return;
-                }
-                container.innerHTML = notices.map(n => `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            if(!container) return;
+            container.innerHTML = '';
+
+            notices.forEach(n => {
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
                         <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-xs font-bold bg-navy-800 text-white px-3 py-1 rounded-full">${n.target}</span>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full">${n.target}</span>
                                 <span class="text-xs text-slate-400 font-medium">${n.date}</span>
                             </div>
-                            <h3 class="font-bold text-lg text-navy-800 mt-2">${n.title}</h3>
+                            <h3 class="text-lg font-bold text-navy-800">${n.title}</h3>
                             <p class="text-sm text-slate-600 mt-2 leading-relaxed">${n.desc}</p>
                         </div>
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-xs text-slate-400">Lasani Lyceum Administration</span>
+                            <button onclick="deleteNotice(${n.id})" class="text-xs font-bold text-rose-500 hover:text-rose-700">Delete</button>
+                        </div>
                     </div>
-                `).join('');
-            }
-        }
-
-        // Modals Control
-        function openAddStudentModal() { document.getElementById('modal-add-student').classList.remove('hidden'); }
-        function closeAddStudentModal() { document.getElementById('modal-add-student').classList.add('hidden'); }
-        
-        function handleAddStudent(e) {
-            e.preventDefault();
-            const name = document.getElementById('new-name').value;
-            const cls = document.getElementById('new-class').value;
-            const group = document.getElementById('new-group').value;
-            const phone = document.getElementById('new-phone').value;
-
-            const newRoll = `LLS-${cls.includes('9') ? '9' : '10'}${Math.floor(100 + Math.random() * 900)}`;
-            students.push({ 
-                roll: newRoll, 
-                name, 
-                class: cls, 
-                group, 
-                phone, 
-                status: 'Present', 
-                attendanceScore: 100, 
-                testScore: 'A+', 
-                remarks: 'Enrolled in official LLS Crash IT Training Program.', 
-                certificateUrl: '' 
+                `;
             });
-
-            saveToLocalStorage();
-            closeAddStudentModal();
-            renderDashboardStats();
-            renderAttendanceList();
-            renderStudentDirectory();
-            document.getElementById('form-add-student').reset();
-            alert('Student successfully enrolled!');
         }
 
-        function openAddNoticeModal() { document.getElementById('modal-add-notice').classList.remove('hidden'); }
-        function closeAddNoticeModal() { document.getElementById('modal-add-notice').classList.add('hidden'); }
-
+        function openAddNoticeModal() {
+            document.getElementById('modal-add-notice').classList.remove('hidden');
+        }
+        function closeAddNoticeModal() {
+            document.getElementById('modal-add-notice').classList.add('hidden');
+            document.getElementById('form-add-notice').reset();
+        }
         function handleAddNotice(e) {
             e.preventDefault();
-            const title = document.getElementById('notice-title').value;
+            const title = document.getElementById('notice-title').value.trim();
             const target = document.getElementById('notice-target').value;
-            const desc = document.getElementById('notice-desc').value;
-            const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const desc = document.getElementById('notice-desc').value.trim();
+            const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-            notices.unshift({ title, target, desc, date });
-            saveToLocalStorage();
+            const newId = notices.length > 0 ? Math.max(...notices.map(n => n.id)) + 1 : 1;
+            notices.unshift({ id: newId, title, target, desc, date: dateStr });
+
+            saveData();
             closeAddNoticeModal();
-            renderNotices();
-            renderDashboardStats();
-            document.getElementById('form-add-notice').reset();
-            alert('Notice published successfully!');
+            renderAll();
+            alert('Announcement posted successfully!');
         }
 
-        function exportAttendanceSummary() {
-            const total = students.length;
-            const present = students.filter(s => s.status === 'Present').length;
-            const absent = students.filter(s => s.status === 'Absent').length;
-            const leave = students.filter(s => s.status === 'Leave').length;
-
-            const content = `
-                <p><strong>Date:</strong> ${document.getElementById('attendance-date').value}</p>
-                <p><strong>Total Students:</strong> ${total}</p>
-                <p class="text-emerald-600"><strong>Present:</strong> ${present}</p>
-                <p class="text-rose-600"><strong>Absent:</strong> ${absent}</p>
-                <p class="text-amber-600"><strong>On Leave:</strong> ${leave}</p>
-                <hr class="my-2"/>
-                <p class="text-xs text-slate-500">Lasani Lyceum School (لاسانی لیسیئم) - LLS Crash IT Training Attendance Summary Report.</p>
-            `;
-            document.getElementById('summary-content').innerHTML = content;
-            document.getElementById('modal-summary').classList.remove('hidden');
-        }
-
-        function closeSummaryModal() {
-            document.getElementById('modal-summary').classList.add('hidden');
+        function deleteNotice(id) {
+            if(confirm('Are you sure you want to delete this notice?')) {
+                notices = notices.filter(n => n.id !== id);
+                saveData();
+                renderAll();
+            }
         }
     </script>
 </body>
