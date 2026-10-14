@@ -47,7 +47,7 @@
                             <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">LLS CRASH IT <span class="text-emerald-400">TRAINING</span></h1>
                             <span class="hidden sm:inline bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/30">Official Portal</span>
                         </div>
-                        <p class="text-xs text-slate-300 hidden sm:block font-medium">Lasani Lyceum School (لاسانی لیسیئم) — Quizzes, Progress & Attendance</p>
+                        <p class="text-xs text-slate-300 hidden sm:block font-medium">Lasani Lyceum School (لاسانی لیسیئم) — Online MCQs & Attendance</p>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                         <i class="fa-solid fa-users mr-1.5"></i> Directory
                     </button>
                     <button onclick="switchTab('quizzes')" id="nav-quizzes" class="px-3.5 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition">
-                        <i class="fa-solid fa-pen-to-square mr-1.5"></i> Online Tests & Quizzes
+                        <i class="fa-solid fa-pen-to-square mr-1.5"></i> Online MCQs & Tests
                     </button>
                     <button onclick="switchTab('notices')" id="nav-notices" class="px-3.5 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition">
                         <i class="fa-solid fa-bullhorn mr-1.5"></i> Notices
@@ -117,11 +117,11 @@
                         Empowering Students with Practical Python & Web Design
                     </h2>
                     <p class="text-slate-300 mt-3 text-sm sm:text-base leading-relaxed font-normal">
-                        Official Portal to track Attendance, Online Quizzes, Weekly Tests, Grand Tests, and Performance Slips.
+                        Official Portal to track Attendance, Online MCQs Quizzes, Weekly Tests, and Performance Slips.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-4">
                         <button onclick="switchTab('quizzes')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition hover:scale-105 flex items-center">
-                            <i class="fa-solid fa-laptop-code mr-2"></i> Attempt Online Tests & Quizzes
+                            <i class="fa-solid fa-laptop-code mr-2"></i> Attempt Online MCQs Tests
                         </button>
                         <button onclick="switchTab('students')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-xl backdrop-blur transition border border-white/20">
                             Student Directory & Slips
@@ -163,15 +163,15 @@
             </div>
         </div>
 
-        <!-- ONLINE QUIZZES & ASSIGNMENTS TAB -->
+        <!-- ONLINE QUIZZES & MCQS TAB -->
         <div id="tab-quizzes" class="hidden space-y-6 animate-fade-in">
             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-black text-navy-800">Online Quizzes & Assignments</h2>
-                    <p class="text-sm text-slate-500 font-medium">Students can attempt quizzes online and view instant results.</p>
+                    <h2 class="text-2xl font-black text-navy-800">Online MCQs Tests & Quizzes</h2>
+                    <p class="text-sm text-slate-500 font-medium">Students can attempt tests containing multiple MCQs and view instant results.</p>
                 </div>
                 <button onclick="openCreateQuizModal()" class="bg-navy-800 hover:bg-navy-900 text-white font-extrabold px-5 py-2.5 rounded-xl text-sm shadow transition hover:scale-105 flex items-center">
-                    <i class="fa-solid fa-plus mr-2"></i> Create New Quiz (Admin Only)
+                    <i class="fa-solid fa-plus mr-2"></i> Create MCQ Quiz (Admin Only)
                 </button>
             </div>
 
@@ -230,19 +230,19 @@
 
     </main>
 
-    <!-- CREATE QUIZ MODAL (ADMIN ONLY) -->
+    <!-- CREATE MULTI-MCQ QUIZ MODAL (ADMIN ONLY) -->
     <div id="modal-create-quiz" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button onclick="closeCreateQuizModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-xl font-black text-navy-800 mb-1">Create Online Quiz / Assignment Sheet</h3>
-            <p class="text-xs text-slate-500 mb-4 font-medium">Add questions and multiple-choice options for students.</p>
+            <h3 class="text-xl font-black text-navy-800 mb-1">Create Multiple MCQs Test / Quiz</h3>
+            <p class="text-xs text-slate-500 mb-4 font-medium">Add up to 20 MCQs with custom options and correct answers.</p>
 
             <form onsubmit="handleSaveQuiz(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">Quiz / Assignment Title</label>
-                    <input type="text" id="quiz-title" required placeholder="e.g. Quiz 1: Python Basics" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Quiz Title</label>
+                        <input type="text" id="quiz-title" required placeholder="e.g. Python Grand Quiz" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
+                    </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Target Class</label>
                         <select id="quiz-target" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
@@ -251,44 +251,31 @@
                             <option value="10th Class">10th Class</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Total Marks</label>
-                        <input type="number" id="quiz-marks" required placeholder="10" class="w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm font-semibold">
-                    </div>
                 </div>
 
-                <!-- MCQ Question Builder Box -->
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                    <h4 class="font-extrabold text-xs text-navy-800 uppercase tracking-wider">Question 1 (MCQ)</h4>
-                    <input type="text" id="q1-text" required placeholder="Question: e.g. What is output of print(2 + 3)?" class="w-full px-3 py-2 bg-white border rounded-xl text-xs font-semibold">
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="q1-opt1" required placeholder="Option A" class="px-3 py-1.5 bg-white border rounded-lg text-xs">
-                        <input type="text" id="q1-opt2" required placeholder="Option B" class="px-3 py-1.5 bg-white border rounded-lg text-xs">
-                        <input type="text" id="q1-opt3" required placeholder="Option C" class="px-3 py-1.5 bg-white border rounded-lg text-xs">
-                        <input type="text" id="q1-opt4" required placeholder="Option D" class="px-3 py-1.5 bg-white border rounded-lg text-xs">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-emerald-700 mb-1">Correct Option Answer</label>
-                        <select id="q1-correct" class="w-full px-3 py-1.5 bg-white border rounded-lg text-xs font-bold">
-                            <option value="1">Option A</option>
-                            <option value="2">Option B</option>
-                            <option value="3">Option C</option>
-                            <option value="4">Option D</option>
-                        </select>
-                    </div>
+                <!-- Dynamic Questions Container -->
+                <div id="questions-builder-container" class="space-y-4 pt-2">
+                    <!-- Question blocks will be added here -->
                 </div>
 
-                <div class="pt-2 flex justify-end gap-3">
-                    <button type="button" onclick="closeCreateQuizModal()" class="px-4 py-2 text-xs font-bold text-slate-600">Cancel</button>
-                    <button type="submit" class="px-5 py-2.5 text-xs font-bold text-white bg-emerald-500 rounded-xl shadow">Publish Quiz</button>
+                <div class="flex items-center justify-between pt-2">
+                    <button type="button" onclick="addQuestionBlock()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-extrabold text-xs rounded-xl border border-indigo-200 transition">
+                        <i class="fa-solid fa-plus mr-1"></i> Add Another MCQ
+                    </button>
+                    <span id="question-count-badge" class="text-xs font-bold text-slate-500">Total Questions: 1</span>
+                </div>
+
+                <div class="pt-4 border-t flex justify-end gap-3">
+                    <button type="button" onclick="closeCreateQuizModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 text-xs font-extrabold text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow-lg">Save & Publish Test</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ATTEMPT QUIZ MODAL (FOR STUDENTS) -->
+    <!-- ATTEMPT MULTI-MCQ QUIZ MODAL (FOR STUDENTS) -->
     <div id="modal-attempt-quiz" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-7 shadow-2xl relative border border-slate-100">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-7 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button onclick="closeAttemptQuizModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
             <div id="quiz-attempt-content">
                 <!-- Dynamically loaded test questions -->
@@ -296,7 +283,7 @@
         </div>
     </div>
 
-    <!-- ADMIN PASSWORD MODAL (NO HINTS) -->
+    <!-- ADMIN PASSWORD MODAL -->
     <div id="modal-admin-auth" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-7 shadow-2xl relative border border-slate-100 text-center">
             <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
@@ -345,10 +332,13 @@
                 id: 1,
                 title: 'Quiz 1: Python Basics & Syntax',
                 target: '9th & 10th Grade',
-                marks: 10,
-                qText: 'What is the correct syntax to output "Hello World" in Python?',
-                options: ['console.log("Hello")', 'print("Hello World")', 'echo "Hello World"', 'System.out.println()'],
-                correct: 2
+                questions: [
+                    {
+                        qText: 'What is the correct syntax to output "Hello World" in Python?',
+                        options: ['console.log("Hello")', 'print("Hello World")', 'echo "Hello World"', 'System.out.println()'],
+                        correct: 1 // Index of correct option (0 to 3)
+                    }
+                ]
             }
         ];
 
@@ -470,7 +460,7 @@
             `).join('');
         }
 
-        // Quizzes System
+        // Quizzes System with Multiple MCQs
         function renderQuizzes() {
             const container = document.getElementById('quiz-cards-container');
             if(quizzes.length === 0) {
@@ -482,7 +472,7 @@
                     <div>
                         <span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-md">${q.target}</span>
                         <h3 class="font-extrabold text-lg text-navy-800 mt-2">${q.title}</h3>
-                        <p class="text-xs text-slate-500 mt-1">Total Marks: <strong>${q.marks} Marks</strong></p>
+                        <p class="text-xs text-slate-500 mt-1">Total MCQs: <strong>${q.questions.length} Questions</strong></p>
                     </div>
                     <button onclick="openAttemptQuizModal(${q.id})" class="mt-4 w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow transition">
                         <i class="fa-solid fa-pen-nib mr-1"></i> Attempt Test
@@ -493,73 +483,131 @@
 
         function openCreateQuizModal() {
             if(!isAdminAuthenticated) { alert('Quiz Creation requires Admin Access!'); openAdminAuthModal(); return; }
+            document.getElementById('quiz-title').value = '';
+            document.getElementById('questions-builder-container').innerHTML = '';
+            addQuestionBlock(); // Add first question by default
             document.getElementById('modal-create-quiz').classList.remove('hidden');
         }
 
         function closeCreateQuizModal() { document.getElementById('modal-create-quiz').classList.add('hidden'); }
 
+        let questionCounter = 0;
+        function addQuestionBlock() {
+            questionCounter++;
+            const container = document.getElementById('questions-builder-container');
+            const block = document.createElement('div');
+            block.className = "p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 question-block relative";
+            block.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <h4 class="font-extrabold text-xs text-navy-800 uppercase tracking-wider">Question #${questionCounter}</h4>
+                    ${questionCounter > 1 ? '<button type="button" onclick="this.closest(\'.question-block\').remove(); updateQuestionCount();" class="text-rose-500 text-xs font-bold hover:underline"><i class="fa-solid fa-trash"></i> Remove</button>' : ''}
+                </div>
+                <input type="text" required placeholder="Enter Question Statement..." class="q-text w-full px-3 py-2 bg-white border rounded-xl text-xs font-semibold">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" required placeholder="Option A" class="q-opt0 px-3 py-1.5 bg-white border rounded-lg text-xs">
+                    <input type="text" required placeholder="Option B" class="q-opt1 px-3 py-1.5 bg-white border rounded-lg text-xs">
+                    <input type="text" required placeholder="Option C" class="q-opt2 px-3 py-1.5 bg-white border rounded-lg text-xs">
+                    <input type="text" required placeholder="Option D" class="q-opt3 px-3 py-1.5 bg-white border rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-emerald-700 mb-1">Correct Answer Option</label>
+                    <select class="q-correct w-full px-3 py-1.5 bg-white border rounded-lg text-xs font-bold">
+                        <option value="0">Option A</option>
+                        <option value="1">Option B</option>
+                        <option value="2">Option C</option>
+                        <option value="3">Option D</option>
+                    </select>
+                </div>
+            `;
+            container.appendChild(block);
+            updateQuestionCount();
+        }
+
+        function updateQuestionCount() {
+            const count = document.querySelectorAll('.question-block').length;
+            document.getElementById('question-count-badge').innerText = `Total Questions: ${count}`;
+        }
+
         function handleSaveQuiz(e) {
             e.preventDefault();
             const title = document.getElementById('quiz-title').value;
             const target = document.getElementById('quiz-target').value;
-            const marks = Number(document.getElementById('quiz-marks').value) || 10;
-            const qText = document.getElementById('q1-text').value;
-            const opts = [
-                document.getElementById('q1-opt1').value,
-                document.getElementById('q1-opt2').value,
-                document.getElementById('q1-opt3').value,
-                document.getElementById('q1-opt4').value
-            ];
-            const correct = Number(document.getElementById('q1-correct').value);
+            
+            const blocks = document.querySelectorAll('.question-block');
+            let questionsList = [];
 
-            quizzes.unshift({ id: Date.now(), title, target, marks, qText, options: opts, correct });
+            blocks.forEach(b => {
+                const qText = b.querySelector('.q-text').value;
+                const opts = [
+                    b.querySelector('.q-opt0').value,
+                    b.querySelector('.q-opt1').value,
+                    b.querySelector('.q-opt2').value,
+                    b.querySelector('.q-opt3').value
+                ];
+                const correct = Number(b.querySelector('.q-correct').value);
+                questionsList.push({ qText, options: opts, correct });
+            });
+
+            quizzes.unshift({ id: Date.now(), title, target, questions: questionsList });
             saveToLocalStorage();
             closeCreateQuizModal();
             renderQuizzes();
             renderDashboardStats();
-            alert('New Quiz created and saved successfully!');
+            alert('Quiz with ' + questionsList.length + ' MCQs successfully created and published!');
         }
 
         function openAttemptQuizModal(quizId) {
             const q = quizzes.find(item => item.id === quizId);
             if (!q) return;
 
-            const content = `
-                <h3 class="text-lg font-black text-navy-800 mb-1">${q.title}</h3>
-                <p class="text-xs text-slate-500 mb-4">Select the correct answer below:</p>
-
-                <div class="p-4 bg-slate-50 rounded-2xl border space-y-3">
-                    <p class="text-sm font-bold text-slate-800">${q.qText}</p>
-                    <div class="space-y-2 text-xs">
-                        ${q.options.map((opt, i) => `
-                            <label class="flex items-center p-2.5 bg-white rounded-xl border hover:bg-emerald-50 cursor-pointer">
-                                <input type="radio" name="quiz-ans" value="${i+1}" class="mr-2 text-emerald-600">
-                                <span>${opt}</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="mt-5 flex justify-end gap-2">
-                    <button onclick="submitStudentQuiz(${q.correct}, ${q.marks})" class="w-full py-3 bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow">Submit Answer & View Score</button>
-                </div>
+            let html = `
+                <h3 class="text-xl font-black text-navy-800 mb-1">${q.title}</h3>
+                <p class="text-xs text-slate-500 mb-4">Total Questions: ${q.questions.length}. Select your answers below:</p>
+                <form id="quiz-attempt-form" onsubmit="submitStudentQuiz(event, ${q.id})" class="space-y-4">
             `;
-            document.getElementById('quiz-attempt-content').innerHTML = content;
+
+            q.questions.forEach((item, index) => {
+                html += `
+                    <div class="p-4 bg-slate-50 rounded-2xl border space-y-2">
+                        <p class="text-xs font-bold text-slate-800">Q${index+1}: ${item.qText}</p>
+                        <div class="space-y-1 text-xs">
+                `;
+                item.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center p-2 bg-white rounded-xl border hover:bg-emerald-50 cursor-pointer">
+                            <input type="radio" required name="q_${index}" value="${optIndex}" class="mr-2 text-emerald-600">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+                html += `</div></div>`;
+            });
+
+            html += `
+                    <button type="submit" class="w-full py-3.5 bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg mt-4">Submit Answers & Calculate Score</button>
+                </form>
+            `;
+
+            document.getElementById('quiz-attempt-content').innerHTML = html;
             document.getElementById('modal-attempt-quiz').classList.remove('hidden');
         }
 
         function closeAttemptQuizModal() { document.getElementById('modal-attempt-quiz').classList.add('hidden'); }
 
-        function submitStudentQuiz(correctOpt, totalMarks) {
-            const selected = document.querySelector('input[name="quiz-ans"]:checked');
-            if(!selected) { alert('Please select an option answer first!'); return; }
+        function submitStudentQuiz(e, quizId) {
+            e.preventDefault();
+            const q = quizzes.find(item => item.id === quizId);
+            if(!q) return;
 
-            const userAns = Number(selected.value);
-            if(userAns === correctOpt) {
-                alert(`🎉 Excellent! Correct Answer. Score: ${totalMarks}/${totalMarks}`);
-            } else {
-                alert(`❌ Wrong Answer! Good try. Better luck next time.`);
-            }
+            let score = 0;
+            q.questions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="q_${index}"]:checked`);
+                if(selected && Number(selected.value) === item.correct) {
+                    score++;
+                }
+            });
+
+            alert(`🎉 Test Submitted Successfully!\n\nYour Score: ${score} out of ${q.questions.length} Correct Answers.`);
             closeAttemptQuizModal();
         }
 
